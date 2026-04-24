@@ -288,6 +288,90 @@ export function Benefits() {
   );
 }
 
+/* ═════════ Vibe-Coding — PhenoGyde Showcase ═════════ */
+export function VibeCodingSection() {
+  return (
+    <section className="ff-section emerald" id="vibe">
+      <div className="ff-container">
+        <Reveal>
+          <div className="ff-section-head">
+            <div>
+              <div className="ff-eyebrow">NEM MINDEN PROJEKTHEZ KELL FRAMER</div>
+              <h2>
+                NÉHA AZ{' '}
+                <span style={{ color: 'var(--c-mint-500)' }}>EGYSZERŰBB</span>
+                {' '}DÖNTÉS A JÓ DÖNTÉS
+              </h2>
+            </div>
+            <p className="lead">
+              Framer ügynökség vagyunk — és ezt mondjuk:{' '}
+              <strong>nem mindig a Framer a válasz.</strong>{' '}
+              Amikor ügyfelünk 150 oldalas interaktív piackutatást kért tele 3D
+              térképekkel, élő grafikonokkal és komplex adatvizualizációval, nem
+              erőltettük a Framert. AI-gyorsított fejlesztéssel építettük meg —
+              mert a jó döntés az, ami a projekthez illik, nem ami a portfóliónkhoz.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="ff-vibe-showcase">
+            <div>
+              <div className="ff-vibe-client-label">Ügyfél</div>
+              <div className="ff-vibe-client-name">PhenoGyde</div>
+              <div className="ff-vibe-project-name">ACQ Riport 2026 — Magyarország</div>
+              <p className="ff-vibe-desc">
+                A magyar bankkártya-elfogadási piac teljes feltérképezése: 23
+                szolgáltató, mystery shopping, kereskedői ügyfélút-elemzés,
+                versenyképességi scoring.
+              </p>
+              <div className="ff-vibe-stats">
+                <div className="ff-vibe-stat">
+                  <div className="ff-vibe-stat-num">150+</div>
+                  <div className="ff-vibe-stat-label">Oldal</div>
+                </div>
+                <div className="ff-vibe-stat">
+                  <div className="ff-vibe-stat-num">100+</div>
+                  <div className="ff-vibe-stat-label">Grafikon</div>
+                </div>
+                <div className="ff-vibe-stat">
+                  <div className="ff-vibe-stat-num">10+</div>
+                  <div className="ff-vibe-stat-label">3D térkép</div>
+                </div>
+                <div className="ff-vibe-stat">
+                  <div className="ff-vibe-stat-num">23</div>
+                  <div className="ff-vibe-stat-label">Szolgáltató</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ff-vibe-browser">
+              <div className="ff-vibe-browser-bar">
+                <div className="ff-vibe-browser-dot" />
+                <div className="ff-vibe-browser-dot" />
+                <div className="ff-vibe-browser-dot" />
+                <span className="ff-vibe-browser-url">phenogyde.com/acq-riport-2026</span>
+              </div>
+              <div className="ff-vibe-browser-content">
+                <img
+                  src="/assets/illustrations/phenogyde-report-overview.avif"
+                  alt="PhenoGyde ACQ Riport 2026 — interaktív piackutatás"
+                />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.25}>
+          <div className="ff-vibe-cta">
+            <FFButton variant="mint" icon={<Arrow />}>Pitchelj minket</FFButton>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ═════════ Trust / Team ═════════ */
 export function TrustSection() {
   const sectionRef = useRef(null);
