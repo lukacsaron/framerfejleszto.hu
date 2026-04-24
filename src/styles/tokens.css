@@ -12,6 +12,9 @@
   --c-midnight-800: #1F2947;
   --c-midnight-700: #2C3656;
   --c-indigo-deep:  #36235B;
+  --c-emerald-900: #064E3B;
+  --c-emerald-800: #0A2F1F;
+  --grad-emerald:  linear-gradient(170deg, #064E3B 0%, #0A2F1F 50%, #0F1B3D 100%);
 
   --c-hero-violet: #9B51E0;
   --c-hero-violet-d: #6B2FB8;
