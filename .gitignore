@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Live edit plugin
+.annotations.json
+.superpowers/
