@@ -1,4 +1,3 @@
-import { useReveal } from './components/Primitives';
 import HeroA from './components/HeroA';
 import StickyNav from './components/StickyNav';
 import {
@@ -14,7 +13,6 @@ import {
 import CustomCursor from './components/animations/CustomCursor';
 
 export default function App() {
-  useReveal();
   return (
     <div style={{ background: 'var(--bg-page)' }}>
       <CustomCursor />
