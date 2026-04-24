@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Arrow, ArrowUpRight, Plus, Rocket, Pencil, Leaf, Bolt } from './Icons';
+import { Arrow, ArrowUpRight, Plus, Rocket, Pencil, Leaf, Bolt, Sparkle, Cloud } from './Icons';
 import { FFButton, FFStamp, FFLogoMark } from './Primitives';
 import { Reveal, RevealGroup, RevealChild } from './animations/Reveal';
 import CountUp from './animations/CountUp';
@@ -69,7 +69,7 @@ export function ProblemSolution() {
               <div className="ff-vs-slider-label">HAGYOMÁNYOS ÚT</div>
               <h3>Design → Handoff → Fejlesztés → Hiba → Újra</h3>
               <div className="ff-vs-slider-list">
-                {['8–18 hét átfutás', 'Kettős költség: design + kód', 'Tartalommódosítás? Írj ticketet', 'Pixel-eltérések, loop-ok', 'Élesítés külön projekt'].map(t => (
+                {['8–18 hét átfutás', 'Kettős költség: design + kód', 'Tartalommódosítás? Írj ticketet', 'Pixel-eltérések, loop-ok', 'Lost in translation: más a terv, más a kész oldal', 'Élesítés külön projekt'].map(t => (
                   <div key={t} className="ff-vs-slider-item bad">
                     <span className="ff-vs-slider-icon bad">✕</span>
                     {t}
@@ -86,7 +86,7 @@ export function ProblemSolution() {
               <div className="ff-vs-slider-label">A MI MEGOLDÁSUNK · FRAMER</div>
               <h3>Design = Kód. Egy lépés.</h3>
               <div className="ff-vs-slider-list">
-                {['3–7 nap élesítés', 'Egyetlen számla, egyetlen csapat', 'CMS: te is szerkeszted', 'Pixel-pontos, 1:1', 'One-click publish'].map(t => (
+                {['3–7 nap élesítés', 'Egyetlen számla, egyetlen csapat', 'CMS: te is szerkeszted', 'Pixel-pontos, 1:1', 'Aki tervezi, az építi — nincs fordítási veszteség', 'One-click publish'].map(t => (
                   <div key={t} className="ff-vs-slider-item good">
                     <span className="ff-vs-slider-icon good">✓</span>
                     {t}
@@ -181,9 +181,11 @@ export function ProcessSection() {
 /* ═════════ Benefits (grid) ═════════ */
 const BENEFITS = [
   { icon: <Rocket />, title: 'Tökéletes landing oldalakhoz.', body: 'Villámgyors, reszponzív, látványos. Minden, amire egy kampány-microsite-nak szüksége van.' },
-  { icon: <Pencil />, title: 'Te is tudod szerkeszteni.', body: 'CMS-ben pár kattintás, nem kell minden apróságra ügynökséghez fordulni. Nincs „fejlesztői függőség".' },
+  { icon: <Pencil />, title: 'Te is tudod szerkeszteni.', body: 'CMS a tartalomhoz, vizuális szerkesztő a designhoz. Ha van a csapatban digitálisan jártas marketinges — teljes ownership, ügynökség nélkül.' },
+  { icon: <Sparkle />, title: 'Animációk, amik máshol luxus.', body: 'Mikrointerakciók, hover-effektek, scroll-animációk — egyedi fejlesztésnél ezek órákba és extra költségbe kerülnek. Framer-ben pár kattintás.' },
   { icon: <Leaf />, title: 'Fenntartható árazás.', body: 'Nincs dupla költség design + fejlesztésre. Transzparens Framer előfizetés, havi díjjal.' },
   { icon: <Bolt />, title: 'SEO és villámgyors betöltés.', body: 'Beépített SEO, global CDN, Lighthouse 90+. Nem kell plugint vadászni.' },
+  { icon: <Cloud />, title: 'Hosting nélküli hosting.', body: 'Nem kell szerver, nem kell rendszergazda. Framer cloud infrastruktúra: automatikus SSL, global CDN, 99.9% uptime.' },
 ];
 
 export function Benefits() {
@@ -196,7 +198,7 @@ export function Benefits() {
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>MIÉRT A FRAMER?</div>
               <h2>A FRAMER NEM CSAK<br />GYORS. <span style={{ color: 'var(--c-orange-600)' }}>OKOS IS.</span></h2>
             </div>
-            <p className="lead">Miért pont ez a no-code platform? Négy konkrét ok, amiért a Framer más.</p>
+            <p className="lead">Miért pont ez a no-code platform? Hat konkrét ok, amiért a Framer más.</p>
           </div>
         </Reveal>
         <RevealGroup className="ff-benefits" stagger={0.08}>
@@ -528,6 +530,10 @@ const FAQS = [
   {
     q: 'MENNYIBE KERÜL?',
     a: 'Fix áras csomagok vannak: Landing (650k Ft-tól), Microsite (1.2M Ft-tól), Full site CMS-sel (2.5M Ft-tól). Az áron felül a Framer előfizetés havi pár ezer forint. Kérj konkrét ajánlatot egy hívással.'
+  },
+  {
+    q: 'KI HOSTINGOLJA AZ OLDALT?',
+    a: 'A Framer saját cloud infrastruktúráján fut — global CDN, automatikus SSL, 99.9% uptime. Nincs szerver, nincs karbantartás. Az előfizetésben minden benne van.'
   },
   {
     q: 'MI VAN, HA KINŐJÜK A FRAMERT?',

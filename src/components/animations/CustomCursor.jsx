@@ -71,17 +71,16 @@ export default function CustomCursor() {
         pointerEvents: 'none',
         zIndex: 9999,
         mixBlendMode: cur.blend,
-        display: 'flex',
+        display: cur.hidden ? 'none' : 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         translateX: '-50%',
         translateY: '-50%',
       }}
       animate={{
-        width: cur.hidden ? 0 : cur.isLine ? 2 : cur.size,
-        height: cur.hidden ? 0 : cur.isLine ? 24 : cur.size,
+        width: cur.isLine ? 2 : cur.size,
+        height: cur.isLine ? 24 : cur.size,
         borderRadius: cur.isLine ? 1 : cur.size / 2,
-        opacity: cur.hidden ? 0 : 1,
       }}
       transition={{ type: 'spring', damping: 20, stiffness: 300 }}
     >
