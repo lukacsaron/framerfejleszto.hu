@@ -1,0 +1,56 @@
+<h2>Hero Section: Scroll-Driven Timeline</h2>
+<p class="subtitle">The hero becomes a choreographed sequence as users scroll. Each phase triggers at a scroll threshold.</p>
+
+<div class="section">
+  <h3>Timeline Phases</h3>
+
+  <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+
+    <div style="background: #1a1a2e; border-radius: 12px; padding: 20px; border-left: 4px solid #9747FF;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="color: #9747FF; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Phase 1 — On Load (0-0.5s)</span>
+        <span style="color: #666; font-size: 12px;">viewport entry</span>
+      </div>
+      <h3 style="margin: 0 0 8px 0; font-size: 18px;">Character-by-Character Headline Reveal</h3>
+      <p style="color: #999; margin: 0; font-size: 14px;">Replace current word-stagger with per-character animation. Each character fades up from 20px below with 0.02s stagger. The strike-through SVG on "HETEK" draws after the word completes. Framer Expert badge scales in with a spring bounce.</p>
+    </div>
+
+    <div style="background: #1a1a2e; border-radius: 12px; padding: 20px; border-left: 4px solid #FF6600;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="color: #FF6600; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Phase 2 — On Load (0.5-1.2s)</span>
+        <span style="color: #666; font-size: 12px;">after headline</span>
+      </div>
+      <h3 style="margin: 0 0 8px 0; font-size: 18px;">Supporting Elements Cascade</h3>
+      <p style="color: #999; margin: 0; font-size: 14px;">Subtitle text fades in line-by-line (mask reveal — overflow:hidden wrapper, inner span translateY). CTA buttons slide up with spring physics, staggered 0.1s apart. Decorative flourishes float in from their respective corners with rotation.</p>
+    </div>
+
+    <div style="background: #1a1a2e; border-radius: 12px; padding: 20px; border-left: 4px solid #4BC292;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="color: #4BC292; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Phase 3 — On Load (1.0-1.8s)</span>
+        <span style="color: #666; font-size: 12px;">overlaps phase 2</span>
+      </div>
+      <h3 style="margin: 0 0 8px 0; font-size: 18px;">Stage / Mockup Entrance</h3>
+      <p style="color: #999; margin: 0; font-size: 14px;">The design/live mode stage scales up from 0.85 with opacity, landing with a subtle bounce. The chrome bar, panels, and canvas elements stagger in from their edges (layers from left, properties from right, canvas fades in center). First auto-toggle fires after the entrance completes.</p>
+    </div>
+
+    <div style="background: #1a1a2e; border-radius: 12px; padding: 20px; border-left: 4px solid #FFD700;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="color: #FFD700; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Phase 4 — On Scroll</span>
+        <span style="color: #666; font-size: 12px;">scroll-linked</span>
+      </div>
+      <h3 style="margin: 0 0 8px 0; font-size: 18px;">Parallax Depth Separation</h3>
+      <p style="color: #999; margin: 0; font-size: 14px;">As user scrolls past hero: headline moves at 0.4x speed (recedes), stage moves at 0.7x (midground), flourishes move at 1.3x (foreground rush). Creates a layered depth-of-field effect. Background gradient shifts hue slightly with scroll progress. The whole hero compresses and fades as it exits viewport.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px;">
+  <h3>Design/Live Mode Toggle Enhancement</h3>
+  <p style="color: #999; font-size: 14px;">The existing auto-toggle gets upgraded: instead of an instant swap, the transition uses a <strong>3D card flip</strong> (rotateY 180°) or a <strong>morph wipe</strong> (clipPath circle expanding from the toggle button position). The toggle buttons get a sliding pill indicator (layout animation) showing which mode is active.</p>
+</div>
+
+<div class="section" style="margin-top: 32px;">
+  <h3>Mobile Adaptation</h3>
+  <p style="color: #999; font-size: 14px;">Character-by-character becomes word-by-word (fewer elements to animate). Parallax depth reduced to 2 layers max. Stage entrance simplified to a single scale+fade. All spring physics use stiffer values for snappier feel on lower-powered devices.</p>
+</div>
