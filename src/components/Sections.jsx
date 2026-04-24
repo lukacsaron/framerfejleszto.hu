@@ -135,120 +135,46 @@ const PROCESS_STEPS = [
 
 export function ProcessSection() {
   const [hovered, setHovered] = useState(1);
-  const containerRef = useRef(null);
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
   const colors = [
     { background: 'var(--c-orange-600)', color: '#fff' },
     { background: 'var(--c-violet-600)', color: '#fff' },
     { background: 'var(--c-mint-500)', color: '#14213D' },
   ];
 
-  if (isMobile) {
-    return (
-      <section className="ff-section sunken" id="process">
-        <div className="ff-container">
-          <Reveal>
-            <div className="ff-section-head">
-              <div>
-                <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
-                <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
-              </div>
-              <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
-            </div>
-          </Reveal>
-          <RevealGroup className="ff-process" stagger={0.15}>
-            {PROCESS_STEPS.map((s, i) => (
-              <RevealChild variant="fadeUp" key={s.n}>
-                <div className="ff-proc-step" style={colors[i]}>
-                  <div className="n">{s.n}</div>
-                  <div>
-                    <div className="label">{s.label}</div>
-                    <h4>{s.title}</h4>
-                    <p>{s.desc}</p>
-                  </div>
-                  <button className="chev"><Arrow /></button>
-                </div>
-              </RevealChild>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section
-      ref={containerRef}
-      id="process"
-      style={{ height: '200vh', position: 'relative' }}
-    >
-      <div style={{
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        background: 'var(--bg-sunken)',
-        padding: '60px 0',
-      }}>
-        <div className="ff-container">
-          <Reveal>
-            <div className="ff-section-head">
-              <div>
-                <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
-                <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
-              </div>
-              <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
+    <section className="ff-section sunken" id="process">
+      <div className="ff-container">
+        <Reveal>
+          <div className="ff-section-head">
+            <div>
+              <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
+              <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
             </div>
-          </Reveal>
-          <div className="ff-process" style={{ position: 'relative', zIndex: 1 }}>
-            {PROCESS_STEPS.map((s, i) => (
-              <ProcessStep
-                key={s.n}
-                step={s}
-                index={i}
-                color={colors[i]}
-                progress={scrollYProgress}
-                hovered={hovered}
-                setHovered={setHovered}
-              />
-            ))}
+            <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
           </div>
-        </div>
+        </Reveal>
+        <RevealGroup className="ff-process" stagger={0.15}>
+          {PROCESS_STEPS.map((s, i) => (
+            <RevealChild variant="slideRight" key={s.n}>
+              <div
+                className={`ff-proc-step ${i === hovered ? 'featured' : ''}`}
+                onMouseEnter={() => setHovered(i)}
+                onClick={() => setHovered(i)}
+                style={i === hovered ? colors[i] : {}}
+              >
+                <div className="n">{s.n}</div>
+                <div>
+                  <div className="label">{s.label}</div>
+                  <h4>{s.title}</h4>
+                  <p>{s.desc}</p>
+                </div>
+                <button className="chev"><Arrow /></button>
+              </div>
+            </RevealChild>
+          ))}
+        </RevealGroup>
       </div>
     </section>
-  );
-}
-
-function ProcessStep({ step, index, color, progress, hovered, setHovered }) {
-  // Map 3 steps across 0-0.7 range so all reveal before bottom of scroll container
-  const start = index * 0.2;
-  const opacity = useTransform(progress, [start, start + 0.12], [0, 1]);
-  const y = useTransform(progress, [start, start + 0.15], [40, 0]);
-  const scale = useTransform(progress, [start, start + 0.12], [0.9, 1]);
-
-  return (
-    <motion.div
-      className={`ff-proc-step ${index === hovered ? 'featured' : ''}`}
-      style={{ opacity, y, scale, ...(index === hovered ? color : {}) }}
-      onMouseEnter={() => setHovered(index)}
-      onClick={() => setHovered(index)}
-    >
-      <div className="n">{step.n}</div>
-      <div>
-        <div className="label">{step.label}</div>
-        <h4>{step.title}</h4>
-        <p>{step.desc}</p>
-      </div>
-      <button className="chev"><Arrow /></button>
-    </motion.div>
   );
 }
 
