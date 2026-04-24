@@ -85,6 +85,7 @@ export default function StickyNav() {
               key={href}
               className="ff-sidebar-link"
               href={href}
+              data-cursor="link"
               onClick={() => setOpen(false)}
             >
               {label}

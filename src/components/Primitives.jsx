@@ -20,7 +20,7 @@ export function FFLogo({ onDark = false }) {
 
 export function FFButton({ variant = 'orange', children, icon, onClick, ...rest }) {
   return (
-    <button className={`ff-btn ${variant}`} onClick={onClick} {...rest}>
+    <button className={`ff-btn ${variant}`} onClick={onClick} data-cursor="link" {...rest}>
       <span>{children}</span>
       <span className="ic">{icon || <Arrow />}</span>
     </button>

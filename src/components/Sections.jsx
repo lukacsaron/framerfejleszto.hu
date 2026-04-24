@@ -43,6 +43,7 @@ export function ProblemSolution() {
           className="ff-vs-slider"
           onMouseMove={onMouseMove}
           onTouchMove={onTouchMove}
+          data-cursor="slider"
         >
           {/* LEFT — traditional (always visible underneath) */}
           <div className="ff-vs-slider-bad">
@@ -253,7 +254,7 @@ export function Portfolio() {
         </div>
         <div className="ff-portfolio">
           {PROJECTS.map(p => (
-            <div className="pitem" key={p.title}>
+            <div className="pitem" key={p.title} data-cursor="portfolio">
               <div className="thumb">
                 <div className="bg" style={{ background: p.bg }} />
                 <img src={`/assets/illustrations/${p.img}`} alt={p.title} />
@@ -312,7 +313,7 @@ export function FAQSection() {
           </div>
           <div className="ff-faq-list">
             {FAQS.map((f, i) => (
-              <div key={i} className={`ff-faq-item ${i === open ? 'open' : ''}`} onClick={() => setOpen(open === i ? -1 : i)}>
+              <div key={i} className={`ff-faq-item ${i === open ? 'open' : ''}`} onClick={() => setOpen(open === i ? -1 : i)} data-cursor="faq">
                 <div className="ic"><Plus /></div>
                 <div>
                   <h5>{f.q}</h5>
@@ -330,7 +331,7 @@ export function FAQSection() {
 /* ═════════ Final CTA ═════════ */
 export function FinalCTA() {
   return (
-    <section className="ff-section paper ff-reveal" id="final">
+    <section className="ff-section paper ff-reveal" id="final" data-cursor="cta">
       <div className="ff-container">
         <div className="ff-final-cta">
           <div className="stamp"><FFStamp onDark={true} /></div>
