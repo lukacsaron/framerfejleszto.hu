@@ -67,6 +67,15 @@ img { max-width: 100%; display: block; }
 .ff-btn.dark .ic { background: #fff; color: var(--c-midnight-950); }
 .ff-btn.dark:hover { background: var(--c-violet-700); }
 
+.ff-btn.mint {
+  background: var(--c-mint-500);
+  color: var(--c-emerald-800);
+  border-color: var(--c-emerald-800);
+}
+.ff-btn.mint:hover {
+  background: var(--c-mint-600);
+}
+
 /* ═══════════════════════ Nav ═══════════════════════ */
 .ff-nav {
   display: flex; align-items: center; gap: 14px;
@@ -502,6 +511,111 @@ img { max-width: 100%; display: block; }
 .ff-section.sunken { background: var(--bg-sunken); }
 .ff-section.dark { background: var(--c-midnight-950); color: #fff; }
 .ff-section.paper { background: var(--bg-page); }
+.ff-section.emerald {
+  background: var(--grad-emerald);
+  color: #fff;
+}
+.ff-section.emerald .ff-eyebrow { color: var(--c-mint-500); }
+.ff-section.emerald .ff-section-head .lead { color: rgba(255,255,255,0.72); }
+.ff-section.emerald .ff-section-head .lead strong { color: #fff; font-weight: 700; }
+
+/* ── Vibe-coding showcase ── */
+.ff-vibe-showcase {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.ff-vibe-client-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 6px;
+}
+.ff-vibe-client-name {
+  font-family: var(--ff-display);
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.ff-vibe-project-name {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 20px;
+}
+.ff-vibe-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 28px;
+}
+
+.ff-vibe-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.ff-vibe-stat {
+  border-left: 2px solid var(--c-mint-500);
+  padding-left: 12px;
+}
+.ff-vibe-stat-num {
+  font-family: var(--ff-display);
+  font-size: 26px;
+  color: var(--c-mint-500);
+  line-height: 1.1;
+}
+.ff-vibe-stat-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Browser frame mockup ── */
+.ff-vibe-browser {
+  background: #1a1a2e;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.ff-vibe-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ff-vibe-browser-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+.ff-vibe-browser-url {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-left: 8px;
+  font-family: monospace;
+}
+.ff-vibe-browser-content {
+  line-height: 0;
+}
+.ff-vibe-browser-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Vibe CTA ── */
+.ff-vibe-cta {
+  margin-top: 48px;
+}
 
 .ff-section-head {
   display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
@@ -868,6 +982,7 @@ img { max-width: 100%; display: block; }
   .ff-proc-step .chev { display: none; }
 
   .ff-benefits { grid-template-columns: 1fr; }
+  .ff-vibe-showcase { grid-template-columns: 1fr; gap: 32px; }
 
   .ff-portfolio { grid-template-columns: 1fr; }
   .ff-portfolio .pitem { grid-column: span 1; }
@@ -920,6 +1035,8 @@ img { max-width: 100%; display: block; }
   .ff-trust .text h3 { font-size: clamp(28px, 7vw, 40px); }
 
   .ff-faq-item h5 { font-size: 16px; }
+  .ff-vibe-stats { gap: 12px; }
+  .ff-vibe-stat-num { font-size: 22px; }
 }
 
 /* ═══════════════════════ Sticky Nav ═══════════════════════ */
