@@ -1,6 +1,7 @@
 // src/plugins/live-edit/index.js
 
 import liveEditBabelPlugin from './babel-transform.js';
+import { createMiddleware } from './server-middleware.js';
 
 export function liveEdit(options = {}) {
   const config = {
@@ -25,7 +26,7 @@ export function liveEdit(options = {}) {
       },
 
       configureServer(server) {
-        // Will add middleware in Task 3
+        server.middlewares.use(createMiddleware(config));
       },
     },
     {
