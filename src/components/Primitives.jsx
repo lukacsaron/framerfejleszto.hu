@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Arrow } from './Icons';
+import MagneticButton from './animations/MagneticButton';
 
 export function FFLogoMark({ size = 28, className = '' }) {
   const w = (248 / 124) * size;
@@ -18,13 +19,14 @@ export function FFLogo({ onDark = false }) {
   );
 }
 
-export function FFButton({ variant = 'orange', children, icon, onClick, ...rest }) {
-  return (
+export function FFButton({ variant = 'orange', children, icon, onClick, magnetic = true, ...rest }) {
+  const btn = (
     <button className={`ff-btn ${variant}`} onClick={onClick} data-cursor="link" {...rest}>
       <span>{children}</span>
       <span className="ic">{icon || <Arrow />}</span>
     </button>
-  );
+  )
+  return magnetic ? <MagneticButton>{btn}</MagneticButton> : btn
 }
 
 export function FFNav({ onDark = true }) {
