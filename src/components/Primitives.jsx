@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Arrow } from './Icons';
 import MagneticButton from './animations/MagneticButton';
 
@@ -70,13 +70,3 @@ export function FFStamp({ className = '', spin = true, size = 140 }) {
   )
 }
 
-export function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('.ff-reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-    }, { threshold: 0.12 });
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
