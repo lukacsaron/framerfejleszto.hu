@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Arrow, ArrowUpRight, Plus, Rocket, Pencil, Leaf, Bolt } from './Icons';
 import { FFButton, FFStamp, FFLogoMark } from './Primitives';
 import { Reveal, RevealGroup, RevealChild } from './animations/Reveal';
@@ -135,46 +135,119 @@ const PROCESS_STEPS = [
 
 export function ProcessSection() {
   const [hovered, setHovered] = useState(1);
+  const containerRef = useRef(null);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
   const colors = [
     { background: 'var(--c-orange-600)', color: '#fff' },
     { background: 'var(--c-violet-600)', color: '#fff' },
     { background: 'var(--c-mint-500)', color: '#14213D' },
   ];
 
-  return (
-    <section className="ff-section sunken" id="process">
-      <div className="ff-container">
-        <Reveal>
-          <div className="ff-section-head">
-            <div>
-              <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
-              <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
-            </div>
-            <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
-          </div>
-        </Reveal>
-        <RevealGroup className="ff-process" stagger={0.12}>
-          {PROCESS_STEPS.map((s, i) => (
-            <RevealChild key={s.n} variant="slideRight">
-              <div
-                className={`ff-proc-step ${i === hovered ? 'featured' : ''}`}
-                onMouseEnter={() => setHovered(i)}
-                onClick={() => setHovered(i)}
-                style={i === hovered ? colors[i] : {}}
-              >
-                <div className="n">{s.n}</div>
-                <div>
-                  <div className="label">{s.label}</div>
-                  <h4>{s.title}</h4>
-                  <p>{s.desc}</p>
-                </div>
-                <button className="chev"><Arrow /></button>
+  if (isMobile) {
+    return (
+      <section className="ff-section sunken" id="process">
+        <div className="ff-container">
+          <Reveal>
+            <div className="ff-section-head">
+              <div>
+                <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
+                <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
               </div>
-            </RevealChild>
-          ))}
-        </RevealGroup>
+              <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
+            </div>
+          </Reveal>
+          <RevealGroup className="ff-process" stagger={0.15}>
+            {PROCESS_STEPS.map((s, i) => (
+              <RevealChild variant="fadeUp" key={s.n}>
+                <div className="ff-proc-step" style={colors[i]}>
+                  <div className="n">{s.n}</div>
+                  <div>
+                    <div className="label">{s.label}</div>
+                    <h4>{s.title}</h4>
+                    <p>{s.desc}</p>
+                  </div>
+                  <button className="chev"><Arrow /></button>
+                </div>
+              </RevealChild>
+            ))}
+          </RevealGroup>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      ref={containerRef}
+      id="process"
+      style={{ height: '250vh', position: 'relative' }}
+    >
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',
+        background: 'var(--bg-sunken)',
+        padding: '60px 0',
+      }}>
+        <div className="ff-container">
+          <Reveal>
+            <div className="ff-section-head">
+              <div>
+                <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
+                <h2>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</h2>
+              </div>
+              <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".</p>
+            </div>
+          </Reveal>
+          <div className="ff-process" style={{ position: 'relative', zIndex: 1 }}>
+            {PROCESS_STEPS.map((s, i) => (
+              <ProcessStep
+                key={s.n}
+                step={s}
+                index={i}
+                color={colors[i]}
+                progress={scrollYProgress}
+                hovered={hovered}
+                setHovered={setHovered}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function ProcessStep({ step, index, color, progress, hovered, setHovered }) {
+  const start = index / 3;
+  const opacity = useTransform(progress, [start, start + 0.1], [0, 1]);
+  const y = useTransform(progress, [start, start + 0.15], [40, 0]);
+  const scale = useTransform(progress, [start, start + 0.1], [0.9, 1]);
+
+  return (
+    <motion.div
+      className={`ff-proc-step ${index === hovered ? 'featured' : ''}`}
+      style={{ opacity, y, scale, ...(index === hovered ? color : {}) }}
+      onMouseEnter={() => setHovered(index)}
+      onClick={() => setHovered(index)}
+    >
+      <div className="n">{step.n}</div>
+      <div>
+        <div className="label">{step.label}</div>
+        <h4>{step.title}</h4>
+        <p>{step.desc}</p>
+      </div>
+      <button className="chev"><Arrow /></button>
+    </motion.div>
   );
 }
 
@@ -217,32 +290,94 @@ export function Benefits() {
 
 /* ═════════ Trust / Team ═════════ */
 export function TrustSection() {
+  const sectionRef = useRef(null);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const quoteText = "Az új dizájn bevezetése után háromszorosára növeltük a konverziós arányunkat. Nemcsak szép lett — mérhetően jobban is működik.";
+
   return (
-    <section className="ff-section sunken">
+    <section className="ff-section sunken" ref={sectionRef}>
       <div className="ff-container">
-        <Reveal>
-          <div className="ff-trust">
-            <div className="illo">
-              <div className="wash" />
-              <img src="/assets/illustrations/ai-brain-head.avif" alt="22.design senior team" />
-            </div>
-            <div className="text">
-              <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)', marginBottom: 16 }}>KIK VAGYUNK?</div>
-              <h3>100% SENIOR.<br />0% KAMU.</h3>
-              <p>
-                Bár a technológia no-code, a minőség mögött a 22.design tapasztalt
-                UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek
-                gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
-              </p>
-              <div className="quote">
-                <p>„Az új dizájn bevezetése után háromszorosára növeltük a konverziós arányunkat. Nemcsak szép lett — mérhetően jobban is működik."</p>
-                <div className="who">— Zsófi Nagy, Head of Ecommerce, REGIO Játék</div>
-              </div>
+        <div className="ff-trust">
+          <div className="illo">
+            <div className="wash" />
+            <motion.img
+              src="/assets/illustrations/ai-brain-head.avif"
+              alt="22.design senior team"
+              style={{ y: useTransform(scrollYProgress, [0, 1], [40, -40]) }}
+            />
+          </div>
+          <div className="text">
+            <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)', marginBottom: 16 }}>KIK VAGYUNK?</div>
+            <h3>100% SENIOR.<br />0% KAMU.</h3>
+            <p>
+              Bár a technológia no-code, a minőség mögött a 22.design tapasztalt
+              UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek
+              gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
+            </p>
+            <div className="quote">
+              <motion.span
+                style={{ fontSize: '3em', lineHeight: 1, display: 'block', marginBottom: 8, fontFamily: 'var(--ff-display)' }}
+                initial={{ scale: 2, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ type: 'spring', damping: 8, stiffness: 80 }}
+              >
+                &ldquo;
+              </motion.span>
+              {isMobile ? (
+                <Reveal><p>„{quoteText}"</p></Reveal>
+              ) : (
+                <p>
+                  „{quoteText.split(' ').map((word, i, arr) => (
+                    <WordReveal key={i} word={word} index={i} total={arr.length} progress={scrollYProgress} />
+                  ))}"
+                </p>
+              )}
+              <motion.div
+                className="stars"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+                style={{ display: 'flex', gap: 4, marginTop: 12, fontSize: 18, color: 'var(--c-orange-600)' }}
+              >
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <motion.span
+                    key={star}
+                    variants={{
+                      hidden: { scale: 0, opacity: 0 },
+                      visible: { scale: 1, opacity: 1 },
+                    }}
+                    transition={{ type: 'spring', damping: 12, stiffness: 200 }}
+                  >
+                    ★
+                  </motion.span>
+                ))}
+              </motion.div>
+              <div className="who">— Zsófi Nagy, Head of Ecommerce, REGIO Játék</div>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
+  );
+}
+
+function WordReveal({ word, index, total, progress }) {
+  const start = (index / total) * 0.6;
+  const end = start + 0.15;
+  const opacity = useTransform(progress, [start, end], [0.15, 1]);
+
+  return (
+    <motion.span style={{ opacity, display: 'inline-block', marginRight: '0.3em' }}>
+      {word}
+    </motion.span>
   );
 }
 
@@ -271,6 +406,31 @@ const PROJECTS = [
 ];
 
 export function Portfolio() {
+  const gridRef = useRef(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    if (mq.matches) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target.querySelector('.thumb img')
+            if (img) img.classList.add('ken-burns-active')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.8 }
+    )
+
+    const cards = gridRef.current?.querySelectorAll('.pitem')
+    cards?.forEach((card) => observer.observe(card))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="ff-section paper" id="works">
       <div className="ff-container">
@@ -283,12 +443,19 @@ export function Portfolio() {
             <p className="lead">4 projekt az utóbbi 18 hónapból, mindegyik Framer-ben. Kattints, nézd meg élőben.</p>
           </div>
         </Reveal>
-        <RevealGroup className="ff-portfolio" stagger={0.1}>
-          {PROJECTS.map(p => {
+        <RevealGroup ref={gridRef} className="ff-portfolio" stagger={0.1}>
+          {PROJECTS.map((p, i) => {
             const hasPrefix = p.stat.startsWith('+');
             const numericValue = parseInt(p.stat, 10);
             return (
-              <RevealChild key={p.title} variant="scaleUp">
+              <motion.div
+                key={p.title}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.95, rotate: i % 2 === 0 ? -1 : 1 },
+                  visible: { opacity: 1, scale: 1, rotate: 0 },
+                }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <div
                   className="pitem"
                   data-cursor="portfolio"
@@ -324,7 +491,7 @@ export function Portfolio() {
                     </div>
                   </div>
                 </div>
-              </RevealChild>
+              </motion.div>
             );
           })}
         </RevealGroup>
