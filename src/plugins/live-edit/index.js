@@ -1,7 +1,14 @@
 // src/plugins/live-edit/index.js
 
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import liveEditBabelPlugin from './babel-transform.js';
 import { createMiddleware } from './server-middleware.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const overlayCSS = readFileSync(join(__dirname, 'overlay.css'), 'utf-8');
+const overlayJS = readFileSync(join(__dirname, 'overlay.js'), 'utf-8');
 
 export function liveEdit(options = {}) {
   const config = {
@@ -21,8 +28,17 @@ export function liveEdit(options = {}) {
       },
 
       transformIndexHtml(html) {
-        // Will inject overlay in Task 4
-        return html;
+        return html
+          .replace('</head>', `<style>${overlayCSS}</style>\n</head>`)
+          .replace(
+            '</body>',
+            `<script>window.__LIVE_EDIT_CONFIG__ = ${JSON.stringify({
+              shortcut: config.shortcut,
+              editor: config.editor,
+              root: config.root,
+            })};</script>\n` +
+            `<script>${overlayJS}</script>\n</body>`
+          );
       },
 
       configureServer(server) {
