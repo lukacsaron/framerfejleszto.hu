@@ -708,7 +708,7 @@ img { max-width: 100%; display: block; }
 .ff-final-cta h2 {
   color: rgba(255,255,255,0.28); font-family: var(--ff-display); text-transform: uppercase;
   font-size: clamp(40px, 5vw, 80px); line-height: 0.95; margin: 0 auto 32px;
-  max-width: 880px; letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
 }
 .ff-final-cta h2 .hot { color: #fff; }
 .ff-final-cta h2 .orange { color: var(--c-orange-500); }
@@ -737,9 +737,7 @@ img { max-width: 100%; display: block; }
 .ff-socials a:hover { background: var(--c-orange-600); }
 .ff-socials svg { width: 16px; height: 16px; color: #fff; }
 
-/* Scroll reveal */
-.ff-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
-.ff-reveal.in { opacity: 1; transform: none; }
+/* Legacy reveal classes removed — now handled by Framer Motion <Reveal> components */
 
 /* ═══════════════════════ Responsive ═══════════════════════ */
 
