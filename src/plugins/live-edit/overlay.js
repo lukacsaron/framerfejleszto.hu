@@ -23,6 +23,17 @@
     return editor + '://file/' + root + '/' + file + ':' + (line || 1) + ':' + (col || 1);
   }
 
+  // Get only the element's own direct text nodes, not text from children
+  function getDirectText(el) {
+    var text = '';
+    for (var i = 0; i < el.childNodes.length; i++) {
+      if (el.childNodes[i].nodeType === 3) { // Node.TEXT_NODE
+        text += el.childNodes[i].textContent;
+      }
+    }
+    return text.trim();
+  }
+
   // ── Pill ─────────────────────────────────────────────────
 
   function createPill() {
@@ -127,7 +138,7 @@
     var file = target.getAttribute('data-live-file');
     var line = target.getAttribute('data-live-line') || '1';
     var col = target.getAttribute('data-live-col') || '1';
-    var currentText = target.textContent || '';
+    var currentText = getDirectText(target);
 
     popover.innerHTML =
       '<div class="le-popover-header">' +
@@ -169,7 +180,7 @@
     var file = target.getAttribute('data-live-file');
     var line = target.getAttribute('data-live-line') || '1';
     var col = target.getAttribute('data-live-col') || '1';
-    var currentText = target.textContent || '';
+    var currentText = getDirectText(target);
 
     popover.innerHTML =
       '<div class="le-popover-header">' +
