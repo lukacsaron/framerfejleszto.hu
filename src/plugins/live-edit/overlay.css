@@ -216,3 +216,8 @@
 .le-annotation-marker:hover {
   transform: translate(-50%, -50%) scale(1.3);
 }
+
+/* Keep the site's custom cursor above the overlay */
+.ff-custom-cursor {
+  z-index: 100001 !important;
+}
