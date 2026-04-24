@@ -275,7 +275,25 @@ export function Portfolio() {
             const numericValue = parseInt(p.stat, 10);
             return (
               <RevealChild key={p.title} variant="scaleUp">
-                <div className="pitem" data-cursor="portfolio">
+                <div
+                  className="pitem"
+                  data-cursor="portfolio"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect()
+                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2
+                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2
+                    const img = e.currentTarget.querySelector('.thumb img')
+                    if (img) img.style.transform = `translate(${x * 8}px, ${y * 8}px)`
+                  }}
+                  onMouseLeave={(e) => {
+                    const img = e.currentTarget.querySelector('.thumb img')
+                    if (img) {
+                      img.style.transition = 'transform 0.4s var(--ease-out)'
+                      img.style.transform = ''
+                      setTimeout(() => { if (img) img.style.transition = '' }, 400)
+                    }
+                  }}
+                >
                   <div className="thumb">
                     <div className="bg" style={{ background: p.bg }} />
                     <img src={`/assets/illustrations/${p.img}`} alt={p.title} />
