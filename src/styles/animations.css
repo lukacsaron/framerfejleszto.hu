@@ -41,11 +41,12 @@
 }
 
 /* ── Hide native cursor when custom cursor active ── */
-@media (pointer: fine) {
-  .cursor-active,
-  .cursor-active * {
-    cursor: none !important;
-  }
+.cursor-active,
+.cursor-active *,
+.cursor-active a,
+.cursor-active button,
+.cursor-active [data-cursor] {
+  cursor: none !important;
 }
 
 /* ── Hide custom cursor on touch devices ── */
