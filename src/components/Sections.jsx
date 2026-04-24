@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Arrow, ArrowUpRight, Plus, Rocket, Pencil, Leaf, Bolt } from './Icons';
 import { FFButton, FFStamp, FFLogoMark } from './Primitives';
 import { Reveal, RevealGroup, RevealChild } from './animations/Reveal';
@@ -7,6 +8,7 @@ import CountUp from './animations/CountUp';
 /* ═════════ Problem vs Solution — Before/After Slider ═════════ */
 export function ProblemSolution() {
   const [split, setSplit] = useState(65);
+  const [dragging, setDragging] = useState(false);
 
   const onMouseMove = useCallback((e) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -18,6 +20,17 @@ export function ProblemSolution() {
     const r = e.currentTarget.getBoundingClientRect();
     setSplit(Math.max(0, Math.min(100, ((touch.clientX - r.left) / r.width) * 100)));
   }, []);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const stop = () => setDragging(false);
+    window.addEventListener('mouseup', stop);
+    window.addEventListener('touchend', stop);
+    return () => {
+      window.removeEventListener('mouseup', stop);
+      window.removeEventListener('touchend', stop);
+    };
+  }, [dragging]);
 
   return (
     <section className="ff-section dark" id="problem">
@@ -48,6 +61,7 @@ export function ProblemSolution() {
             className="ff-vs-slider"
             onMouseMove={onMouseMove}
             onTouchMove={onTouchMove}
+            onMouseDown={() => setDragging(true)}
             data-cursor="slider"
           >
             {/* LEFT — traditional (always visible underneath) */}
@@ -83,7 +97,7 @@ export function ProblemSolution() {
 
             {/* Slider handle */}
             <div className="ff-vs-slider-track" style={{ left: `${split}%` }}>
-              <div className="ff-vs-slider-handle">← →</div>
+              <div className={`ff-vs-slider-handle ${dragging ? 'grabbing' : 'idle'}`}>← →</div>
             </div>
           </div>
         </Reveal>
@@ -359,12 +373,32 @@ export function FAQSection() {
           <Reveal delay={0.1}>
             <div className="ff-faq-list">
               {FAQS.map((f, i) => (
-                <div key={i} className={`ff-faq-item ${i === open ? 'open' : ''}`} onClick={() => setOpen(open === i ? -1 : i)} data-cursor="faq">
-                  <div className="ic"><Plus /></div>
-                  <div>
-                    <h5>{f.q}</h5>
-                    <div className="a">{f.a}</div>
-                  </div>
+                <div key={i} className={`ff-faq-item ${i === open ? 'open' : ''}`} data-cursor="faq">
+                  <button className="ff-faq-q" onClick={() => setOpen(open === i ? -1 : i)} style={{ display: 'flex', alignItems: 'flex-start', gap: 16, width: '100%', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left', color: 'inherit', font: 'inherit' }}>
+                    <motion.span
+                      className="ic"
+                      animate={{ rotate: i === open ? 45 : 0 }}
+                      transition={{ type: 'spring', damping: 15, stiffness: 200 }}
+                      style={{ display: 'flex', flexShrink: 0 }}
+                    >
+                      <Plus />
+                    </motion.span>
+                    <h5 style={{ margin: 0 }}>{f.q}</h5>
+                  </button>
+                  <AnimatePresence>
+                    {i === open && (
+                      <motion.div
+                        className="a"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <div style={{ paddingTop: 8, paddingBottom: 12 }}>{f.a}</div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>

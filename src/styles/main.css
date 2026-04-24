@@ -215,6 +215,24 @@ img { max-width: 100%; display: block; }
   object-fit: contain;
 }
 .ff-stamp-ring.spinning { animation: ff-spin 18s linear infinite; }
+
+.ff-stamp {
+  transition: transform 0.3s var(--ease-spring);
+  cursor: pointer;
+}
+
+.ff-stamp:hover {
+  transform: scale(1.05);
+}
+
+.ff-stamp-fast .ff-stamp-ring.spinning {
+  animation-duration: 4s !important;
+}
+
+.ff-stamp-click .ff-stamp-ring.spinning {
+  animation-duration: 0.4s !important;
+}
+
 .ff-stamp-logo {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -575,6 +593,20 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
+.ff-vs-slider-handle.idle {
+  animation: handle-breathe 2s ease-in-out infinite;
+}
+
+.ff-vs-slider-handle.grabbing {
+  animation: none;
+  cursor: grabbing;
+}
+
+@keyframes handle-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
 /* Process — brutalist */
 .ff-process { display: grid; gap: 20px; }
 .ff-proc-step {
@@ -734,6 +766,10 @@ img { max-width: 100%; display: block; }
 .ff-faq-item h5 { font-family: var(--ff-display); font-size: 20px; text-transform: uppercase; margin: 6px 0 0; letter-spacing: -0.01em; line-height: 1.1; }
 .ff-faq-item .a { font-size: 15px; color: var(--fg-2); line-height: 1.55; margin-top: 12px; max-height: 0; overflow: hidden; transition: max-height .3s var(--ease-out); }
 .ff-faq-item.open .a { max-height: 200px; }
+.ff-faq-item.open {
+  background: var(--bg-surface);
+  border-radius: var(--r-card);
+}
 
 /* Final CTA */
 .ff-final-cta {

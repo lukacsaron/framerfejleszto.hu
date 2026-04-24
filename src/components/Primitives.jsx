@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Arrow } from './Icons';
 import MagneticButton from './animations/MagneticButton';
 
@@ -48,12 +48,26 @@ export function FFNav({ onDark = true }) {
 }
 
 export function FFStamp({ className = '', spin = true, size = 140 }) {
+  const [fast, setFast] = useState(false)
+  const [clicking, setClicking] = useState(false)
+
+  const onClick = useCallback(() => {
+    setClicking(true)
+    setTimeout(() => setClicking(false), 400)
+  }, [])
+
   return (
-    <div className={`ff-stamp ${className}`} style={{ width: size, height: size }}>
+    <div
+      className={`ff-stamp ${className} ${fast ? 'ff-stamp-fast' : ''} ${clicking ? 'ff-stamp-click' : ''}`}
+      style={{ width: size, height: size }}
+      onMouseEnter={() => setFast(true)}
+      onMouseLeave={() => setFast(false)}
+      onClick={onClick}
+    >
       <img className={`ff-stamp-ring ${spin ? 'spinning' : ''}`} src="/assets/22-ring.avif" alt="" />
       <img className="ff-stamp-logo" src="/assets/22-number.png" alt="22" />
     </div>
-  );
+  )
 }
 
 export function useReveal() {
