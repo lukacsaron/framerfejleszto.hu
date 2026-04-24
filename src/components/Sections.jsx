@@ -186,7 +186,7 @@ export function ProcessSection() {
     <section
       ref={containerRef}
       id="process"
-      style={{ height: '250vh', position: 'relative' }}
+      style={{ height: '200vh', position: 'relative' }}
     >
       <div style={{
         position: 'sticky',
@@ -228,10 +228,11 @@ export function ProcessSection() {
 }
 
 function ProcessStep({ step, index, color, progress, hovered, setHovered }) {
-  const start = index / 3;
-  const opacity = useTransform(progress, [start, start + 0.1], [0, 1]);
+  // Map 3 steps across 0-0.7 range so all reveal before bottom of scroll container
+  const start = index * 0.2;
+  const opacity = useTransform(progress, [start, start + 0.12], [0, 1]);
   const y = useTransform(progress, [start, start + 0.15], [40, 0]);
-  const scale = useTransform(progress, [start, start + 0.1], [0.9, 1]);
+  const scale = useTransform(progress, [start, start + 0.12], [0.9, 1]);
 
   return (
     <motion.div
