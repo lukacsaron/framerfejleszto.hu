@@ -4,6 +4,7 @@ import {
   ProblemSolution,
   ProcessSection,
   Benefits,
+  VibeCodingSection,
   TrustSection,
   Portfolio,
   FAQSection,
@@ -21,6 +22,7 @@ export default function App() {
       <ProblemSolution />
       <ProcessSection />
       <Benefits />
+      <VibeCodingSection />
       <TrustSection />
       <Portfolio />
       <FAQSection />
