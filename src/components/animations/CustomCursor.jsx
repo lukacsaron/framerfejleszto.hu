@@ -5,7 +5,7 @@ const CURSOR_STATES = {
   default:   { size: 12, label: null, blend: 'difference' },
   link:      { size: 48, label: null, blend: 'difference' },
   portfolio: { size: 80, label: 'Megnézem', blend: 'exclusion' },
-  slider:    { size: 40, label: '↔', blend: 'difference' },
+  slider:    { size: 0, label: null, blend: 'difference', hidden: true },
   image:     { size: 60, label: '⌕', blend: 'difference' },
   faq:       { size: 40, label: '+', blend: 'difference' },
   text:      { size: 6, label: null, blend: 'difference', isLine: true },
@@ -78,9 +78,10 @@ export default function CustomCursor() {
         translateY: '-50%',
       }}
       animate={{
-        width: cur.isLine ? 2 : cur.size,
-        height: cur.isLine ? 24 : cur.size,
+        width: cur.hidden ? 0 : cur.isLine ? 2 : cur.size,
+        height: cur.hidden ? 0 : cur.isLine ? 24 : cur.size,
         borderRadius: cur.isLine ? 1 : cur.size / 2,
+        opacity: cur.hidden ? 0 : 1,
       }}
       transition={{ type: 'spring', damping: 20, stiffness: 300 }}
     >
