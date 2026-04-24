@@ -756,16 +756,56 @@ img { max-width: 100%; display: block; }
   transform: scale(1.15);
 }
 .ff-proc-step .chev {
-  transition: transform 0.5s var(--ease-spring);
+  flex-shrink: 0;
 }
-.ff-proc-step:hover .chev {
-  animation: icon-wiggle 0.5s var(--ease-spring);
+
+/* Process detail dropdown */
+.ff-proc-detail-inner {
+  position: relative;
+  padding-top: 20px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.2);
 }
-@keyframes icon-wiggle {
-  20% { transform: rotate(10deg); }
-  60% { transform: rotate(-5deg); }
-  100% { transform: rotate(0deg); }
+.ff-proc-step:not(.featured) .ff-proc-detail-inner {
+  border-top-color: rgba(0,0,0,0.1);
 }
+.ff-proc-timeline {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  background: rgba(255,255,255,0.15);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.ff-proc-step:not(.featured) .ff-proc-timeline {
+  background: rgba(0,0,0,0.06);
+}
+.ff-proc-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ff-proc-detail-list li {
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+.ff-proc-detail-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  opacity: 0.5;
+}
+.ff-proc-step { cursor: pointer; }
 
 /* Benefits grid */
 .ff-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -799,8 +839,9 @@ img { max-width: 100%; display: block; }
 
 /* Portfolio */
 .ff-portfolio { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.ff-portfolio > * { display: flex; }
 .ff-portfolio .pitem {
-  grid-column: span 2;
+  grid-column: span 1;
   background: #fff; border: 1.5px solid var(--c-midnight-950); border-radius: 24px;
   overflow: hidden; display: flex; flex-direction: column;
   transition: transform .24s var(--ease-out), box-shadow .24s var(--ease-out);
@@ -1133,3 +1174,28 @@ img { max-width: 100%; display: block; }
 .ff-sidebar-link:hover { background: rgba(15,30,60,0.7); }
 .ff-sidebar-cta { margin-top: auto; padding-top: 24px; }
 .ff-sidebar-cta .ff-btn { width: 100%; justify-content: center; }
+
+/* ── Typewriter cursor ── */
+.typewriter-cursor {
+  position: relative;
+}
+
+.typewriter-cursor::after {
+  content: '';
+  display: inline-block;
+  width: 2.5px;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  vertical-align: baseline;
+  animation: cursor-blink 0.53s steps(1) infinite;
+}
+
+.typewriter-cursor--done::after {
+  display: none;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
