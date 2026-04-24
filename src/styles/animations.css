@@ -1,0 +1,56 @@
+/* ── Ken Burns drift (portfolio cards) ── */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    transform: scale(1.03) translateX(10px);
+  }
+}
+
+.ken-burns-active {
+  animation: ken-burns 8s ease-in-out forwards;
+}
+
+/* ── Cursor pulse (CTA sections) ── */
+@keyframes cursor-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* ── Handle breathing (slider) ── */
+@keyframes handle-breathe {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+/* ── Scroll velocity skew ── */
+.ff-velocity-skew {
+  transform: skewY(calc(var(--scroll-velocity, 0) * 1deg));
+  transition: transform 0.3s ease-out;
+}
+
+/* ── Hide native cursor when custom cursor active ── */
+@media (pointer: fine) {
+  .cursor-active,
+  .cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* ── Hide custom cursor on touch devices ── */
+@media (pointer: coarse) {
+  .ff-custom-cursor {
+    display: none !important;
+  }
+}
