@@ -261,7 +261,7 @@
       .then(function (data) {
         if (data.ok) {
           if (activeTarget) {
-            activeTarget.style.outline = '2px solid var(--le-accent-annotate, #ffb74d)';
+            activeTarget.style.outline = '2px solid #66bb6a';
             setTimeout(function () {
               if (activeTarget) activeTarget.style.outline = '';
             }, 600);
@@ -298,6 +298,10 @@
   }
 
   function handleKeydown(e) {
+    // Don't trigger when typing in inputs
+    var tag = e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
+
     // Parse shortcut
     var parts = shortcut.toLowerCase().split('+');
     var key = parts[parts.length - 1];
