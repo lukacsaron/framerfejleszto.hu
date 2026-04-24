@@ -102,13 +102,15 @@ export function ProblemSolution() {
           </div>
         </Reveal>
 
-        <p style={{
-          fontFamily: 'var(--ff-body)', fontSize: 12, fontWeight: 700,
-          color: 'rgba(255,255,255,0.35)', marginTop: 16, textAlign: 'center',
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-        }}>
-          ↔ MOZGASD AZ EGERED — HASONLÍTSD ÖSSZE
-        </p>
+        <Reveal delay={0.35} variant="fadeIn">
+          <p style={{
+            fontFamily: 'var(--ff-body)', fontSize: 12, fontWeight: 700,
+            color: 'rgba(255,255,255,0.35)', marginTop: 16, textAlign: 'center',
+            letterSpacing: '0.14em', textTransform: 'uppercase',
+          }}>
+            ↔ MOZGASD AZ EGERED — HASONLÍTSD ÖSSZE
+          </p>
+        </Reveal>
       </div>
     </section>
   );
@@ -243,8 +245,8 @@ export function VibeCodingSection() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <div className="ff-vibe-showcase">
+        <RevealGroup className="ff-vibe-showcase" stagger={0.1}>
+          <RevealChild variant="slideRight">
             <div>
               <div className="ff-vibe-client-label">Ügyfél</div>
               <div className="ff-vibe-client-name">PhenoGyde</div>
@@ -254,26 +256,36 @@ export function VibeCodingSection() {
                 szolgáltató, mystery shopping, kereskedői ügyfélút-elemzés,
                 versenyképességi scoring.
               </p>
-              <div className="ff-vibe-stats">
-                <div className="ff-vibe-stat">
-                  <div className="ff-vibe-stat-num">150+</div>
-                  <div className="ff-vibe-stat-label">Oldal</div>
-                </div>
-                <div className="ff-vibe-stat">
-                  <div className="ff-vibe-stat-num">100+</div>
-                  <div className="ff-vibe-stat-label">Grafikon</div>
-                </div>
-                <div className="ff-vibe-stat">
-                  <div className="ff-vibe-stat-num">10+</div>
-                  <div className="ff-vibe-stat-label">3D térkép</div>
-                </div>
-                <div className="ff-vibe-stat">
-                  <div className="ff-vibe-stat-num">23</div>
-                  <div className="ff-vibe-stat-label">Szolgáltató</div>
-                </div>
-              </div>
+              <RevealGroup className="ff-vibe-stats" stagger={0.08}>
+                <RevealChild variant="scaleUp">
+                  <div className="ff-vibe-stat">
+                    <div className="ff-vibe-stat-num">150+</div>
+                    <div className="ff-vibe-stat-label">Oldal</div>
+                  </div>
+                </RevealChild>
+                <RevealChild variant="scaleUp">
+                  <div className="ff-vibe-stat">
+                    <div className="ff-vibe-stat-num">100+</div>
+                    <div className="ff-vibe-stat-label">Grafikon</div>
+                  </div>
+                </RevealChild>
+                <RevealChild variant="scaleUp">
+                  <div className="ff-vibe-stat">
+                    <div className="ff-vibe-stat-num">10+</div>
+                    <div className="ff-vibe-stat-label">3D térkép</div>
+                  </div>
+                </RevealChild>
+                <RevealChild variant="scaleUp">
+                  <div className="ff-vibe-stat">
+                    <div className="ff-vibe-stat-num">23</div>
+                    <div className="ff-vibe-stat-label">Szolgáltató</div>
+                  </div>
+                </RevealChild>
+              </RevealGroup>
             </div>
+          </RevealChild>
 
+          <RevealChild variant="scaleUp">
             <div className="ff-vibe-browser">
               <div className="ff-vibe-browser-bar">
                 <div className="ff-vibe-browser-dot" />
@@ -288,8 +300,8 @@ export function VibeCodingSection() {
                 />
               </div>
             </div>
-          </div>
-        </Reveal>
+          </RevealChild>
+        </RevealGroup>
 
         <Reveal delay={0.25}>
           <div className="ff-vibe-cta">
@@ -317,22 +329,28 @@ export function TrustSection() {
     <section className="ff-section sunken" ref={sectionRef}>
       <div className="ff-container">
         <div className="ff-trust">
-          <div className="illo">
+          <Reveal variant="scaleUp" className="illo">
             <div className="wash" />
             <motion.img
               src="/assets/illustrations/ai-brain-head.avif"
               alt="22.design senior team"
               style={{ y: useTransform(scrollYProgress, [0, 1], [40, -40]) }}
             />
-          </div>
+          </Reveal>
           <div className="text">
-            <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)', marginBottom: 16 }}>KIK VAGYUNK?</div>
-            <h3>100% SENIOR.<br />0% KAMU.</h3>
-            <p>
-              Bár a technológia no-code, a minőség mögött a 22.design tapasztalt
-              UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek
-              gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
-            </p>
+            <Reveal variant="eyebrow">
+              <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)', marginBottom: 16 }}>KIK VAGYUNK?</div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h3>100% SENIOR.<br />0% KAMU.</h3>
+            </Reveal>
+            <Reveal delay={0.2} variant="fadeIn">
+              <p>
+                Bár a technológia no-code, a minőség mögött a 22.design tapasztalt
+                UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek
+                gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
+              </p>
+            </Reveal>
             <div className="quote">
               <motion.span
                 style={{ fontSize: '3em', lineHeight: 1, display: 'block', marginBottom: 8, fontFamily: 'var(--ff-display)' }}
@@ -373,7 +391,9 @@ export function TrustSection() {
                   </motion.span>
                 ))}
               </motion.div>
-              <div className="who">— Zsófi Nagy, Head of Ecommerce, REGIO Játék</div>
+              <Reveal delay={0.15} variant="fadeIn">
+                <div className="who">— Zsófi Nagy, Head of Ecommerce, REGIO Játék</div>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -598,20 +618,30 @@ export function FinalCTA() {
   return (
     <section className="ff-section paper" id="final" data-cursor="cta">
       <div className="ff-container">
-        <Reveal>
-          <div className="ff-final-cta">
+        <div className="ff-final-cta">
+          <Reveal variant="scaleUp">
             <div className="stamp"><FFStamp onDark={true} /></div>
+          </Reveal>
+          <Reveal delay={0.1} variant="scaleUp">
             <img src="/assets/illustrations/ok-hand-type.avif" className="illo" alt="" />
+          </Reveal>
+          <Reveal delay={0.2}>
             <h2>HA NEMCSAK <span className="orange">SZÉP DIZÁJNT</span>,<br />HANEM <span className="hot">KONVERZIÓNÖVEKEDÉST</span> IS<br />SZERETNÉL: <span className="hot">ITT KEZDJÜK</span>.</h2>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
+          </Reveal>
+          <RevealGroup stagger={0.1} style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
+            <RevealChild variant="scaleUp">
               <FFButton variant="white" icon={<Arrow />}>Indítsuk el a projekted</FFButton>
+            </RevealChild>
+            <RevealChild variant="scaleUp">
               <FFButton variant="orange" icon={<ArrowUpRight />}>Nézd meg a munkáinkat</FFButton>
-            </div>
+            </RevealChild>
+          </RevealGroup>
+          <Reveal delay={0.4} variant="fadeIn">
             <div style={{ marginTop: 32, fontSize: 13, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 800 }}>
               ingyenes 30 perces konzultáció · nincs kötelezettség · budapesti csapat
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -661,10 +691,12 @@ export function Footer() {
             </div>
           </RevealChild>
         </RevealGroup>
-        <div className="ff-footer-bottom">
-          <span>© 2025 22 Média és Design Stúdió Kft. — all rights reserved.</span>
-          <span>Adatvédelmi tájékoztató · ÁSZF</span>
-        </div>
+        <Reveal variant="fadeIn" delay={0.2}>
+          <div className="ff-footer-bottom">
+            <span>© 2025 22 Média és Design Stúdió Kft. — all rights reserved.</span>
+            <span>Adatvédelmi tájékoztató · ÁSZF</span>
+          </div>
+        </Reveal>
       </div>
     </footer>
   );

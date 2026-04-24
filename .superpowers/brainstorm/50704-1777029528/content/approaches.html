@@ -1,0 +1,310 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Big+Shoulders+Display:wght@700;800;900&family=Titillium+Web:wght@300;400;600;700;900&family=Indie+Flower&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  h2 { font-family: 'Archivo Black', sans-serif; font-size: 28px; margin-bottom: 8px; }
+  .subtitle { font-family: 'Titillium Web', sans-serif; color: #828282; font-size: 16px; margin-bottom: 32px; }
+  h3 { font-family: 'Archivo Black', sans-serif; font-size: 18px; margin-bottom: 6px; }
+  p, li { font-family: 'Titillium Web', sans-serif; font-size: 15px; line-height: 1.5; }
+
+  .cards { display: flex; flex-direction: column; gap: 28px; }
+
+  .card {
+    border: 2px solid #222;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: 8px 8px 0 0 #000; transform: translate(-2px, -2px); }
+  .card.selected { box-shadow: 8px 8px 0 0 #9747FF; border-color: #9747FF; }
+
+  .card-preview {
+    width: 100%;
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-body { padding: 20px 24px 24px; background: #fff; }
+  .card-body h3 { margin-bottom: 4px; }
+  .card-body .tag {
+    display: inline-block;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .card-body .tag.rec { background: #9747FF; color: white; }
+  .card-body .tag.alt { background: #F2F2F2; color: #666; }
+  .card-body p { color: #475569; margin-bottom: 10px; }
+  .card-body ul { padding-left: 18px; color: #475569; }
+  .card-body li { margin-bottom: 4px; }
+
+  /* ── APPROACH A: Emerald Deep ── */
+  .preview-a {
+    background: linear-gradient(160deg, #064E3B 0%, #0A2F1F 60%, #0F1B3D 100%);
+    flex-direction: column;
+    padding: 32px;
+    gap: 16px;
+  }
+  .preview-a .eyebrow {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #4BC292;
+  }
+  .preview-a .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: #4BC292;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .preview-a .headline {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    color: #fff;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .preview-a .headline em {
+    font-style: normal;
+    color: #4BC292;
+  }
+  .preview-a .body-text {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+  .preview-a .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .preview-a .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    color: #4BC292;
+  }
+  .preview-a .stat-label {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── APPROACH B: Warm Amber ── */
+  .preview-b {
+    background: linear-gradient(160deg, #78350F 0%, #451A03 60%, #1C1917 100%);
+    flex-direction: column;
+    padding: 32px;
+    gap: 16px;
+  }
+  .preview-b .eyebrow {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #F59E0B;
+  }
+  .preview-b .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: #F59E0B;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .preview-b .headline {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    color: #fff;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .preview-b .headline em {
+    font-style: normal;
+    color: #FBBF24;
+  }
+  .preview-b .body-text {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+  .preview-b .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .preview-b .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    color: #FBBF24;
+  }
+  .preview-b .stat-label {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── APPROACH C: Cool Slate-Teal ── */
+  .preview-c {
+    background: linear-gradient(160deg, #134E4A 0%, #0F2B33 60%, #0C1220 100%);
+    flex-direction: column;
+    padding: 32px;
+    gap: 16px;
+  }
+  .preview-c .eyebrow {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #2DD4BF;
+  }
+  .preview-c .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: #2DD4BF;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .preview-c .headline {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    color: #fff;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .preview-c .headline em {
+    font-style: normal;
+    color: #2DD4BF;
+  }
+  .preview-c .body-text {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+  .preview-c .stats-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .preview-c .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    color: #2DD4BF;
+  }
+  .preview-c .stat-label {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+</style>
+
+<h2>Pick a Color Territory</h2>
+<p class="subtitle">Each approach uses a background color that doesn't exist elsewhere on your page — signaling "this is different." Same neobrutalist styling, same layout conventions. Click to select.</p>
+
+<div class="cards">
+
+  <!-- APPROACH A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-preview preview-a">
+      <div class="eyebrow">Nem minden projekthez kell Framer</div>
+      <div class="headline">Néha az <em>egyszerűbb</em> döntés a jó döntés</div>
+      <div class="body-text">Framer ügynökség vagyunk. De amikor egy ügyfél 150 oldalas interaktív piackutatást kér tele 3D térképekkel és élő grafikonokkal — nem erőltetjük a Framert.</div>
+      <div class="stats-row">
+        <div><div class="stat-num">150+</div><div class="stat-label">Oldal</div></div>
+        <div><div class="stat-num">100+</div><div class="stat-label">Grafikon</div></div>
+        <div><div class="stat-num">10+</div><div class="stat-label">3D térkép</div></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <span class="tag rec">Recommended</span>
+      <h3>A) Emerald Deep</h3>
+      <p>Deep forest green → midnight gradient. The mint accent (#4BC292) already exists in your palette but has never been used as a section-defining color — it reads as "data/analytical" and creates a strong break from the violet/orange warmth of the rest of the page.</p>
+      <ul>
+        <li>Signals: precision, intelligence, analytical depth</li>
+        <li>Contrast: warm violet hero → cool emerald = visual surprise</li>
+        <li>The green connects subtly to "growth through data"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- APPROACH B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-preview preview-b">
+      <div class="eyebrow">Nem minden projekthez kell Framer</div>
+      <div class="headline">Néha az <em>egyszerűbb</em> döntés a jó döntés</div>
+      <div class="body-text">Framer ügynökség vagyunk. De amikor egy ügyfél 150 oldalas interaktív piackutatást kér tele 3D térképekkel és élő grafikonokkal — nem erőltetjük a Framert.</div>
+      <div class="stats-row">
+        <div><div class="stat-num">150+</div><div class="stat-label">Oldal</div></div>
+        <div><div class="stat-num">100+</div><div class="stat-label">Grafikon</div></div>
+        <div><div class="stat-num">10+</div><div class="stat-label">3D térkép</div></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <span class="tag alt">Alternative</span>
+      <h3>B) Warm Amber</h3>
+      <p>Deep amber/brown → charcoal gradient. Leverages the mustard tokens already in your palette but pushes them darker. Feels premium and editorial, like a financial report cover.</p>
+      <ul>
+        <li>Signals: authority, premium quality, business intelligence</li>
+        <li>Risk: amber is close to your existing orange — may not feel "different enough"</li>
+        <li>Works well if PhenoGyde's brand leans warm</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- APPROACH C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-preview preview-c">
+      <div class="eyebrow">Nem minden projekthez kell Framer</div>
+      <div class="headline">Néha az <em>egyszerűbb</em> döntés a jó döntés</div>
+      <div class="body-text">Framer ügynökség vagyunk. De amikor egy ügyfél 150 oldalas interaktív piackutatást kér tele 3D térképekkel és élő grafikonokkal — nem erőltetjük a Framert.</div>
+      <div class="stats-row">
+        <div><div class="stat-num">150+</div><div class="stat-label">Oldal</div></div>
+        <div><div class="stat-num">100+</div><div class="stat-label">Grafikon</div></div>
+        <div><div class="stat-num">10+</div><div class="stat-label">3D térkép</div></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <span class="tag alt">Alternative</span>
+      <h3>C) Cool Slate-Teal</h3>
+      <p>Deep teal → dark navy gradient. The most "tech/data dashboard" feeling. Close to your existing midnight but with a distinct teal shift that separates it.</p>
+      <ul>
+        <li>Signals: technology, dashboards, modern data tools</li>
+        <li>Risk: teal-to-navy may feel too close to the existing dark section (#0F1B3D)</li>
+        <li>Safest choice — subtle differentiation</li>
+      </ul>
+    </div>
+  </div>
+
+</div>

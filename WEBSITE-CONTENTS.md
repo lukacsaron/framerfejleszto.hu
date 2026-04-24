@@ -223,3 +223,11 @@ Közösségi: Facebook · LinkedIn · Instagram
 - +36 30 000 0000
 
 **Jogi:** © 2025 22 Média és Design Stúdió Kft. — all rights reserved. · Adatvédelmi tájékoztató · ÁSZF
+
+
+
+-----------
+1. Animációk, amik miatt kiemelkedő tud lenni
+2. Régi módszer <-> új módszer
+3. Saját üzemeltetés / informatikus vs. cloud service
+4. 

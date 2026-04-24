@@ -25,3 +25,11 @@ export const Rocket = (p) => (
 export const Pencil = (p) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" {...p}><path d="M4 20l4-1L19 8l-3-3L5 16l-1 4z"/><path d="M14 6l4 4"/></svg>
 );
+
+export const Sparkle = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+);
+
+export const Cloud = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" {...p}><path d="M18 10a4 4 0 014 4 4 4 0 01-4 4H7a5 5 0 01-5-5 5 5 0 015-5h.1A7 7 0 0114 5a7 7 0 014 5z"/></svg>
+);
