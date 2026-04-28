@@ -71,6 +71,7 @@
   // ── Mode ─────────────────────────────────────────────────
 
   function cycleMode() {
+    if (inlineEdit) closeInlineEdit({ save: false });
     if (mode === null) mode = 'inline';
     else if (mode === 'inline') mode = 'edit';
     else if (mode === 'edit') mode = 'annotate';
@@ -300,8 +301,12 @@
   // ── Inline Edit ──────────────────────────────────────────
 
   function openInlineEdit(target) {
-    // If another inline edit is open, close it first (commits or cancels per blur path)
-    if (inlineEdit) closeInlineEdit({ save: false });
+    // If we're already editing this exact element, do nothing — clicking back
+    // into your own active edit shouldn't lose your in-progress text.
+    if (inlineEdit && inlineEdit.target === target) return;
+    // If a different edit is open, save it (matches spec: "Clicking a different
+    // editable element commits the current edit via blur, then opens the new one").
+    if (inlineEdit) closeInlineEdit({ save: true });
 
     var file = target.getAttribute('data-live-file');
     var line = target.getAttribute('data-live-line') || '1';
@@ -388,7 +393,20 @@
         if (data.ok) {
           flashOutline(t, '#66bb6a');
           setSourcePillState(ie.sourcePill, 'saved');
-          setTimeout(function () { teardownInlineUI(ie); }, 600);
+          setTimeout(function () {
+            // If a newer edit took over while we were waiting, only tear down THIS
+            // edit's per-element resources — leave the global window listeners in place
+            // so the successor's repositioning still works.
+            if (inlineEdit && inlineEdit !== ie) {
+              if (ie.observer) ie.observer.disconnect();
+              ie.target.removeAttribute('data-live-editing');
+              if (ie.sourcePill && ie.sourcePill.parentNode) {
+                ie.sourcePill.parentNode.removeChild(ie.sourcePill);
+              }
+            } else {
+              teardownInlineUI(ie);
+            }
+          }, 600);
         } else {
           flashOutline(t, '#ef5350');
           setSourcePillState(ie.sourcePill, 'error', data.error || 'Save failed');
