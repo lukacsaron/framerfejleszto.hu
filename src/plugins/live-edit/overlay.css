@@ -87,6 +87,18 @@
   outline-color: var(--le-accent-annotate);
 }
 
+[data-live-edit-active="inline"] [data-live-file]:hover {
+  cursor: text;
+}
+
+[data-live-edit-active="inline"] [data-live-file][data-live-text]:hover {
+  cursor: pointer;
+}
+
+[data-live-edit-active="edit"] [data-live-file]:hover {
+  outline-color: var(--le-accent-popover);
+}
+
 .le-popover {
   position: fixed;
   z-index: 100000;
