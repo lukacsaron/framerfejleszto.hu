@@ -433,7 +433,17 @@
   }
 
   function handleInlineBlur() {
-    if (inlineEdit) closeInlineEdit({ save: true });
+    if (!inlineEdit) return;
+    if (inlineEdit.suppressBlurSave) {
+      inlineEdit.suppressBlurSave = false;
+      // Re-focus on next tick so the user stays in the edit
+      var t = inlineEdit.target;
+      setTimeout(function () {
+        if (inlineEdit && inlineEdit.target === t) t.focus();
+      }, 0);
+      return;
+    }
+    closeInlineEdit({ save: true });
   }
 
   function handleInlinePaste(e) {
@@ -448,8 +458,11 @@
     pill.className = 'le-source-pill';
     pill.href = editorUrl(file, line, col);
     pill.textContent = file + ':' + line;
-    // Stash the default label so setSourcePillState can restore it after error states.
     pill.dataset.defaultText = file + ':' + line;
+    // Prevent the blur-save when the user clicks the pill itself.
+    pill.addEventListener('mousedown', function (e) {
+      if (inlineEdit) inlineEdit.suppressBlurSave = true;
+    });
     document.body.appendChild(pill);
     return pill;
   }
