@@ -319,6 +319,7 @@
 
     target.addEventListener('keydown', handleInlineKeydown);
     target.addEventListener('blur', handleInlineBlur);
+    target.addEventListener('paste', handleInlinePaste);
   }
 
   function closeInlineEdit(opts) {
@@ -328,6 +329,7 @@
 
     t.removeEventListener('keydown', handleInlineKeydown);
     t.removeEventListener('blur', handleInlineBlur);
+    t.removeEventListener('paste', handleInlinePaste);
 
     if (!opts || !opts.save) {
       t.textContent = original;
@@ -354,6 +356,12 @@
   function handleInlineBlur() {
     // Blur path becomes save-on-blur in Task 6. For now, just close without saving.
     if (inlineEdit) closeInlineEdit({ save: false });
+  }
+
+  function handleInlinePaste(e) {
+    e.preventDefault();
+    var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
   }
 
   function createSourcePill(file, line, col) {
