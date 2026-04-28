@@ -10,6 +10,7 @@
   var pill = null;
   var popover = null;
   var activeTarget = null;
+  var inlineEdit = null; // { target, originalText, sourcePill, observer } | null
 
   // ── Helpers ──────────────────────────────────────────────
 
@@ -299,8 +300,92 @@
   // ── Inline Edit ──────────────────────────────────────────
 
   function openInlineEdit(target) {
-    // Stub — full implementation in later tasks
-    console.log('[live-edit] openInlineEdit', target);
+    // If another inline edit is open, close it first (commits or cancels per blur path)
+    if (inlineEdit) closeInlineEdit({ save: false });
+
+    var file = target.getAttribute('data-live-file');
+    var line = target.getAttribute('data-live-line') || '1';
+    var col = target.getAttribute('data-live-col') || '1';
+    var originalText = getDirectText(target);
+
+    target.setAttribute('contenteditable', 'true');
+    target.setAttribute('data-live-editing', '');
+    target.focus();
+
+    var sourcePill = createSourcePill(file, line, col);
+    positionSourcePill(sourcePill, target);
+
+    inlineEdit = { target: target, originalText: originalText, file: file, line: line, col: col, sourcePill: sourcePill };
+
+    target.addEventListener('keydown', handleInlineKeydown);
+    target.addEventListener('blur', handleInlineBlur);
+  }
+
+  function closeInlineEdit(opts) {
+    if (!inlineEdit) return;
+    var t = inlineEdit.target;
+    var original = inlineEdit.originalText;
+
+    t.removeEventListener('keydown', handleInlineKeydown);
+    t.removeEventListener('blur', handleInlineBlur);
+
+    if (!opts || !opts.save) {
+      t.textContent = original;
+    }
+
+    t.removeAttribute('contenteditable');
+    t.removeAttribute('data-live-editing');
+
+    if (inlineEdit.sourcePill && inlineEdit.sourcePill.parentNode) {
+      inlineEdit.sourcePill.parentNode.removeChild(inlineEdit.sourcePill);
+    }
+
+    inlineEdit = null;
+  }
+
+  function handleInlineKeydown(e) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeInlineEdit({ save: false });
+    }
+    // Cmd+Enter handler comes in Task 6
+  }
+
+  function handleInlineBlur() {
+    // Blur path becomes save-on-blur in Task 6. For now, just close without saving.
+    if (inlineEdit) closeInlineEdit({ save: false });
+  }
+
+  function createSourcePill(file, line, col) {
+    var pill = document.createElement('a');
+    pill.setAttribute('data-live-edit-overlay', '');
+    pill.className = 'le-source-pill';
+    pill.href = editorUrl(file, line, col);
+    pill.textContent = file + ':' + line;
+    // Stash the default label so setSourcePillState can restore it after error states.
+    pill.dataset.defaultText = file + ':' + line;
+    document.body.appendChild(pill);
+    return pill;
+  }
+
+  function positionSourcePill(pill, target) {
+    var rect = target.getBoundingClientRect();
+    // Default: above the target, left-aligned
+    var top = rect.top - 28;
+    var left = rect.left;
+
+    // If no room above, place below
+    if (top < 8) {
+      top = rect.bottom + 8;
+    }
+    // Keep within viewport
+    if (left + 200 > window.innerWidth) {
+      left = window.innerWidth - 200;
+    }
+    if (left < 8) left = 8;
+
+    pill.style.top = top + 'px';
+    pill.style.left = left + 'px';
   }
 
   // ── Event Handlers ───────────────────────────────────────
@@ -368,6 +453,9 @@
 
   function handleEscape(e) {
     if (e.key !== 'Escape') return;
+
+    // Inline edit Escape is handled by the element's own keydown listener
+    if (inlineEdit) return;
 
     if (popover && popover.classList.contains('visible')) {
       closePopover();

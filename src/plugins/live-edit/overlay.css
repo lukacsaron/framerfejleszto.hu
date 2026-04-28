@@ -99,6 +99,35 @@
   outline-color: var(--le-accent-popover);
 }
 
+[data-live-editing] {
+  outline: 2px solid var(--le-accent-edit) !important;
+  outline-offset: 2px;
+  background: rgba(79, 195, 247, 0.06);
+  border-radius: 2px;
+}
+
+.le-source-pill {
+  position: fixed;
+  z-index: 100000;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--le-bg);
+  border: 1px solid var(--le-border);
+  border-radius: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--le-accent-edit);
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.le-source-pill:hover {
+  text-decoration: underline;
+}
+
 .le-popover {
   position: fixed;
   z-index: 100000;
