@@ -367,7 +367,22 @@
         } else {
           flashOutline(t, '#ef5350');
           setSourcePillState(ie.sourcePill, 'error', data.error || 'Save failed');
-          // Restore editability so the user can retry
+          // Restore editability so the user can retry — but only if a newer edit
+          // hasn't started in the meantime (which would have set inlineEdit !== null).
+          if (inlineEdit === null) {
+            t.setAttribute('contenteditable', 'true');
+            t.setAttribute('data-live-editing', '');
+            inlineEdit = ie;
+            t.addEventListener('keydown', handleInlineKeydown);
+            t.addEventListener('blur', handleInlineBlur);
+            t.addEventListener('paste', handleInlinePaste);
+          }
+        }
+      })
+      .catch(function (err) {
+        flashOutline(t, '#ef5350');
+        setSourcePillState(ie.sourcePill, 'error', (err && err.message) || 'Network error');
+        if (inlineEdit === null) {
           t.setAttribute('contenteditable', 'true');
           t.setAttribute('data-live-editing', '');
           inlineEdit = ie;
@@ -375,16 +390,6 @@
           t.addEventListener('blur', handleInlineBlur);
           t.addEventListener('paste', handleInlinePaste);
         }
-      })
-      .catch(function (err) {
-        flashOutline(t, '#ef5350');
-        setSourcePillState(ie.sourcePill, 'error', err.message);
-        t.setAttribute('contenteditable', 'true');
-        t.setAttribute('data-live-editing', '');
-        inlineEdit = ie;
-        t.addEventListener('keydown', handleInlineKeydown);
-        t.addEventListener('blur', handleInlineBlur);
-        t.addEventListener('paste', handleInlinePaste);
       });
   }
 
@@ -397,9 +402,12 @@
   }
 
   function flashOutline(el, color) {
-    var prev = el.style.outline;
-    el.style.outline = '2px solid ' + color;
-    setTimeout(function () { el.style.outline = prev; }, 600);
+    var prev = el.style.getPropertyValue('outline');
+    var prevPriority = el.style.getPropertyPriority('outline');
+    el.style.setProperty('outline', '2px solid ' + color, 'important');
+    setTimeout(function () {
+      el.style.setProperty('outline', prev, prevPriority);
+    }, 600);
   }
 
   function setSourcePillState(pill, state, message) {
