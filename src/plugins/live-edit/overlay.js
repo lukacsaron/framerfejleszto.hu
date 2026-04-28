@@ -23,8 +23,13 @@
     return editor + '://file/' + root + '/' + file + ':' + (line || 1) + ':' + (col || 1);
   }
 
-  // Get only the element's own direct text nodes, not text from children
+  // Get the element's text. Components that render their text into nested
+  // spans (e.g. typewriter splits chars into per-character motion.spans) can
+  // expose the canonical text via a `data-live-text` attribute. Otherwise we
+  // collect only direct text nodes so we don't grab text from nested children.
   function getDirectText(el) {
+    var override = el.getAttribute('data-live-text');
+    if (override !== null) return override;
     var text = '';
     for (var i = 0; i < el.childNodes.length; i++) {
       if (el.childNodes[i].nodeType === 3) { // Node.TEXT_NODE
@@ -289,13 +294,29 @@
 
   // ── Event Handlers ───────────────────────────────────────
 
+  // Walk up the DOM looking for an element with [data-live-file] that
+  // doesn't have [data-live-edit-skip]. We do this manually instead of using
+  // `closest('[data-live-file]:not([data-live-edit-skip])')` because some
+  // browsers/engines mis-handle the `:not` attribute filter and end up
+  // matching skipped elements (e.g. per-character spans inside typewriter
+  // headlines).
+  function findEditableAncestor(el) {
+    while (el && el.nodeType === 1) {
+      if (el.hasAttribute('data-live-file') && !el.hasAttribute('data-live-edit-skip')) {
+        return el;
+      }
+      el = el.parentElement;
+    }
+    return null;
+  }
+
   function handleClick(e) {
     if (!mode) return;
 
     // Ignore clicks on the overlay itself
     if (e.target.closest('[data-live-edit-overlay]')) return;
 
-    var target = e.target.closest('[data-live-file]');
+    var target = findEditableAncestor(e.target);
     if (!target) return;
 
     e.preventDefault();
