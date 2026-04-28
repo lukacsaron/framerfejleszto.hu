@@ -5,6 +5,7 @@
   --le-text-muted: rgba(255, 255, 255, 0.5);
   --le-accent-edit: #4fc3f7;
   --le-accent-annotate: #ffb74d;
+  --le-accent-popover: #ba68c8;
   --le-radius: 10px;
   --le-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-family: var(--le-font);
@@ -35,9 +36,14 @@
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.le-pill[data-mode="edit"] {
+.le-pill[data-mode="inline"] {
   border-color: var(--le-accent-edit);
   box-shadow: 0 0 12px rgba(79, 195, 247, 0.2);
+}
+
+.le-pill[data-mode="edit"] {
+  border-color: var(--le-accent-popover);
+  box-shadow: 0 0 12px rgba(186, 104, 200, 0.2);
 }
 
 .le-pill[data-mode="annotate"] {
@@ -53,7 +59,8 @@
   transition: background 0.15s;
 }
 
-.le-pill[data-mode="edit"] .le-pill-dot { background: var(--le-accent-edit); }
+.le-pill[data-mode="inline"] .le-pill-dot { background: var(--le-accent-edit); }
+.le-pill[data-mode="edit"] .le-pill-dot { background: var(--le-accent-popover); }
 .le-pill[data-mode="annotate"] .le-pill-dot { background: var(--le-accent-annotate); }
 
 .le-pill-label {

@@ -6,7 +6,7 @@
   var editor = cfg.editor || 'vscode';
   var root = cfg.root || '';
 
-  var mode = null; // null | 'edit' | 'annotate'
+  var mode = null; // null | 'inline' | 'edit' | 'annotate'
   var pill = null;
   var popover = null;
   var activeTarget = null;
@@ -61,7 +61,8 @@
     if (!pill) return;
     pill.setAttribute('data-mode', mode || '');
     var label = pill.querySelector('.le-pill-label');
-    if (mode === 'edit') label.textContent = 'Edit Mode';
+    if (mode === 'inline') label.textContent = 'Inline Edit';
+    else if (mode === 'edit') label.textContent = 'Edit Mode';
     else if (mode === 'annotate') label.textContent = 'Annotate';
     else label.textContent = 'Live Edit';
   }
@@ -69,7 +70,8 @@
   // ── Mode ─────────────────────────────────────────────────
 
   function cycleMode() {
-    if (mode === null) mode = 'edit';
+    if (mode === null) mode = 'inline';
+    else if (mode === 'inline') mode = 'edit';
     else if (mode === 'edit') mode = 'annotate';
     else mode = null;
     applyMode();
@@ -88,7 +90,9 @@
 
   function updateQueryParam() {
     var url = new URL(window.location.href);
-    if (mode === 'edit') {
+    if (mode === 'inline') {
+      url.searchParams.set('live-edit', 'inline');
+    } else if (mode === 'edit') {
       url.searchParams.set('live-edit', 'true');
     } else if (mode === 'annotate') {
       url.searchParams.set('live-edit', 'annotate');
@@ -370,7 +374,10 @@
     // Check query param for initial mode
     var params = new URLSearchParams(window.location.search);
     var leParam = params.get('live-edit');
-    if (leParam === 'annotate') {
+    if (leParam === 'inline') {
+      mode = 'inline';
+      applyMode();
+    } else if (leParam === 'annotate') {
       mode = 'annotate';
       applyMode();
     } else if (leParam === 'true' || leParam === '1') {
