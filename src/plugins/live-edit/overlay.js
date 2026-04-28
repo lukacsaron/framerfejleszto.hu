@@ -315,14 +315,36 @@
     var sourcePill = createSourcePill(file, line, col);
     positionSourcePill(sourcePill, target);
 
-    inlineEdit = { target: target, originalText: originalText, file: file, line: line, col: col, sourcePill: sourcePill };
-
-    window.addEventListener('scroll', repositionInlineUI, true);
-    window.addEventListener('resize', repositionInlineUI);
-
     target.addEventListener('keydown', handleInlineKeydown);
     target.addEventListener('blur', handleInlineBlur);
     target.addEventListener('paste', handleInlinePaste);
+
+    var observer = new MutationObserver(function (mutations) {
+      if (!inlineEdit) return;
+      for (var i = 0; i < mutations.length; i++) {
+        var m = mutations[i];
+        // Ignore character-data mutations from the user typing
+        if (m.type === 'characterData') continue;
+        if (m.type === 'childList') {
+          // The user typing inserts text nodes; only react if a non-text child appears
+          // OR if our target is removed from the DOM (parent re-render replaced it).
+          var nonText = false;
+          for (var j = 0; j < m.addedNodes.length; j++) {
+            if (m.addedNodes[j].nodeType !== 3) { nonText = true; break; }
+          }
+          if (nonText || !document.body.contains(target)) {
+            closeInlineEdit({ save: false });
+            return;
+          }
+        }
+      }
+    });
+    observer.observe(target, { childList: true, characterData: true, subtree: false });
+
+    inlineEdit = { target: target, originalText: originalText, file: file, line: line, col: col, sourcePill: sourcePill, observer: observer };
+
+    window.addEventListener('scroll', repositionInlineUI, true);
+    window.addEventListener('resize', repositionInlineUI);
   }
 
   function closeInlineEdit(opts) {
@@ -397,6 +419,7 @@
   }
 
   function teardownInlineUI(ie) {
+    if (ie.observer) ie.observer.disconnect();
     window.removeEventListener('scroll', repositionInlineUI, true);
     window.removeEventListener('resize', repositionInlineUI);
 
