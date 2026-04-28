@@ -128,6 +128,10 @@
   text-decoration: underline;
 }
 
+.le-source-pill.saving { color: var(--le-text-muted); }
+.le-source-pill.saved { color: #66bb6a; }
+.le-source-pill.error { color: #ef5350; border-color: #ef5350; }
+
 .le-popover {
   position: fixed;
   z-index: 100000;

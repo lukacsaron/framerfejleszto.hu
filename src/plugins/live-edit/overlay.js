@@ -324,38 +324,108 @@
 
   function closeInlineEdit(opts) {
     if (!inlineEdit) return;
-    var t = inlineEdit.target;
-    var original = inlineEdit.originalText;
+    var ie = inlineEdit;
+    // Mark closed first so re-entrancy from blur events during save is a no-op
+    inlineEdit = null;
 
+    var t = ie.target;
     t.removeEventListener('keydown', handleInlineKeydown);
     t.removeEventListener('blur', handleInlineBlur);
     t.removeEventListener('paste', handleInlinePaste);
 
-    if (!opts || !opts.save) {
-      t.textContent = original;
+    var newText = (t.textContent || '').trim();
+    var oldText = ie.originalText;
+    var shouldSave = opts && opts.save && newText.length > 0 && newText !== oldText;
+
+    if (!shouldSave) {
+      t.textContent = oldText;
+      teardownInlineUI(ie);
+      return;
     }
 
+    // Visually freeze: pull contentEditable off so the user can't keep typing during save
     t.removeAttribute('contenteditable');
-    t.removeAttribute('data-live-editing');
+    setSourcePillState(ie.sourcePill, 'saving');
 
-    if (inlineEdit.sourcePill && inlineEdit.sourcePill.parentNode) {
-      inlineEdit.sourcePill.parentNode.removeChild(inlineEdit.sourcePill);
+    fetch('/__live-edit/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file: ie.file,
+        line: Number(ie.line),
+        col: Number(ie.col),
+        oldText: oldText,
+        newText: newText,
+      }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.ok) {
+          flashOutline(t, '#66bb6a');
+          setSourcePillState(ie.sourcePill, 'saved');
+          setTimeout(function () { teardownInlineUI(ie); }, 600);
+        } else {
+          flashOutline(t, '#ef5350');
+          setSourcePillState(ie.sourcePill, 'error', data.error || 'Save failed');
+          // Restore editability so the user can retry
+          t.setAttribute('contenteditable', 'true');
+          t.setAttribute('data-live-editing', '');
+          inlineEdit = ie;
+          t.addEventListener('keydown', handleInlineKeydown);
+          t.addEventListener('blur', handleInlineBlur);
+          t.addEventListener('paste', handleInlinePaste);
+        }
+      })
+      .catch(function (err) {
+        flashOutline(t, '#ef5350');
+        setSourcePillState(ie.sourcePill, 'error', err.message);
+        t.setAttribute('contenteditable', 'true');
+        t.setAttribute('data-live-editing', '');
+        inlineEdit = ie;
+        t.addEventListener('keydown', handleInlineKeydown);
+        t.addEventListener('blur', handleInlineBlur);
+        t.addEventListener('paste', handleInlinePaste);
+      });
+  }
+
+  function teardownInlineUI(ie) {
+    ie.target.removeAttribute('contenteditable');
+    ie.target.removeAttribute('data-live-editing');
+    if (ie.sourcePill && ie.sourcePill.parentNode) {
+      ie.sourcePill.parentNode.removeChild(ie.sourcePill);
     }
+  }
 
-    inlineEdit = null;
+  function flashOutline(el, color) {
+    var prev = el.style.outline;
+    el.style.outline = '2px solid ' + color;
+    setTimeout(function () { el.style.outline = prev; }, 600);
+  }
+
+  function setSourcePillState(pill, state, message) {
+    if (!pill) return;
+    pill.classList.remove('saving', 'saved', 'error');
+    if (state) pill.classList.add(state);
+    if (state === 'error' && message) {
+      pill.textContent = message;
+    } else {
+      // Restore the file:line label for non-error states (saving, saved, default).
+      pill.textContent = pill.dataset.defaultText || '';
+    }
   }
 
   function handleInlineKeydown(e) {
     if (e.key === 'Escape') {
       e.preventDefault();
       closeInlineEdit({ save: false });
+    } else if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      closeInlineEdit({ save: true });
     }
-    // Cmd+Enter handler comes in Task 6
   }
 
   function handleInlineBlur() {
-    // Blur path becomes save-on-blur in Task 6. For now, just close without saving.
-    if (inlineEdit) closeInlineEdit({ save: false });
+    if (inlineEdit) closeInlineEdit({ save: true });
   }
 
   function handleInlinePaste(e) {
