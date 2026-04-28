@@ -317,6 +317,9 @@
 
     inlineEdit = { target: target, originalText: originalText, file: file, line: line, col: col, sourcePill: sourcePill };
 
+    window.addEventListener('scroll', repositionInlineUI, true);
+    window.addEventListener('resize', repositionInlineUI);
+
     target.addEventListener('keydown', handleInlineKeydown);
     target.addEventListener('blur', handleInlineBlur);
     target.addEventListener('paste', handleInlinePaste);
@@ -394,6 +397,9 @@
   }
 
   function teardownInlineUI(ie) {
+    window.removeEventListener('scroll', repositionInlineUI, true);
+    window.removeEventListener('resize', repositionInlineUI);
+
     ie.target.removeAttribute('contenteditable');
     ie.target.removeAttribute('data-live-editing');
     if (ie.sourcePill && ie.sourcePill.parentNode) {
@@ -485,6 +491,11 @@
 
     pill.style.top = top + 'px';
     pill.style.left = left + 'px';
+  }
+
+  function repositionInlineUI() {
+    if (!inlineEdit) return;
+    positionSourcePill(inlineEdit.sourcePill, inlineEdit.target);
   }
 
   // ── Event Handlers ───────────────────────────────────────
