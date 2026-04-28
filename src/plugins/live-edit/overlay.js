@@ -296,6 +296,13 @@
       });
   }
 
+  // ── Inline Edit ──────────────────────────────────────────
+
+  function openInlineEdit(target) {
+    // Stub — full implementation in later tasks
+    console.log('[live-edit] openInlineEdit', target);
+  }
+
   // ── Event Handlers ───────────────────────────────────────
 
   // Walk up the DOM looking for an element with [data-live-file] that
@@ -326,7 +333,13 @@
     e.preventDefault();
     e.stopPropagation();
 
-    if (mode === 'edit') {
+    if (mode === 'inline') {
+      if (target.hasAttribute('data-live-text')) {
+        openEditPopover(target);
+      } else {
+        openInlineEdit(target);
+      }
+    } else if (mode === 'edit') {
       openEditPopover(target);
     } else if (mode === 'annotate') {
       openAnnotatePopover(target);
