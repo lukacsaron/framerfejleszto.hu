@@ -209,7 +209,7 @@ export function ProcessSection() {
                 <div className="n">{s.n}</div>
                 <div>
                   <div className="label">{s.label}</div>
-                  <h4>{s.title}</h4>
+                  <h3>{s.title}</h3>
                   <p>{s.desc}</p>
                   <AnimatePresence>
                     {i === open && (
@@ -560,7 +560,7 @@ export function Portfolio() {
                   </div>
                   <div className="meta">
                     <div className="tag">{p.tag}</div>
-                    <h4>{p.title}</h4>
+                    <h3>{p.title}</h3>
                     <p>{p.body}</p>
                     <div className="row">
                       <div className="stat">
@@ -641,7 +641,7 @@ export function FAQSection() {
                     >
                       <Plus />
                     </motion.span>
-                    <h5 style={{ margin: 0 }}>{f.q}</h5>
+                    <h3 style={{ margin: 0 }}>{f.q}</h3>
                   </button>
                   <AnimatePresence>
                     {i === open && (
@@ -720,7 +720,7 @@ export function Footer() {
           </RevealChild>
           <RevealChild>
             <div className="ff-footer-col">
-              <h6>Szolgáltatás</h6>
+              <h3>Szolgáltatás</h3>
               <a href="#">Framer fejlesztés</a>
               <a href="#">Landing oldal</a>
               <a href="#">Microsite</a>
@@ -729,7 +729,7 @@ export function Footer() {
           </RevealChild>
           <RevealChild>
             <div className="ff-footer-col">
-              <h6>22.design</h6>
+              <h3>22.design</h3>
               <a href="#">Fő weboldal</a>
               <a href="#">UX Audit</a>
               <a href="#">Szolgáltatások</a>
@@ -738,7 +738,7 @@ export function Footer() {
           </RevealChild>
           <RevealChild>
             <div className="ff-footer-col">
-              <h6>Kapcsolat</h6>
+              <h3>Kapcsolat</h3>
               <a href="mailto:hello@framerfejleszto.hu">hello@framerfejleszto.hu</a>
               <a href="#">Budapest, Hungary</a>
               <a href="#">+36 30 000 0000</a>

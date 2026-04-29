@@ -286,19 +286,19 @@ export default function HeroA() {
                   <span>Prototype</span>
                   <span>CMS</span>
                 </div>
-                <h6>Layer</h6>
+                <div className="panel-label">Layer</div>
                 <div className="prop"><span>Hero</span><span className="v">Frame</span></div>
                 <div className="prop"><span>W × H</span><span className="v">1440 × 720</span></div>
 
-                <h6>Fill</h6>
+                <div className="panel-label">Fill</div>
                 <div className="prop with-chip"><span className="chip" style={{ background: '#FF6600' }} /><span>#FF6600</span><span className="v">100%</span></div>
                 <div className="prop with-chip"><span className="chip grad" /><span>Linear</span><span className="v">2 stops</span></div>
 
-                <h6>Typography</h6>
+                <div className="panel-label">Typography</div>
                 <div className="prop"><span>Big Shoulders</span><span className="v">900</span></div>
                 <div className="prop"><span>Size · Lead</span><span className="v">72 / 0.95</span></div>
 
-                <h6>Palette</h6>
+                <div className="panel-label">Palette</div>
                 <div className="swatches">
                   <span style={{ background: '#FF6600' }} />
                   <span style={{ background: '#9747FF' }} />
@@ -308,12 +308,12 @@ export default function HeroA() {
                   <span style={{ background: '#FAFAF7', border: '1px solid rgba(255,255,255,0.2)' }} />
                 </div>
 
-                <h6>Effects</h6>
+                <div className="panel-label">Effects</div>
                 <div className="prop"><span>Shadow</span><span className="v">0 30 80</span></div>
                 <div className="prop"><span>Radius</span><span className="v">20</span></div>
 
                 <div className="panel-spacer" />
-                <h6>Publish</h6>
+                <div className="panel-label">Publish</div>
                 <div className="publish">
                   <span className="publish-live">● LIVE</span>
                   <span>framerfejlesztő.hu</span>
@@ -352,7 +352,7 @@ export default function HeroA() {
                     <span className="eb-chip">&#9670; Framer Expert</span>
                     <span className="eb-stars">★★★★★ <b>4.9</b></span>
                   </div>
-                  <h3>Weboldal napok<br />alatt, <em>nem hetek alatt.</em></h3>
+                  <div className="ffA-live-heading">Weboldal napok<br />alatt, <em>nem hetek alatt.</em></div>
                   <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség. Te magad töltöd fel a tartalmat.</p>
                   <div className="cta-row">
                     <span className="mini-cta">Pitchelj minket! →</span>

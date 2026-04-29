@@ -406,7 +406,7 @@ export default function BenefitsRich() {
                 <div className="bdemo-card-head">
                   <div className="ic">{b.icon}</div>
                   <div>
-                    <h4>{b.title}</h4>
+                    <h3>{b.title}</h3>
                     <p>{b.body}</p>
                   </div>
                 </div>
