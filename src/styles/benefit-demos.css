@@ -130,11 +130,11 @@
   background: rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px;
   display: flex; align-items: center; gap: 4px;
   font-family: var(--ff-display); font-size: 22px; letter-spacing: -0.01em;
-  color: #fff; min-height: 56px;
+  color: #fff; height: 56px; overflow: hidden;
   border: 1.5px solid var(--c-violet-500);
   box-shadow: 0 0 0 4px rgba(151,71,255,0.18);
 }
-.bdemo-cms-input .txt { line-height: 1.1; }
+.bdemo-cms-input .txt { line-height: 1.1; white-space: nowrap; }
 .bdemo-cms-input .caret {
   display: inline-block; width: 2px; height: 24px; background: var(--c-orange-500);
   animation: bdemo-blink 1s steps(2) infinite;
@@ -223,7 +223,7 @@
   letter-spacing: 0.06em; flex-shrink: 0;
 }
 .bdemo-marquee.on .bdm-track {
-  animation: bdemo-marquee-scroll 8s linear infinite;
+  animation: bdemo-marquee-scroll 16s linear infinite;
 }
 @keyframes bdemo-marquee-scroll {
   to { transform: translateX(-50%); }

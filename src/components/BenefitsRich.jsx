@@ -85,50 +85,42 @@ function DemoLanding() {
     </div>
   );
 }
+const EDIT_TARGETS = [
+  'Új kampány indul kedden',
+  'Black Friday — 50% akció',
+  'Új termékkollekció 2026',
+];
+
 function DemoEdit() {
   const [ref, inView] = useInView();
-  const [text, setText] = useState('Új kampány indul kedden');
-  const [editing, setEditing] = useState(false);
-  const [phase, setPhase] = useState(0); // 0=idle, 1=delete, 2=type
-  const targets = [
-    'Új kampány indul kedden',
-    'Black Friday — most 50% kedvezmény',
-    'Új termékkollekció: Tavasz 2026',
-  ];
-  const idx = useRef(0);
+  const [idx, setIdx] = useState(0);
+  const [text, setText] = useState(EDIT_TARGETS[0]);
+  const [phase, setPhase] = useState('idle'); // idle | deleting | typing
 
   useEffect(() => {
     if (!inView) return;
+    const target = EDIT_TARGETS[idx];
     let timer;
-    const tick = () => {
-      const target = targets[idx.current];
-      setText(prev => {
-        if (prev === target) {
-          timer = setTimeout(() => {
-            idx.current = (idx.current + 1) % targets.length;
-            setEditing(true); setPhase(1);
-            tick();
-          }, 1700);
-          return prev;
-        }
-        if (phase === 1) {
-          if (prev.length === 0) { setPhase(2); return prev; }
-          timer = setTimeout(tick, 35);
-          return prev.slice(0, -1);
-        }
-        if (prev.length < target.length) {
-          timer = setTimeout(tick, 60);
-          return target.slice(0, prev.length + 1);
-        }
-        timer = setTimeout(() => { setEditing(false); }, 800);
-        return prev;
-      });
-    };
-    timer = setTimeout(tick, 600);
-    return () => { clearTimeout(timer); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, phase]);
+    if (phase === 'idle') {
+      timer = setTimeout(() => setPhase('deleting'), 2200);
+    } else if (phase === 'deleting') {
+      if (text.length === 0) {
+        setIdx((i) => (i + 1) % EDIT_TARGETS.length);
+        setPhase('typing');
+      } else {
+        timer = setTimeout(() => setText((t) => t.slice(0, -1)), 55);
+      }
+    } else if (phase === 'typing') {
+      if (text === target) {
+        setPhase('idle');
+      } else {
+        timer = setTimeout(() => setText(target.slice(0, text.length + 1)), 90);
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [inView, phase, text, idx]);
 
+  const editing = phase !== 'idle';
   return (
     <div ref={ref} className="bdemo bdemo-edit">
       <div className="bdemo-cms">
@@ -211,8 +203,12 @@ function DemoAnimations() {
         <div className="bdemo-anim-cell">
           <div className={`bdemo-marquee ${inView ? 'on' : ''}`}>
             <div className="bdm-track">
-              <span>FRAMER</span><span>★</span><span>22!</span><span>HUNGARY</span>
-              <span>FRAMER</span><span>★</span><span>22!</span><span>HUNGARY</span>
+              {Array.from({ length: 4 }).flatMap((_, copy) => [
+                <span key={`f${copy}`}>FRAMER</span>,
+                <span key={`s${copy}`}>★</span>,
+                <span key={`t${copy}`}>22!</span>,
+                <span key={`h${copy}`}>HUNGARY</span>,
+              ])}
             </div>
           </div>
           <span className="bdemo-anim-tag">Marquee</span>
@@ -227,7 +223,7 @@ function DemoPricing() {
   const items = [
     { label: 'Hagyományos ügynökség', amount: 8500000, fill: 1,    color: 'var(--c-slate-400)' },
     { label: 'In-house dev + designer', amount: 4200000, fill: 0.49, color: 'var(--c-slate-500)' },
-    { label: 'framerfejlesztő.hu',     amount: 950000,  fill: 0.11, color: 'var(--c-orange-600)', highlight: true },
+    { label: 'framerfejlesztő.hu',     amount: 1950000,  fill: 0.23, color: 'var(--c-orange-600)', highlight: true },
   ];
   const fmt = (n) => n.toLocaleString('hu-HU') + ' Ft';
   return (
@@ -256,7 +252,7 @@ function DemoPricing() {
         ))}
       </div>
       <div className="bdemo-price-foot">
-        <span className="bdp-save">−89%</span>
+        <span className="bdp-save">−59%</span>
         <span>versus ügynökség, ugyanaz a minőség</span>
       </div>
     </div>
