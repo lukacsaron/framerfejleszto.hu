@@ -98,3 +98,21 @@ test('buildDiagnosticsSection skips audits already counted as opportunities', ()
   assert.doesNotMatch(md, /Defer JS/);
   assert.match(md, /Bad thing/);
 });
+
+import { buildMetricsSection } from './lh-summary.mjs';
+
+test('buildMetricsSection emits a row for each canonical metric', () => {
+  const md = buildMetricsSection(fixture);
+  assert.match(md, /## Metrics/);
+  for (const m of ['First Contentful Paint', 'Largest Contentful Paint', 'Total Blocking Time', 'Cumulative Layout Shift', 'Speed Index']) {
+    assert.match(md, new RegExp(m), `missing metric: ${m}`);
+  }
+});
+
+test('buildMetricsSection handles missing audits gracefully', () => {
+  const md = buildMetricsSection({ audits: {} });
+  assert.match(md, /## Metrics/);
+  assert.match(md, /First Contentful Paint/);
+  // missing values rendered as —
+  assert.match(md, /—/);
+});

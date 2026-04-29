@@ -107,3 +107,23 @@ export function buildDiagnosticsSection(lhr) {
   }
   return lines.join('\n');
 }
+
+const METRICS = [
+  ['first-contentful-paint', 'First Contentful Paint'],
+  ['largest-contentful-paint', 'Largest Contentful Paint'],
+  ['total-blocking-time', 'Total Blocking Time'],
+  ['cumulative-layout-shift', 'Cumulative Layout Shift'],
+  ['speed-index', 'Speed Index'],
+  ['interactive', 'Time to Interactive'],
+];
+
+export function buildMetricsSection(lhr) {
+  const audits = lhr.audits || {};
+  const lines = ['## Metrics', '', '| Metric | Value |', '| --- | ---: |'];
+  for (const [id, label] of METRICS) {
+    const a = audits[id];
+    const value = a?.displayValue ?? '—';
+    lines.push(`| ${label} | ${value} |`);
+  }
+  return lines.join('\n');
+}
