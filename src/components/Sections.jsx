@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Arrow, ArrowUpRight, Plus, Rocket, Pencil, Leaf, Bolt, Sparkle, Cloud } from './Icons';
+import { Arrow, ArrowUpRight, Plus } from './Icons';
 import { FFButton, FFStamp, FFLogoMark } from './Primitives';
 import { Reveal, RevealGroup, RevealChild, TypewriterReveal } from './animations/Reveal';
 import CountUp from './animations/CountUp';
@@ -39,18 +39,10 @@ export function ProblemSolution() {
           <div className="ff-section-head">
             <div>
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>A PROBLÉMA × MEGOLDÁS</div>
-              <TypewriterReveal style={{ color: '#fff' }}>
-                <span style={{
-                  display: 'inline',
-                  background: 'var(--c-midnight-800)',
-                  padding: '0 12px',
-                  boxDecorationBreak: 'clone',
-                  WebkitBoxDecorationBreak: 'clone',
-                }}>A régi megközelítés lassú. A no-code gyorsabb, egyszerűbb.</span>
-              </TypewriterReveal>
+              <TypewriterReveal style={{ color: '#fff' }}>A régi megközelítés lassú. A no-code gyorsabb és egyszerűbb.</TypewriterReveal>
             </div>
             <p className="lead" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              Mozgasd az egered a kártyán, hasonlítsd össze a két megközelítést.
+              Mozgasd az egered a kártyán, hasonlítsd össze a két megközelítést!
             </p>
           </div>
         </Reveal>
@@ -66,10 +58,16 @@ export function ProblemSolution() {
           >
             {/* LEFT — traditional (always visible underneath) */}
             <div className="ff-vs-slider-bad">
+              <img
+                className="ff-vs-slider-illu bad"
+                src="/assets/illustrations/caesar-ui-collage.avif"
+                alt=""
+                aria-hidden="true"
+              />
               <div className="ff-vs-slider-label">HAGYOMÁNYOS ÚT</div>
               <h3>Design → Handoff → Fejlesztés → Hiba → Újra</h3>
               <div className="ff-vs-slider-list">
-                {['8–18 hét átfutás', 'Kettős költség: design + kód', 'Tartalommódosítás? Írj ticketet', 'Pixel-eltérések, loop-ok', 'Lost in translation: más a terv, más a kész oldal', 'Élesítés külön projekt'].map(t => (
+                {['8–18 hét átfutás', 'Kettős költség: design + kód', 'Tartalommódosítás? Írj a kivitelezőnek', 'Nem tökéletes pixel-pontosság', 'Lost in translation: más a terv, más a kész oldal', 'Az élesítés külön projekt'].map(t => (
                   <div key={t} className="ff-vs-slider-item bad">
                     <span className="ff-vs-slider-icon bad">✕</span>
                     {t}
@@ -83,10 +81,16 @@ export function ProblemSolution() {
               className="ff-vs-slider-good"
               style={{ clipPath: `polygon(${split}% 0, 100% 0, 100% 100%, ${split}% 100%)` }}
             >
+              <img
+                className="ff-vs-slider-illu good"
+                src="/assets/illustrations/ok-hand-type.avif"
+                alt=""
+                aria-hidden="true"
+              />
               <div className="ff-vs-slider-label">A MI MEGOLDÁSUNK · FRAMER</div>
               <h3>Design = Kód. Egy lépés.</h3>
               <div className="ff-vs-slider-list">
-                {['3–7 nap élesítés', 'Egyetlen számla, egyetlen csapat', 'CMS: te is szerkeszted', 'Pixel-pontos, 1:1', 'Aki tervezi, az építi. Nincs fordítási veszteség', 'One-click publish'].map(t => (
+                {['2–4 nap élesítés', 'Egy szerződés, egy csapat', 'A tartalmat te is módosíthatod', 'Pixel-pontos, 1:1', 'Aki tervezi, az építi. Nincs fordítási veszteség', 'One-click publish'].map(t => (
                   <div key={t} className="ff-vs-slider-item good">
                     <span className="ff-vs-slider-icon good">✓</span>
                     {t}
@@ -120,38 +124,38 @@ export function ProblemSolution() {
 const PROCESS_STEPS = [
   {
     n: '01', label: 'PLATFORM',
-    title: 'Kiválasztjuk a legjobb utat.',
-    desc: 'Nem minden projekt Framer. Első hívás, pár kérdés a célokról, és ajánlunk platformot: Framer, Webflow, vagy egyedi. Nem adunk el olyat, amire nincs szükséged.',
+    title: 'Közösen kiválasztjuk a legjobb megoldást.',
+    desc: 'Nem minden projekt Framer. Az első beszélgetésen kiderül, hogy a Framer, egyedi fejlesztési, vagy AI-assisted megoldás szolgálja ki legjobban az igényeiteket. Nem pusholunk olyan megoldást, amire igazából nincs szükségetek.',
     timeline: '1–2 nap',
     steps: [
-      'Célok és elvárások tisztázása egy rövid hívás keretében',
-      'Platform-ajánlás: Framer, Webflow, vagy egyedi fejlesztés',
-      'Tartalom- és funkcióigények felmérése',
+      'A célok és elvárások tisztázása egy rövid kick-off hívás keretében',
+      'Platform választás: Framer, egyedi fejlesztés, AI megoldások',
+      'Tartalom, design- és funkcióigények felmérése',
       'Projekt ütemterv és mérföldkövek rögzítése',
     ],
   },
   {
     n: '02', label: 'DESIGN',
     title: 'UX/UI tervezés, felesleges körök nélkül.',
-    desc: 'Senior designer, egy ember. Nincs „intern csinálja". 2–3 iteráció alatt készen vagyunk. Közben te látod, amit látsz, és ott szólsz, ahol kell.',
+    desc: 'Nálunk nem a "nagyágyúk" adják el a szolgáltatást, aztán a juniorok dolgoznak rajta. A folyamaton közösen megyünk végig, a módosítási lehetőségeket pedig szerződésben rögzítjük.',
     timeline: '1–2 hét',
     steps: [
-      'Wireframe és oldalstruktúra kialakítása',
-      'High-fidelity UI design Figmában (desktop + mobil)',
+      'Oldalstruktúra kialakítása, tartalom repository',
+      'High-fidelity design tervek Figmában 1 kulcsképernyőre, a többi screen egyből Framerben készül',
       '2–3 iterációs kör, valós időben egyeztetve',
-      'Design system és komponenskönyvtár átadása',
+      'Design system és komponenskönyvtár',
     ],
   },
   {
     n: '03', label: 'IMPLEMENTÁCIÓ',
     title: 'Framer-ben életre keltjük.',
-    desc: 'A design AZONNAL működő oldal. CMS, form, SEO, analytics. Mind benne. Élesítés pár kattintás. És te utána is tudsz szerkeszteni.',
+    desc: 'A design maga az AZONNAL működő éles oldal. CMS, form, SEO, analytics.',
     timeline: '1–2 hét',
     steps: [
       'Pixel-pontos Framer fejlesztés, reszponzívan',
-      'CMS beállítás a szerkeszthető tartalomhoz',
+      'CMS beállítás, tartalomfeltöltés a megállapodás szerint',
       'SEO, analytics, form integráció',
-      'Tesztelés, élesítés, 30 perces onboarding a szerkesztéshez',
+      'Tesztelés, élesítés, tudásátadás',
     ],
   },
 ];
@@ -171,9 +175,9 @@ export function ProcessSection() {
           <div className="ff-section-head">
             <div>
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>HOGYAN DOLGOZUNK</div>
-              <TypewriterReveal>ELSŐ HÍVÁSTÓL ÉLES OLDALIG<br />3 LÉPÉSBEN.</TypewriterReveal>
+              <TypewriterReveal>AZ ELSŐ HÍVÁSTÓL AZ ÉLES OLDALIG<br />3 LÉPÉSBEN.</TypewriterReveal>
             </div>
-            <p className="lead">Átlagos átfutás: <b>5–10 munkanap</b>. Senior designer végigvisz. Nincs PM-ek közti „visszakérdezés".</p>
+            <p className="lead">Átlagos átfutás: <b>2-3 hét</b></p>
           </div>
         </Reveal>
         <RevealGroup className="ff-process" stagger={0.15}>
@@ -227,45 +231,6 @@ export function ProcessSection() {
   );
 }
 
-/* ═════════ Benefits (grid) ═════════ */
-const BENEFITS = [
-  { icon: <Rocket />, title: 'Tökéletes landing oldalakhoz.', body: 'Villámgyors, reszponzív, látványos. Minden, amire egy kampány-microsite-nak szüksége van.' },
-  { icon: <Pencil />, title: 'Te is tudod szerkeszteni.', body: 'CMS a tartalomhoz, vizuális szerkesztő a designhoz. Ha van a csapatban digitálisan jártas marketinges, teljes ownership, ügynökség nélkül.' },
-  { icon: <Sparkle />, title: 'Animációk, amik máshol luxus.', body: 'Mikrointerakciók, hover-effektek, scroll-animációk. Egyedi fejlesztésnél ezek órákba és extra költségbe kerülnek. Framer-ben pár kattintás.' },
-  { icon: <Leaf />, title: 'Fenntartható árazás.', body: 'Nincs dupla költség design + fejlesztésre. Transzparens Framer előfizetés, havi díjjal.' },
-  { icon: <Bolt />, title: 'SEO és villámgyors betöltés.', body: 'Beépített SEO, global CDN, Lighthouse 90+. Nem kell plugint vadászni.' },
-  { icon: <Cloud />, title: 'Hosting nélküli hosting.', body: 'Nem kell szerver, nem kell rendszergazda. Framer cloud infrastruktúra: automatikus SSL, global CDN, 99.9% uptime.' },
-];
-
-export function Benefits() {
-  return (
-    <section className="ff-section paper" id="benefits">
-      <div className="ff-container">
-        <Reveal>
-          <div className="ff-section-head">
-            <div>
-              <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>MIÉRT A FRAMER?</div>
-              <TypewriterReveal>A FRAMER NEM CSAK<br />GYORS. <span style={{ color: 'var(--c-orange-600)' }}>OKOS IS.</span></TypewriterReveal>
-            </div>
-            <p className="lead">Miért pont ez a no-code platform? Hat konkrét ok, amiért a Framer más.</p>
-          </div>
-        </Reveal>
-        <RevealGroup className="ff-benefits" stagger={0.08}>
-          {BENEFITS.map((b, i) => (
-            <RevealChild key={i}>
-              <div className="ff-benefit">
-                <div className="ic">{b.icon}</div>
-                <h4>{b.title}</h4>
-                <p>{b.body}</p>
-              </div>
-            </RevealChild>
-          ))}
-        </RevealGroup>
-      </div>
-    </section>
-  );
-}
-
 /* ═════════ Vibe-Coding — PhenoGyde Showcase ═════════ */
 export function VibeCodingSection() {
   return (
@@ -274,20 +239,15 @@ export function VibeCodingSection() {
         <Reveal>
           <div className="ff-section-head">
             <div>
-              <div className="ff-eyebrow">NEM MINDEN PROJEKTHEZ KELL FRAMER</div>
+              <div className="ff-eyebrow">NEM MINDEN PROJEKTHEZ KELL FRAMER !</div>
               <TypewriterReveal>
                 NÉHA AZ{' '}
-                <span style={{ color: 'var(--c-mint-500)' }}>EGYSZERŰBB</span>
+                <span style={{ color: 'var(--c-mint-500)' }}>EGYSZERŰ</span>
                 {' '}DÖNTÉS A JÓ DÖNTÉS
               </TypewriterReveal>
             </div>
             <p className="lead">
-              Framer ügynökség vagyunk. És ezt mondjuk:{' '}
-              <strong>nem mindig a Framer a válasz.</strong>{' '}
-              Amikor ügyfelünk 150 oldalas interaktív piackutatást kért tele 3D
-              térképekkel, élő grafikonokkal és komplex adatvizualizációval, nem
-              erőltettük a Framert. AI-gyorsított fejlesztéssel építettük meg.
-              mert a jó döntés az, ami a projekthez illik, nem ami a portfóliónkhoz.
+              No-code / low-code stúdió vagyunk. Ennek ellenére azt gondoljuk, hogy <b>nem mindig a Framer a legjobb válasz</b>. Nem olyan régen egy ügyfelünk egy 150+ oldalas interaktív piackutatást kért élő grafikonokkal és komplex adatvizualizációval. Ebben az esetben AI vibekódolt megoldással építettük fel az eredményt, mert <b>a jó döntés az, ami a projekthez illik, nem ami a portfóliónkhoz</b>.
             </p>
           </div>
         </Reveal>
@@ -389,13 +349,11 @@ export function TrustSection() {
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)', marginBottom: 16 }}>KIK VAGYUNK?</div>
             </Reveal>
             <Reveal delay={0.1}>
-              <TypewriterReveal as="h3">100% SENIOR.<br />0% KAMU.</TypewriterReveal>
+              <TypewriterReveal as="h3">100% SENIOR</TypewriterReveal>
             </Reveal>
             <Reveal delay={0.2} variant="fadeIn">
               <p>
-                Bár a technológia no-code, a minőség mögött a 22.design tapasztalt
-                UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek
-                gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
+                Bár a technológia no-code, a minőség mögött a 22.design tapasztalt UX/UI és Service Design csapata áll. Nincsenek alvállalkozók, nincsenek gyakornokok, nincsenek köztes project managerek. <b>Aki tervezi, az élesíti is.</b>
               </p>
             </Reveal>
             <div className="quote">
@@ -465,23 +423,23 @@ function WordReveal({ word, index, total, progress }) {
 const PROJECTS = [
   {
     img: 'twin-heads-commerce.avif', bg: 'linear-gradient(135deg, var(--c-wash-peach), var(--c-wash-lilac))',
-    tag: 'ECOMMERCE · CRO', title: 'REGIO JÁTÉK', body: 'Teljes redesign Magyarország legnagyobb játékáruházának. Jobb böngészés, okosabb kosár, valódi eredmény.',
-    stat: '+22', statSub: '% KONVERZIÓ',
+    tag: 'SAAS · FRAMER', title: 'LOGISHOP.IO', body: 'E-kereskedelmi SaaS marketing site. Tiszta narratíva, demó-fókuszú onboarding, Framer CMS-szel.',
+    stat: '12', statSub: 'NAP ÉLESÍTÉS',
   },
   {
-    img: 'hand-teddy-unbox.avif', bg: 'linear-gradient(135deg, var(--c-wash-mint), var(--c-wash-sky))',
-    tag: 'BRAND · FRAMER', title: 'UNBOXED.HU', body: 'D2C gyerekjáték brand új identitás + Framer shop. 8 nap alatt design-tól az élesítésig.',
+    video: 'kurt.mp4', bg: 'linear-gradient(135deg, var(--c-wash-mint), var(--c-wash-sky))',
+    tag: 'CONSULTING · FRAMER', title: 'KURTCONSULTING.COM', body: 'Tanácsadói brand új arculattal és Framer oldallal. Tiszta narratíva, magabiztos megjelenés.',
     stat: '8', statSub: 'NAP ÉLESÍTÉS',
   },
   {
     img: 'ui-flow-journey.avif', bg: 'linear-gradient(135deg, var(--c-wash-sky), var(--c-wash-lilac))',
-    tag: 'SAAS · LANDING', title: 'DREAMJOBS', body: 'Kampány-microsite onboarding demóval. Lighthouse 98, a cold-traffic is konvertál.',
-    stat: '98', statSub: 'LIGHTHOUSE',
+    tag: 'B2B · FRAMER', title: 'LOGINET.COM', body: 'IT-hálózati szolgáltató teljes site-refresh. Új arculat, gyorsabb betöltés, jobb lead-konverzió.',
+    stat: '14', statSub: 'NAP ÉLESÍTÉS',
   },
   {
     img: 'hands-wireframe-grid.avif', bg: 'linear-gradient(135deg, var(--c-wash-lilac), var(--c-wash-peach))',
-    tag: 'B2B · MARKETING', title: 'WOLTERS KLUWER', body: 'Termékoldal-család, CMS-ben szerkeszthető. A marketing csapat azóta 14 új oldalt dobott fel.',
-    stat: '14', statSub: 'CMS OLDAL',
+    tag: 'INDUSTRIAL · FRAMER', title: 'GANZ-MAVAG.COM', body: 'Klasszikus ipari brand digitális újraindítása. Heritage és modern Framer egy arculatban.',
+    stat: '180', statSub: 'ÉVES ÖRÖKSÉG',
   },
 ];
 
@@ -496,8 +454,8 @@ export function Portfolio() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const img = entry.target.querySelector('.thumb img')
-            if (img) img.classList.add('ken-burns-active')
+            const media = entry.target.querySelector('.thumb img, .thumb video')
+            if (media) media.classList.add('ken-burns-active')
             observer.unobserve(entry.target)
           }
         })
@@ -518,9 +476,9 @@ export function Portfolio() {
           <div className="ff-section-head">
             <div>
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>KIEMELT MUNKÁINK</div>
-              <TypewriterReveal>NEM HIRDETJÜK MAGUNKAT.<br /><span style={{ color: 'var(--c-orange-600)' }}>AZ ÜGYFELEINK IGEN.</span></TypewriterReveal>
+              <TypewriterReveal>MI NEM HIRDETJÜK MAGUNKAT.<br /><span style={{ color: 'var(--c-orange-600)' }}>AZ ÜGYFELEINK VISZONT IGEN.</span></TypewriterReveal>
             </div>
-            <p className="lead">4 projekt az utóbbi 18 hónapból, mindegyik Framer-ben. Kattints, nézd meg élőben.</p>
+            <p className="lead">Néhány projekt, amin szerettünk dolgozni és no-code eszközökkel készült.</p>
           </div>
         </Reveal>
         <RevealGroup ref={gridRef} className="ff-portfolio" stagger={0.1}>
@@ -543,21 +501,32 @@ export function Portfolio() {
                     const rect = e.currentTarget.getBoundingClientRect()
                     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2
                     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2
-                    const img = e.currentTarget.querySelector('.thumb img')
-                    if (img) img.style.transform = `translate(${x * 8}px, ${y * 8}px)`
+                    const media = e.currentTarget.querySelector('.thumb img, .thumb video')
+                    if (media) media.style.transform = `translate(${x * 8}px, ${y * 8}px)`
                   }}
                   onMouseLeave={(e) => {
-                    const img = e.currentTarget.querySelector('.thumb img')
-                    if (img) {
-                      img.style.transition = 'transform 0.4s var(--ease-out)'
-                      img.style.transform = ''
-                      setTimeout(() => { if (img) img.style.transition = '' }, 400)
+                    const media = e.currentTarget.querySelector('.thumb img, .thumb video')
+                    if (media) {
+                      media.style.transition = 'transform 0.4s var(--ease-out)'
+                      media.style.transform = ''
+                      setTimeout(() => { if (media) media.style.transition = '' }, 400)
                     }
                   }}
                 >
-                  <div className="thumb">
+                  <div className={`thumb${p.video ? ' thumb--video' : ''}`}>
                     <div className="bg" style={{ background: p.bg }} />
-                    <img src={`/assets/illustrations/${p.img}`} alt={p.title} />
+                    {p.video ? (
+                      <video
+                        src={`/assets/videos/${p.video}`}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    ) : (
+                      <img src={`/assets/illustrations/${p.img}`} alt={p.title} />
+                    )}
                   </div>
                   <div className="meta">
                     <div className="tag">{p.tag}</div>
@@ -592,7 +561,7 @@ const FAQS = [
   },
   {
     q: 'MENNYI IDŐ ALATT KÉSZÜL EL EGY OLDAL?',
-    a: 'Egy egyszerűbb landing page 3–5 munkanap. Teljes marketing microsite 5–10 munkanap. CMS-es, többoldalas site 2–3 hét. Mindezt beleértve a design fázist is.'
+    a: 'Egy egyszerűbb landing page 3–5 munkanap. Teljes marketing microsite 2–3 hét. CMS-es, többoldalas site 2–3 hét. Mindezt beleértve a design fázist is.'
   },
   {
     q: 'MENNYIBE KERÜL?',
@@ -646,7 +615,7 @@ export function FAQSection() {
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         style={{ overflow: 'hidden' }}
                       >
-                        <div style={{ paddingTop: 8, paddingBottom: 12 }}>{f.a}</div>
+                        <div style={{ paddingTop: 20, paddingBottom: 12 }}>{f.a}</div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -673,7 +642,7 @@ export function FinalCTA() {
             <img src="/assets/illustrations/ok-hand-type.avif" className="illo" alt="" />
           </Reveal>
           <Reveal delay={0.2}>
-            <TypewriterReveal>HA NEMCSAK <span className="orange">SZÉP DIZÁJNT</span>,<br />HANEM <span className="hot">KONVERZIÓNÖVEKEDÉST</span> IS<br />SZERETNÉL: <span className="hot">ITT KEZDJÜK</span>.</TypewriterReveal>
+            <TypewriterReveal>HA NEM CSAK SZÉP DESIGNT,<br />HANEM MAGASABB KONVERZIÓT IS<br />SZERETNÉL: ITT KEZDJÜK.</TypewriterReveal>
           </Reveal>
           <RevealGroup stagger={0.1} style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
             <RevealChild variant="scaleUp">

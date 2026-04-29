@@ -3,7 +3,6 @@ import StickyNav from './components/StickyNav';
 import {
   ProblemSolution,
   ProcessSection,
-  Benefits,
   VibeCodingSection,
   TrustSection,
   Portfolio,
@@ -11,6 +10,7 @@ import {
   FinalCTA,
   Footer,
 } from './components/Sections';
+import BenefitsRich from './components/BenefitsRich';
 import CustomCursor from './components/animations/CustomCursor';
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
       <StickyNav />
       <ProblemSolution />
       <ProcessSection />
-      <Benefits />
+      <BenefitsRich />
       <VibeCodingSection />
       <TrustSection />
       <Portfolio />
