@@ -252,6 +252,9 @@ export function ProcessSection() {
                 </div>
                 <motion.button
                   className="chev"
+                  type="button"
+                  aria-label={i === open ? `${s.title} – részletek bezárása` : `${s.title} – részletek megnyitása`}
+                  aria-expanded={i === open}
                   animate={{ rotate: i === open ? 90 : 0 }}
                   transition={{ type: 'spring', damping: 15, stiffness: 200 }}
                 >

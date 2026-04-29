@@ -150,22 +150,23 @@ export default function HeroA() {
       <StickyNav />
       <FFNav onDark={true} />
       <div className="ff-hero-inner">
+        {/* Flourish width/height attrs reflect natural image aspect ratios (not all source assets are square) */}
         <img
           srcSet={starYellow}
           sizes="60px"
           width={60}
-          height={60}
+          height={55}
           loading="lazy"
           className="ff-flourish"
           style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }}
           alt=""
         />
-        <FloatingIcon srcSet={plusPurple} sizes="72px" width={72} height={72} className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
-        <FloatingIcon srcSet={arrowOrangeDrawn} sizes="64px" width={64} height={64} className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
-        <FloatingIcon srcSet={flowerBlueDrawn} sizes="80px" width={80} height={80} className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
-        <FloatingIcon srcSet={asteriskGreen} sizes="56px" width={56} height={56} className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
+        <FloatingIcon srcSet={plusPurple} sizes="72px" width={72} height={69} className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
+        <FloatingIcon srcSet={arrowOrangeDrawn} sizes="64px" width={64} height={59} className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
+        <FloatingIcon srcSet={flowerBlueDrawn} sizes="80px" width={79} height={80} className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
+        <FloatingIcon srcSet={asteriskGreen} sizes="56px" width={56} height={61} className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
         <FloatingIcon srcSet={starWhite} sizes="60px" width={60} height={60} className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
-        <FloatingIcon srcSet={starburstYellow} sizes="68px" width={68} height={68} className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
+        <FloatingIcon srcSet={starburstYellow} sizes="68px" width={68} height={62} className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
 
         <motion.div
           className="ff-hero-stamp-desktop"
@@ -227,10 +228,13 @@ export default function HeroA() {
           <FFButton variant="violet" icon={<ArrowUpRight />}>Demó</FFButton>
         </div>
 
-        {/* Animated stage */}
+        {/* Animated stage — decorative mock UI showing the Framer design→live flow */}
         <motion.div
           className="ffA-stage"
           data-mode={mode}
+          role="img"
+          aria-label="Framer szerkesztő és élő weboldal kártyák — animált demó"
+          aria-hidden="true"
           initial={{ opacity: 0, y: 40 }}
           animate={heroRevealed ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
@@ -397,7 +401,7 @@ export default function HeroA() {
                     srcSet={thumbsUpResponsive}
                     sizes="240px"
                     width={240}
-                    height={240}
+                    height={197}
                     loading="lazy"
                     alt=""
                   />
@@ -411,8 +415,8 @@ export default function HeroA() {
           </div>
 
           <div className="ffA-toggle">
-            <button className={mode === 'design' ? 'active' : ''} onClick={() => setMode('design')}>Design</button>
-            <button className={mode === 'live' ? 'active' : ''} onClick={() => setMode('live')}>Live</button>
+            <button type="button" tabIndex={-1} className={mode === 'design' ? 'active' : ''} onClick={() => setMode('design')}>Design</button>
+            <button type="button" tabIndex={-1} className={mode === 'live' ? 'active' : ''} onClick={() => setMode('live')}>Live</button>
           </div>
         </motion.div>
 
