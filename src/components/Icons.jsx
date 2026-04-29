@@ -33,3 +33,7 @@ export const Sparkle = (p) => (
 export const Cloud = (p) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" {...p}><path d="M18 10a4 4 0 014 4 4 4 0 01-4 4H7a5 5 0 01-5-5 5 5 0 015-5h.1A7 7 0 0114 5a7 7 0 014 5z"/></svg>
 );
+
+export const Globe = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13 13 0 010 18M12 3a13 13 0 000 18"/></svg>
+);
