@@ -29,3 +29,4 @@ dist-ssr
 
 # Live edit plugin
 .annotations.json
+.obsidian/workspace.json
