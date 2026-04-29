@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Arrow } from './Icons';
 import { FFButton, FFLogoMark } from './Primitives';
 
@@ -39,24 +40,34 @@ export default function StickyNav() {
   return (
     <>
       {/* Sticky bar */}
-      <div className={`ff-sticky-bar ${scrolled ? 'visible' : ''}`}>
-        <div className="ff-sticky-inner">
-          <a href="#" className="ff-sticky-logo">
-            <FFLogoMark size={22} />
-          </a>
-          <button
-            className="ff-hamburger"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
+      <AnimatePresence>
+        {scrolled && (
+          <motion.div
+            className="ff-sticky-bar visible"
+            initial={{ y: '-100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: '-100%', opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-              <rect y="0" width="20" height="2" rx="1" fill="#fff" />
-              <rect y="6" width="20" height="2" rx="1" fill="#fff" />
-              <rect y="12" width="20" height="2" rx="1" fill="#fff" />
-            </svg>
-          </button>
-        </div>
-      </div>
+            <div className="ff-sticky-inner">
+              <a href="#" className="ff-sticky-logo">
+                <FFLogoMark size={22} />
+              </a>
+              <button
+                className="ff-hamburger"
+                onClick={() => setOpen(true)}
+                aria-label="Open menu"
+              >
+                <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+                  <rect y="0" width="20" height="2" rx="1" fill="#fff" />
+                  <rect y="6" width="20" height="2" rx="1" fill="#fff" />
+                  <rect y="12" width="20" height="2" rx="1" fill="#fff" />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Sidebar overlay */}
       {open && (
@@ -85,6 +96,7 @@ export default function StickyNav() {
               key={href}
               className="ff-sidebar-link"
               href={href}
+              data-cursor="link"
               onClick={() => setOpen(false)}
             >
               {label}

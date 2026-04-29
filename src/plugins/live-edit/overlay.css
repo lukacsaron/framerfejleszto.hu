@@ -1,0 +1,275 @@
+[data-live-edit-overlay] {
+  --le-bg: rgba(15, 15, 15, 0.92);
+  --le-border: rgba(255, 255, 255, 0.12);
+  --le-text: #e0e0e0;
+  --le-text-muted: rgba(255, 255, 255, 0.5);
+  --le-accent-edit: #4fc3f7;
+  --le-accent-annotate: #ffb74d;
+  --le-accent-popover: #ba68c8;
+  --le-radius: 10px;
+  --le-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--le-font);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--le-text);
+}
+
+.le-pill {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--le-bg);
+  border: 1px solid var(--le-border);
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  backdrop-filter: blur(12px);
+}
+
+.le-pill:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.le-pill[data-mode="inline"] {
+  border-color: var(--le-accent-edit);
+  box-shadow: 0 0 12px rgba(79, 195, 247, 0.2);
+}
+
+.le-pill[data-mode="edit"] {
+  border-color: var(--le-accent-popover);
+  box-shadow: 0 0 12px rgba(186, 104, 200, 0.2);
+}
+
+.le-pill[data-mode="annotate"] {
+  border-color: var(--le-accent-annotate);
+  box-shadow: 0 0 12px rgba(255, 183, 77, 0.2);
+}
+
+.le-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--le-text-muted);
+  transition: background 0.15s;
+}
+
+.le-pill[data-mode="inline"] .le-pill-dot { background: var(--le-accent-edit); }
+.le-pill[data-mode="edit"] .le-pill-dot { background: var(--le-accent-popover); }
+.le-pill[data-mode="annotate"] .le-pill-dot { background: var(--le-accent-annotate); }
+
+.le-pill-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.le-pill-shortcut {
+  font-size: 10px;
+  color: var(--le-text-muted);
+  margin-left: 4px;
+}
+
+[data-live-edit-active] [data-live-file]:hover {
+  outline: 1px solid var(--le-accent-edit, #4fc3f7);
+  outline-offset: 2px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+[data-live-edit-active="annotate"] [data-live-file]:hover {
+  outline-color: var(--le-accent-annotate);
+}
+
+[data-live-edit-active="inline"] [data-live-file]:hover {
+  cursor: text;
+}
+
+[data-live-edit-active="inline"] [data-live-file][data-live-text]:hover {
+  cursor: pointer;
+}
+
+[data-live-edit-active="edit"] [data-live-file]:hover {
+  outline-color: var(--le-accent-popover);
+}
+
+[data-live-editing] {
+  outline: 2px solid var(--le-accent-edit) !important;
+  outline-offset: 2px;
+  background: rgba(79, 195, 247, 0.06);
+  border-radius: 2px;
+}
+
+.le-source-pill {
+  position: fixed;
+  z-index: 100000;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--le-bg);
+  border: 1px solid var(--le-border);
+  border-radius: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--le-accent-edit);
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.le-source-pill:hover {
+  text-decoration: underline;
+}
+
+.le-source-pill.saving { color: var(--le-text-muted); }
+.le-source-pill.saved { color: #66bb6a; }
+.le-source-pill.error { color: #ef5350; border-color: #ef5350; }
+
+.le-popover {
+  position: fixed;
+  z-index: 100000;
+  width: 360px;
+  background: var(--le-bg);
+  border: 1px solid var(--le-border);
+  border-radius: var(--le-radius);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 16px;
+  display: none;
+}
+
+.le-popover.visible {
+  display: block;
+}
+
+.le-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.le-popover-source {
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--le-accent-edit);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.le-popover-source:hover {
+  text-decoration: underline;
+}
+
+.le-popover-close {
+  background: none;
+  border: none;
+  color: var(--le-text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+.le-popover-close:hover {
+  color: var(--le-text);
+}
+
+.le-popover label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--le-text-muted);
+  margin-bottom: 4px;
+}
+
+.le-popover textarea,
+.le-popover input[type="text"] {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--le-border);
+  border-radius: 6px;
+  color: var(--le-text);
+  font-family: var(--le-font);
+  font-size: 13px;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.le-popover textarea:focus,
+.le-popover input[type="text"]:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.le-popover textarea {
+  min-height: 60px;
+}
+
+.le-popover-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-end;
+}
+
+.le-popover-actions button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--le-border);
+  background: transparent;
+  color: var(--le-text);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.le-popover-actions button:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.le-popover-actions button.le-primary {
+  background: var(--le-accent-edit);
+  color: #000;
+  border-color: transparent;
+}
+
+.le-popover-actions button.le-primary:hover {
+  opacity: 0.9;
+}
+
+.le-popover-actions button.le-primary-annotate {
+  background: var(--le-accent-annotate);
+  color: #000;
+  border-color: transparent;
+}
+
+.le-annotation-marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--le-accent-annotate);
+  border: 2px solid var(--le-bg);
+  cursor: pointer;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+}
+
+.le-annotation-marker:hover {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* Keep the site's custom cursor above the overlay */
+.ff-custom-cursor {
+  z-index: 100001 !important;
+}

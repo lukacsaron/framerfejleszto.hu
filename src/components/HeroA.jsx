@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Arrow, ArrowUpRight } from './Icons';
 import { FFNav, FFButton, FFStamp } from './Primitives';
+import { Reveal } from './animations/Reveal';
 import StickyNav from './StickyNav';
 import FramerExpertBadge from '../../framer/framer-expert-badge';
 import '../../framer/styles.css';
@@ -134,18 +136,29 @@ export default function HeroA() {
       <FFNav onDark={true} />
       <div className="ff-hero-inner">
         <img src="/assets/flourishes/star-yellow.avif" className="ff-flourish" style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }} alt="" />
-        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 60, left: '3%', width: 72 }} />
-        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 240, right: '3%', width: 64 }} />
-        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 360, left: '5%', width: 80 }} />
-        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 180, left: '14%', width: 56 }} />
-        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 320, right: '8%', width: 60 }} />
-        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 80, right: '14%', width: 68 }} />
+        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
+        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
+        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
+        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
+        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
+        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
 
-        <div className="ff-hero-stamp-desktop" style={{ textAlign: 'center', position: 'absolute', top: 28, right: 40 }}>
+        <motion.div
+          className="ff-hero-stamp-desktop"
+          style={{ textAlign: 'center', position: 'absolute', top: 28, right: 40 }}
+          initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
+          animate={heroRevealed ? { opacity: 1, scale: 1, rotate: 0 } : {}}
+          transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 1.3 }}
+        >
           <FFStamp onDark={true} />
-        </div>
+        </motion.div>
 
-        <div className="ff-hero-badges">
+        <motion.div
+          className="ff-hero-badges"
+          initial={{ opacity: 0, y: 20 }}
+          animate={heroRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        >
           <FramerExpertBadge link="https://www.framer.com/experts/" />
           <div className="ff-award-badge">
             <div className="ff-award-text">
@@ -158,7 +171,7 @@ export default function HeroA() {
               className="ff-award-img"
             />
           </div>
-        </div>
+        </motion.div>
 
         <h1 className={`ff-hero-headline ${heroRevealed ? 'revealed' : ''}`}>
           <span className="row hero-anim hero-anim-1">WEBOLDAL</span>
@@ -176,8 +189,7 @@ export default function HeroA() {
         </h1>
 
         <p className="ff-hero-sub hero-anim hero-anim-7">
-          A Framer sebessége a 22.design szakértelmével ötvözve. Lenyűgöző,
-          azonnal módosítható, prémium weboldalak, fejlesztők nélkül.
+          A Framer sebessége a 22.design szakértelmével ötvözve. <b>Lenyűgöző</b>, azonnal <b>módosítható</b>, prémium weboldalak, <b>fejlesztők nélkül.</b>
         </p>
 
         <div className="ff-hero-cta hero-anim hero-anim-7">
@@ -186,7 +198,13 @@ export default function HeroA() {
         </div>
 
         {/* Animated stage */}
-        <div className="ffA-stage" data-mode={mode}>
+        <motion.div
+          className="ffA-stage"
+          data-mode={mode}
+          initial={{ opacity: 0, y: 40 }}
+          animate={heroRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+        >
           {/* Editor card */}
           <div className="ffA-card ffA-editor">
             <div className="chrome">
@@ -226,7 +244,7 @@ export default function HeroA() {
 
               <div className="canvas">
                 <div className="ruler-top"><span>0</span><span>200</span><span>400</span><span>600</span><span>800</span></div>
-                <div className="artboard-label">Desktop — 1440</div>
+                <div className="artboard-label">Desktop 1440</div>
                 <div className="frame">
                   <div className="nav">
                     <div className="logo" />
@@ -333,7 +351,7 @@ export default function HeroA() {
                     <span className="eb-stars">★★★★★ <b>4.9</b></span>
                   </div>
                   <h3>Weboldal napok<br />alatt, <em>nem hetek alatt.</em></h3>
-                  <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség — te magad töltöd fel a tartalmat.</p>
+                  <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség. Te magad töltöd fel a tartalmat.</p>
                   <div className="cta-row">
                     <span className="mini-cta">Pitchelj minket! →</span>
                     <span className="mini-cta ghost">Élő demó</span>
@@ -359,11 +377,15 @@ export default function HeroA() {
             <button className={mode === 'design' ? 'active' : ''} onClick={() => setMode('design')}>Design</button>
             <button className={mode === 'live' ? 'active' : ''} onClick={() => setMode('live')}>Live</button>
           </div>
-        </div>
+        </motion.div>
 
-        <div style={{ textAlign: 'center', marginTop: 64, fontSize: 13, opacity: 0.7, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 800 }}>
+        <motion.div
+          style={{ textAlign: 'center', marginTop: 64, fontSize: 13, opacity: 0, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 800 }}
+          animate={heroRevealed ? { opacity: 0.7 } : {}}
+          transition={{ duration: 0.6, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        >
           ↓ görgess lejjebb, hogy megértsd a teljes folyamatot
-        </div>
+        </motion.div>
       </div>
     </section>
   );

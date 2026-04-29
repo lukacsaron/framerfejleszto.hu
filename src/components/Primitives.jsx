@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Arrow } from './Icons';
+import MagneticButton from './animations/MagneticButton';
 
 export function FFLogoMark({ size = 28, className = '' }) {
   const w = (248 / 124) * size;
@@ -18,13 +19,14 @@ export function FFLogo({ onDark = false }) {
   );
 }
 
-export function FFButton({ variant = 'orange', children, icon, onClick, ...rest }) {
-  return (
-    <button className={`ff-btn ${variant}`} onClick={onClick} {...rest}>
+export function FFButton({ variant = 'orange', children, icon, onClick, magnetic = true, ...rest }) {
+  const btn = (
+    <button className={`ff-btn ${variant}`} onClick={onClick} data-cursor="link" {...rest}>
       <span>{children}</span>
       <span className="ic">{icon || <Arrow />}</span>
     </button>
-  );
+  )
+  return magnetic ? <MagneticButton>{btn}</MagneticButton> : btn
 }
 
 export function FFNav({ onDark = true }) {
@@ -46,21 +48,25 @@ export function FFNav({ onDark = true }) {
 }
 
 export function FFStamp({ className = '', spin = true, size = 140 }) {
+  const [fast, setFast] = useState(false)
+  const [clicking, setClicking] = useState(false)
+
+  const onClick = useCallback(() => {
+    setClicking(true)
+    setTimeout(() => setClicking(false), 400)
+  }, [])
+
   return (
-    <div className={`ff-stamp ${className}`} style={{ width: size, height: size }}>
+    <div
+      className={`ff-stamp ${className} ${fast ? 'ff-stamp-fast' : ''} ${clicking ? 'ff-stamp-click' : ''}`}
+      style={{ width: size, height: size }}
+      onMouseEnter={() => setFast(true)}
+      onMouseLeave={() => setFast(false)}
+      onClick={onClick}
+    >
       <img className={`ff-stamp-ring ${spin ? 'spinning' : ''}`} src="/assets/22-ring.avif" alt="" />
       <img className="ff-stamp-logo" src="/assets/22-number.png" alt="22" />
     </div>
-  );
+  )
 }
 
-export function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('.ff-reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-    }, { threshold: 0.12 });
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}

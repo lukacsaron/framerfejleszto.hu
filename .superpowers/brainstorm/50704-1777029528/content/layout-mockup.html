@@ -1,0 +1,400 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Titillium+Web:wght@300;400;600;700;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .section-mock {
+    background: linear-gradient(170deg, #064E3B 0%, #0A2F1F 50%, #0F1B3D 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    color: white;
+    font-family: 'Titillium Web', sans-serif;
+  }
+
+  /* ── TOP: Headline area ── */
+  .top-area {
+    padding: 64px 48px 40px;
+    max-width: 720px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #4BC292;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: #4BC292;
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+  .headline {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 40px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .headline em {
+    font-style: normal;
+    color: #4BC292;
+  }
+  .subtext {
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.72);
+    max-width: 600px;
+  }
+  .subtext strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ── MIDDLE: Showcase ── */
+  .showcase {
+    padding: 0 48px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .showcase-info {
+    flex: 0 0 280px;
+  }
+  .client-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 6px;
+  }
+  .client-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .project-name {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 20px;
+  }
+  .project-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 24px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .stat {
+    border-left: 2px solid #4BC292;
+    padding-left: 12px;
+  }
+  .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 26px;
+    color: #4BC292;
+    line-height: 1.1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Screenshot mockup ── */
+  .screenshot-area {
+    flex: 1;
+    position: relative;
+  }
+  .browser-frame {
+    background: #1a1a2e;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .browser-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .browser-url {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-left: 8px;
+    font-family: monospace;
+  }
+  .browser-content {
+    padding: 20px;
+    min-height: 260px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Simulated report content */
+  .mock-report {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 16px;
+    font-size: 11px;
+  }
+  .mock-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mock-sidebar-nav .nav-item {
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+  }
+  .mock-sidebar-nav .nav-item.active {
+    background: rgba(75,194,146,0.15);
+    color: #4BC292;
+  }
+  .mock-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mock-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+  }
+  .mock-chart-row {
+    display: flex;
+    gap: 12px;
+  }
+  .mock-chart {
+    flex: 1;
+    height: 80px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mock-chart.bar {
+    background: linear-gradient(0deg, rgba(75,194,146,0.2) 0%, transparent 100%);
+    border: 1px solid rgba(75,194,146,0.2);
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 4px 6px;
+  }
+  .bar-item {
+    flex: 1;
+    background: linear-gradient(0deg, #4BC292 0%, rgba(75,194,146,0.4) 100%);
+    border-radius: 2px 2px 0 0;
+  }
+  .mock-chart.donut {
+    background: rgba(75,194,146,0.08);
+    border: 1px solid rgba(75,194,146,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .donut-ring {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 8px solid rgba(75,194,146,0.2);
+    border-top-color: #4BC292;
+    border-right-color: #4BC292;
+    transform: rotate(45deg);
+  }
+  .mock-chart.heatmap {
+    background: rgba(75,194,146,0.05);
+    border: 1px solid rgba(75,194,146,0.12);
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap: 2px;
+    padding: 6px;
+  }
+  .heat-cell {
+    border-radius: 2px;
+  }
+
+  /* ── Second frame, tilted ── */
+  .browser-frame-2 {
+    position: absolute;
+    right: -20px;
+    bottom: -30px;
+    width: 75%;
+    transform: rotate(2deg);
+    z-index: 2;
+  }
+
+  /* ── CTA ── */
+  .cta-area {
+    padding: 12px 48px 56px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: #4BC292;
+    color: #0A2F1F;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 2px solid #0A2F1F;
+    border-radius: 999px;
+    box-shadow: 4px 4px 0 0 #000;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .cta-btn:hover {
+    box-shadow: 6px 6px 0 0 #000;
+    transform: translate(-1px, -1px);
+  }
+  .cta-btn svg { width: 16px; height: 16px; }
+
+  /* ── Annotations ── */
+  .annotation {
+    position: absolute;
+    font-size: 11px;
+    color: #4BC292;
+    font-family: monospace;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+</style>
+
+<h2>Section Layout</h2>
+<p class="subtitle">Full-width emerald section. Headline left, screenshot mockup right, stats underneath. Neobrutalist buttons. The screenshots below are placeholders — real PhenoGyde visuals will replace them.</p>
+
+<div class="section-mock">
+  <!-- Headline -->
+  <div class="top-area">
+    <div class="eyebrow">Nem minden projekthez kell Framer</div>
+    <div class="headline">Néha az <em>egyszerűbb</em> döntés a jó döntés</div>
+    <div class="subtext">Framer ügynökség vagyunk — és ezt mondjuk: <strong>nem mindig a Framer a válasz.</strong> Amikor ügyfelünk 150 oldalas interaktív piackutatást kért tele 3D térképekkel, élő grafikonokkal és komplex adatvizualizációval, nem erőltettük a Framert. AI-gyorsított fejlesztéssel építettük meg — mert a jó döntés az, ami a projekthez illik, nem ami a portfóliónkhoz.</div>
+  </div>
+
+  <!-- Showcase -->
+  <div class="showcase">
+    <div class="showcase-info">
+      <div class="client-label">Ügyfél</div>
+      <div class="client-name">PhenoGyde</div>
+      <div class="project-name">ACQ Riport 2026 — Magyarország</div>
+      <div class="project-desc">A magyar bankkártya-elfogadási piac teljes feltérképezése: 23 szolgáltató, mystery shopping, kereskedői ügyfélút-elemzés, versenyképességi scoring.</div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-num">150+</div>
+          <div class="stat-label">Oldal</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Grafikon</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">3D térkép</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">23</div>
+          <div class="stat-label">Szolgáltató</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screenshot mockup -->
+    <div class="screenshot-area">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url">phenogyde.com/acq-riport-2026</div>
+        </div>
+        <div class="browser-content">
+          <div class="mock-report">
+            <div class="mock-sidebar-nav">
+              <div class="nav-item">Piaci áttekintés</div>
+              <div class="nav-item active">Technológiai képességek</div>
+              <div class="nav-item">Szolgáltatói profilok</div>
+              <div class="nav-item">Mystery Shopping</div>
+              <div class="nav-item">Kereskedői ügyfélút</div>
+              <div class="nav-item">Versenyképesség térkép</div>
+              <div class="nav-item">Korreláció elemzés</div>
+            </div>
+            <div class="mock-main">
+              <div class="mock-title">Technológiai képességek és szolgáltatások</div>
+              <div class="mock-chart-row">
+                <div class="mock-chart bar">
+                  <div class="bar-item" style="height:60%"></div>
+                  <div class="bar-item" style="height:85%"></div>
+                  <div class="bar-item" style="height:40%"></div>
+                  <div class="bar-item" style="height:95%"></div>
+                  <div class="bar-item" style="height:70%"></div>
+                  <div class="bar-item" style="height:55%"></div>
+                  <div class="bar-item" style="height:80%"></div>
+                  <div class="bar-item" style="height:45%"></div>
+                </div>
+                <div class="mock-chart donut">
+                  <div class="donut-ring"></div>
+                </div>
+              </div>
+              <div class="mock-chart-row">
+                <div class="mock-chart heatmap">
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.8)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.3)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.6)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.9)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.2)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.7)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.5)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.8)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.1)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.4)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.7)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.3)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.6)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.9)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.4)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.2)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.8)"></div>
+                  <div class="heat-cell" style="background:rgba(75,194,146,0.5)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-area">
+    <a class="cta-btn" href="#">
+      Pitchelj minket
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>

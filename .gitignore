@@ -25,4 +25,7 @@ dist-ssr
 
 # Local workspace/session artifacts
 .obsidian/workspace.json
-.superpowers/brainstorm/
+.superpowers/
+
+# Live edit plugin
+.annotations.json

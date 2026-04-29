@@ -1,4 +1,4 @@
-# framerfejleszto.hu — Tartalom és struktúra
+# framerfejleszto.hu: Tartalom és struktúra
 
 Egyoldalas marketing weboldal a **22.design Framer fejlesztési szolgáltatásához**.
 
@@ -23,7 +23,7 @@ Egyoldalas marketing weboldal a **22.design Framer fejlesztési szolgáltatásá
 > WEBOLDAL ~~HETEK~~ helyett NAPOK ALATT.
 
 **Alcím:**
-> A Framer sebessége a 22.design szakértelmével ötvözve. Lenyűgöző, azonnal módosítható, prémium weboldalak — programozók nélkül.
+> A Framer sebessége a 22.design szakértelmével ötvözve. Lenyűgöző, azonnal módosítható, prémium weboldalak, programozók nélkül.
 
 **CTA gombok:**
 - „Beszéljük meg az ötleted"
@@ -40,12 +40,12 @@ A *Design* kártya egy Framer editor mockupot mutat; a *Live* kártya egy élő 
 - Fejléc: Folyamat · Munkáink · Árak · GYIK · „Kapcsolat →"
 - Szalag: „Újdonság · Framer v4 támogatás · 5 új sablon élesítve"
 - Cím: „Weboldal napok alatt, *nem hetek alatt.*"
-- Szöveg: „Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség — te magad töltöd fel a tartalmat."
+- Szöveg: „Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség. Te magad töltöd fel a tartalmat."
 - CTA: „Pitchelj minket!" / „Élő demó"
 - Számok: **5–10** munkanap · **120+** projekt · **99** Lighthouse
 - Logósor: REGIO · APOLLO · CAESAR · TEDDY · KORONA · KERN
 
-**Lábszöveg:** ↓ görgess lejjebb — nézd meg a teljes folyamatot
+**Lábszöveg:** ↓ görgess lejjebb. Nézd meg a teljes folyamatot
 
 ---
 
@@ -56,7 +56,7 @@ A *Design* kártya egy Framer editor mockupot mutat; a *Live* kártya egy élő 
 **Cím:**
 > A régi út lassú. Az új út gyors.
 
-**Utasítás:** Mozgasd az egered a kártyán — hasonlítsd össze a két megközelítést.
+**Utasítás:** Mozgasd az egered a kártyán. Hasonlítsd össze a két megközelítést.
 
 ### Hagyományos út (bal oldal)
 
@@ -87,13 +87,13 @@ A *Design* kártya egy Framer editor mockupot mutat; a *Live* kártya egy élő 
 **Cím:**
 > ELSŐ HÍVÁSTÓL ÉLES OLDALIG 3 LÉPÉSBEN.
 
-**Lead:** Átlagos átfutás: **5–10 munkanap**. Senior designer végigvisz — nincs PM-ek közti „visszakérdezés".
+**Lead:** Átlagos átfutás: **5–10 munkanap**. Senior designer végigvisz. Nincs PM-ek közti „visszakérdezés".
 
 | Lépés | Címke         | Cím                                        | Leírás                                                                                                                                                              |
 | ----- | ------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 01    | PLATFORM      | Kiválasztjuk a legjobb utat.               | Nem minden projekt Framer. Első hívás, pár kérdés a célokról, és ajánlunk platformot — Framer, Webflow, vagy egyedi. Nem adunk el olyat, amire nincs szükséged.     |
-| 02    | DESIGN        | UX/UI tervezés, felesleges körök nélkül.   | Senior designer, egy ember. Nincs „intern csinálja". 2–3 iteráció alatt készen vagyunk — közben te látod, amit látsz, és ott szólsz, ahol kell.                     |
-| 03    | IMPLEMENTÁCIÓ | Framer-ben életre keltjük.                 | A design AZONNAL működő oldal. CMS, form, SEO, analytics — mind benne. Élesítés pár kattintás. És te utána is tudsz szerkeszteni.                                  |
+| 01    | PLATFORM      | Kiválasztjuk a legjobb utat.               | Nem minden projekt Framer. Első hívás, pár kérdés a célokról, és ajánlunk platformot: Framer, Webflow, vagy egyedi. Nem adunk el olyat, amire nincs szükséged.     |
+| 02    | DESIGN        | UX/UI tervezés, felesleges körök nélkül.   | Senior designer, egy ember. Nincs „intern csinálja". 2–3 iteráció alatt készen vagyunk. Közben te látod, amit látsz, és ott szólsz, ahol kell.                     |
+| 03    | IMPLEMENTÁCIÓ | Framer-ben életre keltjük.                 | A design AZONNAL működő oldal. CMS, form, SEO, analytics. Mind benne. Élesítés pár kattintás. És te utána is tudsz szerkeszteni.                                  |
 
 ---
 
@@ -126,7 +126,7 @@ A *Design* kártya egy Framer editor mockupot mutat; a *Live* kártya egy élő 
 > Bár a technológia no-code, a minőség mögött a 22.design tapasztalt UX/UI és Service Design csapata áll. Nincsenek közvetítők, nincsenek gyakornokok, nincsenek köztes project managerek. **Aki tervezi, az élesíti is.**
 
 **Idézet:**
-> „Az új dizájn bevezetése után háromszorosára növeltük a konverziós arányunkat. Nemcsak szép lett — mérhetően jobban is működik."
+> „Az új dizájn bevezetése után háromszorosára növeltük a konverziós arányunkat. Nemcsak szép lett. Mérhetően jobban is működik."
 >
 > — Zsófi Nagy, Head of Ecommerce, REGIO Játék
 
@@ -141,21 +141,21 @@ A *Design* kártya egy Framer editor mockupot mutat; a *Live* kártya egy élő 
 
 **Lead:** 4 projekt az utóbbi 18 hónapból, mindegyik Framer-ben. Kattints, nézd meg élőben.
 
-### REGIO JÁTÉK — ECOMMERCE · CRO
-Teljes redesign Magyarország legnagyobb játékáruházának. Jobb böngészés, okosabb kosár, valódi eredmény.
-**+22% konverzió**
+### LOGISHOP / SAAS · ECOMMERCE
+B2B ecommerce platform teljes weboldal és brand. 50+ vállalat használja világszerte, egy oldalon mutatjuk meg miért.
+**50+ ügyfél**
 
-### UNBOXED.HU — BRAND · FRAMER
-D2C gyerekjáték brand új identitás + Framer shop. 8 nap alatt design-tól az élesítésig.
-**8 nap élesítés**
+### KÜRT CONSULTING / BRAND · WEBOLDAL
+Vezetési tanácsadó cég teljes arculat + weboldal. Stratégiától a végrehajtásig, ahogy ők is dolgoznak.
+**3 hét alatt kész**
 
-### DREAMJOBS — SAAS · LANDING
-Kampány-microsite onboarding demóval. Lighthouse 98, a cold-traffic is konvertál.
-**98 Lighthouse**
+### LOGINET / B2B · WEBOLDAL
+Enterprise szoftverfejlesztő bemutatkozó oldal. 500+ projekt, 98% ügyfélmegtartás. A számok magukért beszélnek.
+**500+ projekt**
 
-### WOLTERS KLUWER — B2B · MARKETING
-Termékoldal-család, CMS-ben szerkeszthető. A marketing csapat azóta 14 új oldalt dobott fel.
-**14 CMS oldal**
+### GANZ-MAVAG / IPAR · FRAMER
+Vasúti járműgyártó nemzetközi bemutatkozó oldal Framer-ben. Egyiptomtól Európáig, egy oldalon az egész történet.
+**1.1 mrd € projekt**
 
 ---
 
@@ -166,10 +166,10 @@ Termékoldal-család, CMS-ben szerkeszthető. A marketing csapat azóta 14 új o
 **Cím:**
 > VÁLASZOK, MIELŐTT MEGKÉRDEZNÉD.
 
-**Lábszöveg:** Nem találod a kérdésed? Írj nekünk — 24 órán belül válaszolunk.
+**Lábszöveg:** Nem találod a kérdésed? Írj nekünk. 24 órán belül válaszolunk.
 
 **MI A KÜLÖNBSÉG A WEBFLOW ÉS A FRAMER KÖZÖTT?**
-A Framer gyorsabb és designer-barátabb, a Webflow rugalmasabb e-kereskedelemre és komplex logikára. Mindkettőben szakértők vagyunk a 22.design-nál, így őszintén ajánljuk az adott projekthez illőt — nem azt, ami nekünk kényelmes.
+A Framer gyorsabb és designer-barátabb, a Webflow rugalmasabb e-kereskedelemre és komplex logikára. Mindkettőben szakértők vagyunk a 22.design-nál, így őszintén ajánljuk az adott projekthez illőt. Nem azt, ami nekünk kényelmes.
 
 **KAPOK HOZZÁFÉRÉST AZ OLDAL SZERKESZTÉSÉHEZ?**
 Igen. Teljes jogú hozzáférést kapsz a Framer projekt-hez, és átadjuk a szerkesztési alapokat egy 30 perces onboarding-on. Ha elakadsz, egy havi support-csomaggal bármikor segítünk.
@@ -181,7 +181,7 @@ Egy egyszerűbb landing page 3–5 munkanap. Teljes marketing microsite 5–10 m
 Fix áras csomagok vannak: Landing (650k Ft-tól), Microsite (1.2M Ft-tól), Full site CMS-sel (2.5M Ft-tól). Az áron felül a Framer előfizetés havi pár ezer forint. Kérj konkrét ajánlatot egy hívással.
 
 **MI VAN, HA KINŐJÜK A FRAMERT?**
-Akkor átváltunk Webflow-ra vagy egyedi fejlesztésre — ebben is segítünk. A Framer-ben felépített design-rendszer átemelhető, nem kell mindent újrakezdeni.
+Akkor átváltunk Webflow-ra vagy egyedi fejlesztésre. Ebben is segítünk. A Framer-ben felépített design-rendszer átemelhető, nem kell mindent újrakezdeni.
 
 ---
 
@@ -222,4 +222,12 @@ Közösségi: Facebook · LinkedIn · Instagram
 - Budapest, Hungary
 - +36 30 000 0000
 
-**Jogi:** © 2025 22 Média és Design Stúdió Kft. — all rights reserved. · Adatvédelmi tájékoztató · ÁSZF
+**Jogi:** © 2025 22 Média és Design Stúdió Kft. All rights reserved. · Adatvédelmi tájékoztató · ÁSZF
+
+
+
+-----------
+1. Animációk, amik miatt kiemelkedő tud lenni
+2. Régi módszer <-> új módszer
+3. Saját üzemeltetés / informatikus vs. cloud service
+4. 

@@ -1,0 +1,103 @@
+<h2>Three Approaches for Live Text Editor</h2>
+<p class="subtitle">Each approach differs in architecture and complexity. Click to select your preference.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Standalone Vite Plugin (Recommended)</h3>
+      <p>A single <code>vite-plugin-live-edit</code> package that bundles everything:</p>
+      <ul>
+        <li><strong>Babel transform</strong> — injects <code>data-source-file</code> / <code>data-source-line</code> into JSX text elements at compile time</li>
+        <li><strong>Overlay runtime</strong> — a React component auto-injected in dev mode that handles the floating popover, annotation mode, keyboard shortcuts, and floating button</li>
+        <li><strong>Dev server middleware</strong> — an API route on the Vite dev server (<code>/__live-edit/save</code>, <code>/__live-edit/annotations</code>) that writes changes back to source files and manages <code>.annotations.json</code></li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>One line to add: <code>liveEdit()</code> in vite.config</li>
+            <li>Zero app code changes needed</li>
+            <li>Portable to any Vite + React project</li>
+            <li>Clean separation from app code</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Babel transform adds ~50-100ms to dev startup</li>
+            <li>More upfront architecture work</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Two-Part: Plugin + React Provider</h3>
+      <p>Split into a Vite plugin (Babel transform + server middleware) and a React context provider you wrap your app with:</p>
+      <ul>
+        <li><strong>Vite plugin</strong> — handles the Babel transform and server-side file writing</li>
+        <li><strong>React provider</strong> — <code>&lt;LiveEditProvider&gt;</code> wraps your app, provides edit/annotate mode context, renders the popover and floating button</li>
+        <li>You manually add <code>&lt;LiveEditProvider&gt;</code> in your App.jsx (dev only)</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>More control over overlay behavior per-project</li>
+            <li>Can pass config props to the provider</li>
+            <li>Easier to debug (visible in React DevTools)</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Requires app code change (wrapping with provider)</li>
+            <li>Two integration points instead of one</li>
+            <li>Provider must be removed/guarded for production</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Bookmarklet + WebSocket Server</h3>
+      <p>A completely decoupled approach — no build-time changes at all:</p>
+      <ul>
+        <li><strong>Bookmarklet / browser extension</strong> — injects the overlay UI into any page</li>
+        <li><strong>Separate Node server</strong> — runs alongside Vite, connected via WebSocket, handles file search + write-back</li>
+        <li>Source mapping done at runtime by text-matching visible content against source files (fuzzy search)</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Zero build config changes</li>
+            <li>Works with any framework, not just React</li>
+            <li>Could work on deployed sites too</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Fuzzy text matching is unreliable (duplicates, dynamic text)</li>
+            <li>No exact line numbers — best-effort source location</li>
+            <li>Separate server to manage</li>
+            <li>Bookmarklet UX is clunky</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 2rem; padding: 1.25rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+  <h3>My Recommendation: A</h3>
+  <p>The standalone Vite plugin is the cleanest approach. One config line, zero app code changes, and the Babel transform gives you <strong>exact</strong> source locations — which is the foundation everything else depends on. The slight build-time cost is negligible in dev mode. Option B adds unnecessary integration friction for no real gain. Option C sacrifices the most important feature (reliable source mapping) for flexibility you don't need.</p>
+</div>
