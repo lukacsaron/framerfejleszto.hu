@@ -191,9 +191,9 @@ export default function HeroA() {
               <p className="ff-award-sub">Digital Design Award</p>
             </div>
             <img
-              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024"
-              srcSet="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=512 512w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024 1024w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1600 1600w"
-              sizes="(max-width: 768px) 100vw, 1024px"
+              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=720"
+              srcSet="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=360 360w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=720 720w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024 1024w"
+              sizes="(max-width: 480px) 360px, (max-width: 768px) 480px, 720px"
               width={1063}
               height={685}
               loading="eager"

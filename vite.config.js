@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { imagetools } from 'vite-imagetools'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { liveEdit } from './src/plugins/live-edit/index.js'
 
 // https://vite.dev/config/
@@ -8,6 +9,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     imagetools(),
+    cssInjectedByJsPlugin(),
     ...(mode === 'development' ? [liveEdit()] : []),
   ],
   build: {
