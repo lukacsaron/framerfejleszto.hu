@@ -301,9 +301,14 @@ export function VibeCodingSection() {
                 <span className="ff-vibe-browser-url">phenogyde.com/acq-riport-2026</span>
               </div>
               <div className="ff-vibe-browser-content">
-                <img
-                  src="/assets/illustrations/phenogyde-report-overview.avif"
-                  alt="PhenoGyde ACQ Riport 2026: interaktív piackutatás"
+                <video
+                  src="/assets/videos/phenogyde-2.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="PhenoGyde ACQ Riport 2026: interaktív piackutatás"
                 />
               </div>
             </div>
@@ -323,7 +328,6 @@ export function VibeCodingSection() {
 /* ═════════ Trust / Team ═════════ */
 export function TrustSection() {
   const sectionRef = useRef(null);
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -366,15 +370,7 @@ export function TrustSection() {
               >
                 &ldquo;
               </motion.span>
-              {isMobile ? (
-                <Reveal><p>„{quoteText}"</p></Reveal>
-              ) : (
-                <p>
-                  „{quoteText.split(' ').map((word, i, arr) => (
-                    <WordReveal key={i} word={word} index={i} total={arr.length} progress={scrollYProgress} />
-                  ))}"
-                </p>
-              )}
+              <Reveal><p>„{quoteText}"</p></Reveal>
               <motion.div
                 className="stars"
                 initial="hidden"
@@ -407,23 +403,11 @@ export function TrustSection() {
   );
 }
 
-function WordReveal({ word, index, total, progress }) {
-  const start = (index / total) * 0.6;
-  const end = start + 0.15;
-  const opacity = useTransform(progress, [start, end], [0.15, 1]);
-
-  return (
-    <motion.span style={{ opacity, display: 'inline-block', marginRight: '0.3em' }}>
-      {word}
-    </motion.span>
-  );
-}
-
 /* ═════════ Portfolio ═════════ */
 const PROJECTS = [
   {
-    img: 'twin-heads-commerce.avif', bg: 'linear-gradient(135deg, var(--c-wash-peach), var(--c-wash-lilac))',
-    tag: 'SAAS · FRAMER', title: 'LOGISHOP.IO', body: 'E-kereskedelmi SaaS marketing site. Tiszta narratíva, demó-fókuszú onboarding, Framer CMS-szel.',
+    video: 'logishop.mp4', bg: 'linear-gradient(135deg, var(--c-wash-peach), var(--c-wash-lilac))',
+    tag: 'SAAS · FRAMER', title: 'LOGISHOP.IO', body: 'E-kereskedelmi SaaS marketing site. Tiszta narratíva, demó és feature-fókusz, Framer CMS. A projekt célja, hogy egyszerűen, érthetően adja át a Logishop ajánlatát.',
     stat: '12', statSub: 'NAP ÉLESÍTÉS',
   },
   {
@@ -432,13 +416,13 @@ const PROJECTS = [
     stat: '8', statSub: 'NAP ÉLESÍTÉS',
   },
   {
-    img: 'ui-flow-journey.avif', bg: 'linear-gradient(135deg, var(--c-wash-sky), var(--c-wash-lilac))',
+    video: 'loginet.mp4', bg: 'linear-gradient(135deg, var(--c-wash-sky), var(--c-wash-lilac))',
     tag: 'B2B · FRAMER', title: 'LOGINET.COM', body: 'IT-hálózati szolgáltató teljes site-refresh. Új arculat, gyorsabb betöltés, jobb lead-konverzió.',
     stat: '14', statSub: 'NAP ÉLESÍTÉS',
   },
   {
-    img: 'hands-wireframe-grid.avif', bg: 'linear-gradient(135deg, var(--c-wash-lilac), var(--c-wash-peach))',
-    tag: 'INDUSTRIAL · FRAMER', title: 'GANZ-MAVAG.COM', body: 'Klasszikus ipari brand digitális újraindítása. Heritage és modern Framer egy arculatban.',
+    video: 'ganzmavag.mp4', bg: 'linear-gradient(135deg, var(--c-wash-lilac), var(--c-wash-peach))',
+    tag: 'INDUSTRIAL · FRAMER', title: 'GANZ-MAVAG.COM', body: 'Klasszikus ipari brand digitális újraindítása. Történelmi örökség és modernitás egy arculatban.',
     stat: '180', statSub: 'ÉVES ÖRÖKSÉG',
   },
 ];
@@ -553,27 +537,35 @@ export function Portfolio() {
 const FAQS = [
   {
     q: 'MI A KÜLÖNBSÉG A WEBFLOW ÉS A FRAMER KÖZÖTT?',
-    a: 'A Framer gyorsabb és designer-barátabb, a Webflow rugalmasabb e-kereskedelemre és komplex logikára. Mindkettőben szakértők vagyunk a 22.design-nál, így őszintén ajánljuk az adott projekthez illőt. Nem azt, ami nekünk kényelmes.'
+    a: 'A Framer gyorsabb és designer-barátabb, a Webflow rugalmasabb e-kereskedelemre és komplex logikára. Mindkettőben szakértők vagyunk a 22.design-nál, így őszintén ajánljuk az adott projekthez illőt.'
   },
   {
     q: 'KAPOK HOZZÁFÉRÉST AZ OLDAL SZERKESZTÉSÉHEZ?',
-    a: 'Igen. Teljes jogú hozzáférést kapsz a Framer projekt-hez, és átadjuk a szerkesztési alapokat egy 30 perces onboarding-on. Ha elakadsz, egy havi support-csomaggal bármikor segítünk.'
+    a: 'Igen. Teljes jogú hozzáférést kapsz a Framer projekt-hez, és átadjuk a szerkesztési alapokat egy 30 perces onboarding-on. Ha elakadsz, havi support-csomaggal is bármikor segítünk.'
   },
   {
     q: 'MENNYI IDŐ ALATT KÉSZÜL EL EGY OLDAL?',
-    a: 'Egy egyszerűbb landing page 3–5 munkanap. Teljes marketing microsite 2–3 hét. CMS-es, többoldalas site 2–3 hét. Mindezt beleértve a design fázist is.'
+    a: 'Egy egyszerűbb landing page 5–7 munkanap. Teljes marketing microsite 2–3 hét. CMS-es, többoldalas site 4–8 hét. Beleértve a design fázist is.'
   },
   {
     q: 'MENNYIBE KERÜL?',
-    a: 'Fix áras csomagok vannak: Landing (650k Ft-tól), Microsite (1.2M Ft-tól), Full site CMS-sel (2.5M Ft-tól). Az áron felül a Framer előfizetés havi pár ezer forint. Kérj konkrét ajánlatot egy hívással.'
+    a: 'Az árazás mindig a komplexitástól, oldalak számától és interaktív elemektől függ, de a nagyságrend általában ezek körül az összegek körül mozog: Landing (650k Ft-tól), Microsite (1.2M Ft-tól), Full site CMS-sel (2.5M Ft-tól). Az áron felül a Framer előfizetés havi pár ezer forint.'
   },
   {
-    q: 'KI HOSTINGOLJA AZ OLDALT?',
+    q: 'KI HOSTOLJA AZ OLDALT?',
     a: 'A Framer saját cloud infrastruktúráján fut. Global CDN, automatikus SSL, 99.9% uptime. Nincs szerver, nincs karbantartás. Az előfizetésben minden benne van.'
   },
   {
     q: 'MI VAN, HA KINŐJÜK A FRAMERT?',
-    a: 'Akkor átváltunk Webflow-ra vagy egyedi fejlesztésre. Ebben is segítünk. A Framer-ben felépített design-rendszer átemelhető, nem kell mindent újrakezdeni.'
+    a: 'Akkor átváltunk egyedi fejlesztésre. Ebben is segítünk. A Framer-ben felépített design-rendszer átemelhető / exportálható, nem kell mindent újrakezdeni.'
+  },
+  {
+    q: 'NEM FÉLTEK A VENDOR LOCK-INTŐL?',
+    a: 'Nem, mert nincs. A domain a tied, a tartalom a tied, a projekt a tied. A Framer oldalt bármikor exportálhatod statikus HTML/CSS/JS kódként, a design-rendszer és az assetek pedig 1:1-ben átemelhetők egy egyedi fejlesztési projektbe (Next.js, React, bármi). Ha egyszer úgy döntenél, hogy lecseréled a platformot, abban is mi segítünk a migrációval — nem hagyunk csapdában.'
+  },
+  {
+    q: 'MENNYIRE MEGBÍZHATÓ A FRAMER? KIK HASZNÁLJÁK MÉG?',
+    a: 'A Framer-en ma 144 000+ cég oldalai futnak 194 országban — köztük olyan globális márkák, mint a Perplexity, Miro, Zapier, Mixpanel, Scale AI, Superhuman, Huel és Cal.com. A platform mögött enterprise-szintű infrastruktúra áll: globális CDN, automatikus SSL, 99.9% uptime garancia, SOC 2 megfelelőség. Nem egy hobbi-eszköz, hanem komoly SaaS-cégek és AI-startupok éles produkciós környezete.'
   },
 ];
 

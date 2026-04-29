@@ -606,7 +606,8 @@ img { max-width: 100%; display: block; }
 .ff-vibe-browser-content {
   line-height: 0;
 }
-.ff-vibe-browser-content img {
+.ff-vibe-browser-content img,
+.ff-vibe-browser-content video {
   width: 100%;
   height: auto;
   display: block;

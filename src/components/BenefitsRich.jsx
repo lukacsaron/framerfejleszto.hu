@@ -81,7 +81,7 @@ function DemoLanding() {
           </div>
         </div>
       </div>
-      <div className="bdemo-caption">Hős → Stat → Kártya → CTA — minden a helyén.</div>
+      <div className="bdemo-caption">Herp → USPk → Értékajánlat → CTA — minden a helyén.</div>
     </div>
   );
 }
@@ -141,7 +141,7 @@ function DemoEdit() {
           </div>
         </div>
       </div>
-      <div className="bdemo-caption">Marketinges szerkeszti. Te csak nézed.</div>
+      <div className="bdemo-caption">A marketinges szerkeszti. Te csak nézed.</div>
     </div>
   );
 }
@@ -214,7 +214,7 @@ function DemoAnimations() {
           <span className="bdemo-anim-tag">Marquee</span>
         </div>
       </div>
-      <div className="bdemo-caption">Pár kattintás. Nem több órányi munka.</div>
+      <div className="bdemo-caption">Néhány kattintás, nem pedig több órányi munka.</div>
     </div>
   );
 }
