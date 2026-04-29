@@ -167,6 +167,8 @@ export default function HeroA() {
             </div>
             <img
               src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=512&width=1063&height=685"
+              width={1063}
+              height={685}
               alt="RGB Kreatív Design Award"
               className="ff-award-img"
             />
