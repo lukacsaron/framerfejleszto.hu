@@ -30,3 +30,5 @@ dist-ssr
 # Live edit plugin
 .annotations.json
 .obsidian/workspace.json
+.claude/scheduled_tasks.lock
+.obsidian/workspace.json
