@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => ({
             return 'motion'
           }
           if (id.includes('/lenis/')) return 'lenis'
-          if (id.includes('/unframer/')) return 'framer'
+          // unframer: no manual chunk — rolldown will split it with the lazy badge import
           return undefined
         },
       },
