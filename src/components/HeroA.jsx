@@ -7,7 +7,19 @@ import StickyNav from './StickyNav';
 import FramerExpertBadge from '../../framer/framer-expert-badge';
 import '../../framer/styles.css';
 
-function FloatingIcon({ src, style, className, alt = '' }) {
+// Flourish images (single intrinsic size, srcset variants for DPR)
+import starYellow from '../assets/images/flourishes/star-yellow.avif?w=60;120&format=avif&as=srcset';
+import plusPurple from '../assets/images/flourishes/plus-purple.avif?w=72;144&format=avif&as=srcset';
+import arrowOrangeDrawn from '../assets/images/flourishes/arrow-orange-drawn.avif?w=64;128&format=avif&as=srcset';
+import flowerBlueDrawn from '../assets/images/flourishes/flower-blue-drawn.avif?w=80;160&format=avif&as=srcset';
+import asteriskGreen from '../assets/images/flourishes/asterisk-green.avif?w=56;112&format=avif&as=srcset';
+import starWhite from '../assets/images/flourishes/star-white.avif?w=60;120&format=avif&as=srcset';
+import starburstYellow from '../assets/images/flourishes/starburst-yellow.avif?w=68;136&format=avif&as=srcset';
+
+// Hero illustration (rendered ~240px in live card)
+import thumbsUpResponsive from '../assets/images/illustrations/thumbs-up-responsive.avif?w=240;480&format=avif&as=srcset';
+
+function FloatingIcon({ src, srcSet, sizes, width, height, style, className, alt = '' }) {
   const wrapRef = useRef(null);
   const state = useRef({
     dragging: false, startX: 0, startY: 0, dx: 0, dy: 0,
@@ -87,6 +99,11 @@ function FloatingIcon({ src, style, className, alt = '' }) {
     >
       <img
         src={src}
+        srcSet={srcSet}
+        sizes={sizes}
+        width={width}
+        height={height}
+        loading="lazy"
         alt={alt}
         className={`ff-float ${className}`}
         draggable={false}
@@ -135,13 +152,22 @@ export default function HeroA() {
       <StickyNav />
       <FFNav onDark={true} />
       <div className="ff-hero-inner">
-        <img src="/assets/flourishes/star-yellow.avif" className="ff-flourish" style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }} alt="" />
-        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
-        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
-        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
-        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
-        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
-        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
+        <img
+          srcSet={starYellow}
+          sizes="60px"
+          width={60}
+          height={60}
+          loading="lazy"
+          className="ff-flourish"
+          style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }}
+          alt=""
+        />
+        <FloatingIcon srcSet={plusPurple} sizes="72px" width={72} height={72} className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
+        <FloatingIcon srcSet={arrowOrangeDrawn} sizes="64px" width={64} height={64} className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
+        <FloatingIcon srcSet={flowerBlueDrawn} sizes="80px" width={80} height={80} className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
+        <FloatingIcon srcSet={asteriskGreen} sizes="56px" width={56} height={56} className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
+        <FloatingIcon srcSet={starWhite} sizes="60px" width={60} height={60} className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
+        <FloatingIcon srcSet={starburstYellow} sizes="68px" width={68} height={68} className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
 
         <motion.div
           className="ff-hero-stamp-desktop"
@@ -365,7 +391,14 @@ export default function HeroA() {
                   </div>
                 </div>
                 <div className="pic">
-                  <img src="/assets/illustrations/thumbs-up-responsive.avif" alt="" />
+                  <img
+                    srcSet={thumbsUpResponsive}
+                    sizes="240px"
+                    width={240}
+                    height={240}
+                    loading="lazy"
+                    alt=""
+                  />
                   <span className="pic-badge">LIVE</span>
                 </div>
               </div>

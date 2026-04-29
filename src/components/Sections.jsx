@@ -5,6 +5,11 @@ import { FFButton, FFStamp, FFLogoMark } from './Primitives';
 import { Reveal, RevealGroup, RevealChild, TypewriterReveal } from './animations/Reveal';
 import CountUp from './animations/CountUp';
 
+// Section illustrations (responsive variants for layout-flexible cards)
+import caesarUiCollage from '../assets/images/illustrations/caesar-ui-collage.avif?w=400;800;1200&format=avif&as=picture';
+import okHandType from '../assets/images/illustrations/ok-hand-type.avif?w=400;800&format=avif&as=picture';
+import aiBrainHead from '../assets/images/illustrations/ai-brain-head.avif?w=400;800;1200&format=avif&as=picture';
+
 /* ═════════ Problem vs Solution — Before/After Slider ═════════ */
 export function ProblemSolution() {
   const [split, setSplit] = useState(65);
@@ -76,12 +81,18 @@ export function ProblemSolution() {
           >
             {/* LEFT — traditional (always visible underneath) */}
             <div className="ff-vs-slider-bad">
-              <img
-                className="ff-vs-slider-illu bad"
-                src="/assets/illustrations/caesar-ui-collage.avif"
-                alt=""
-                aria-hidden="true"
-              />
+              <picture>
+                <source type="image/avif" srcSet={caesarUiCollage.sources.avif} />
+                <img
+                  className="ff-vs-slider-illu bad"
+                  src={caesarUiCollage.img.src}
+                  width={caesarUiCollage.img.w}
+                  height={caesarUiCollage.img.h}
+                  loading="lazy"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </picture>
               <div className="ff-vs-slider-label">HAGYOMÁNYOS ÚT</div>
               <h3>Design → Handoff → Fejlesztés → Hiba → Újra</h3>
               <div className="ff-vs-slider-list">
@@ -99,12 +110,18 @@ export function ProblemSolution() {
               className="ff-vs-slider-good"
               style={{ clipPath: `polygon(${split}% 0, 100% 0, 100% 100%, ${split}% 100%)` }}
             >
-              <img
-                className="ff-vs-slider-illu good"
-                src="/assets/illustrations/ok-hand-type.avif"
-                alt=""
-                aria-hidden="true"
-              />
+              <picture>
+                <source type="image/avif" srcSet={okHandType.sources.avif} />
+                <img
+                  className="ff-vs-slider-illu good"
+                  src={okHandType.img.src}
+                  width={okHandType.img.w}
+                  height={okHandType.img.h}
+                  loading="lazy"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </picture>
               <div className="ff-vs-slider-label">A MI MEGOLDÁSUNK · FRAMER</div>
               <h3>Design = Kód. Egy lépés.</h3>
               <div className="ff-vs-slider-list">
@@ -360,11 +377,17 @@ export function TrustSection() {
         <div className="ff-trust">
           <Reveal variant="scaleUp" className="illo">
             <div className="wash" />
-            <motion.img
-              src="/assets/illustrations/ai-brain-head.avif"
-              alt="22.design senior team"
-              style={{ y: useTransform(scrollYProgress, [0, 1], [40, -40]) }}
-            />
+            <picture>
+              <source type="image/avif" srcSet={aiBrainHead.sources.avif} />
+              <motion.img
+                src={aiBrainHead.img.src}
+                width={aiBrainHead.img.w}
+                height={aiBrainHead.img.h}
+                loading="lazy"
+                alt="22.design senior team"
+                style={{ y: useTransform(scrollYProgress, [0, 1], [40, -40]) }}
+              />
+            </picture>
           </Reveal>
           <div className="text">
             <Reveal variant="eyebrow">
@@ -677,7 +700,17 @@ export function FinalCTA() {
             <div className="stamp"><FFStamp onDark={true} /></div>
           </Reveal>
           <Reveal delay={0.1} variant="scaleUp">
-            <img src="/assets/illustrations/ok-hand-type.avif" className="illo" alt="" />
+            <picture>
+              <source type="image/avif" srcSet={okHandType.sources.avif} />
+              <img
+                src={okHandType.img.src}
+                width={okHandType.img.w}
+                height={okHandType.img.h}
+                loading="lazy"
+                className="illo"
+                alt=""
+              />
+            </picture>
           </Reveal>
           <Reveal delay={0.2}>
             <TypewriterReveal>HA NEM CSAK SZÉP DESIGNT,<br />HANEM MAGASABB KONVERZIÓT IS<br />SZERETNÉL: ITT KEZDJÜK.</TypewriterReveal>

@@ -2,6 +2,10 @@ import { useState, useCallback } from 'react';
 import { Arrow } from './Icons';
 import MagneticButton from './animations/MagneticButton';
 
+// Stamp graphics — ring is decorative spinner, number is centered logo
+import twentyTwoRing from '../assets/images/22-ring.avif?w=200;400&format=avif&as=srcset';
+import twentyTwoNumber from '../assets/images/22-number.png?w=120;240&format=avif;webp;png&as=picture';
+
 export function FFLogoMark({ size = 28, className = '', ...rest }) {
   const w = (248 / 124) * size;
   return (
@@ -64,8 +68,27 @@ export function FFStamp({ className = '', spin = true, size = 140 }) {
       onMouseLeave={() => setFast(false)}
       onClick={onClick}
     >
-      <img className={`ff-stamp-ring ${spin ? 'spinning' : ''}`} src="/assets/22-ring.avif" alt="" />
-      <img className="ff-stamp-logo" src="/assets/22-number.png" alt="22" />
+      <img
+        className={`ff-stamp-ring ${spin ? 'spinning' : ''}`}
+        srcSet={twentyTwoRing}
+        sizes="200px"
+        width={200}
+        height={200}
+        loading="lazy"
+        alt=""
+      />
+      <picture>
+        <source type="image/avif" srcSet={twentyTwoNumber.sources.avif} />
+        <source type="image/webp" srcSet={twentyTwoNumber.sources.webp} />
+        <img
+          className="ff-stamp-logo"
+          src={twentyTwoNumber.img.src}
+          width={twentyTwoNumber.img.w}
+          height={twentyTwoNumber.img.h}
+          loading="lazy"
+          alt="22"
+        />
+      </picture>
     </div>
   )
 }
