@@ -3,6 +3,9 @@
 import { readFile, writeFile } from 'fs/promises';
 import { resolve, relative } from 'path';
 import { randomBytes } from 'crypto';
+import { parse as babelParse } from '@babel/parser';
+import _traverse from '@babel/traverse';
+const traverse = _traverse.default || _traverse;
 
 export function createMiddleware(config) {
   const { root, annotationsFile } = config;
@@ -52,46 +55,178 @@ export function createMiddleware(config) {
     res.end(JSON.stringify(data));
   }
 
+  function findAllIndexes(source, needle) {
+    if (!needle) return [];
+    const out = [];
+    let from = 0;
+    while (true) {
+      const i = source.indexOf(needle, from);
+      if (i === -1) break;
+      out.push({ index: i, length: needle.length });
+      from = i + needle.length;
+    }
+    return out;
+  }
+
+  // Match `needle` in `source` while treating "rendered whitespace" loosely.
+  // The browser hands us the DOM-rendered text (single space, no newlines),
+  // but the source file may have:
+  //   - literal newlines + JSX indentation between segments
+  //   - JSX whitespace expressions like `{' '}` or `{" "}` to force a space
+  // Both render to a single space in the DOM. We expand each whitespace run
+  // in the pattern to a class that also accepts these JSX expressions, so
+  // the search lines up with the on-disk source regardless of formatting.
+  function findAllIndexesFlexWhitespace(source, needle) {
+    if (!needle.trim()) return [];
+    const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // One DOM-whitespace-equivalent unit:
+    //   \s                     real whitespace
+    //   \{['"] ... ['"]\}      JSX whitespace expression like {' '} / {" "}
+    //   <br\s*/?>              JSX line break (renders as space/newline)
+    // `+` makes runs of these match together.
+    const WS_UNIT = "(?:\\s|\\{['\"]\\s*['\"]\\}|<br\\s*/?>)";
+    const flexible = escaped.replace(/\s+/g, WS_UNIT + '+');
+    const re = new RegExp(flexible, 'g');
+    const out = [];
+    let m;
+    while ((m = re.exec(source)) !== null) {
+      out.push({ index: m.index, length: m[0].length });
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    return out;
+  }
+
+  function lineColToOffset(source, line, col) {
+    const targetLine = Math.max(1, Number(line) || 1);
+    const targetCol = Math.max(1, Number(col) || 1);
+    let offset = 0;
+    let curLine = 1;
+    while (curLine < targetLine) {
+      const nl = source.indexOf('\n', offset);
+      if (nl === -1) return source.length;
+      offset = nl + 1;
+      curLine++;
+    }
+    return Math.min(source.length, offset + (targetCol - 1));
+  }
+
+  // Locate the JSX element whose opening tag starts at `line:col` (matching
+  // the `data-live-line` / `data-live-col` attributes the babel transform
+  // injected). Returns the babel JSXElement node, or null if not found / if
+  // parsing fails.
+  function findJSXElementAt(source, line, col) {
+    let ast;
+    try {
+      ast = babelParse(source, {
+        sourceType: 'module',
+        errorRecovery: true,
+        plugins: ['jsx', 'typescript'],
+      });
+    } catch {
+      return null;
+    }
+    let result = null;
+    traverse(ast, {
+      JSXOpeningElement(path) {
+        const loc = path.node.loc;
+        if (!loc) return;
+        // babel column is 0-based; data-live-col stores the same value.
+        if (loc.start.line === line && loc.start.column === col) {
+          result = path.parentPath.node;
+          path.stop();
+        }
+      },
+    });
+    return result;
+  }
+
+  // True when the JSXElement holds text we can replace literally (direct
+  // JSXText, JSX fragments containing literals, inline formatting elements,
+  // <br/>, etc.). False when its only content is variable interpolation
+  // (`{s.title}`), which lives in a data structure elsewhere — those cases
+  // need the whole-file fallback search.
+  function hasInlineEditableContent(element) {
+    if (!element || !element.children) return false;
+    for (const c of element.children) {
+      if (c.type === 'JSXText' && c.value.trim().length > 0) return true;
+      if (c.type === 'JSXElement') return true;
+      if (c.type === 'JSXExpressionContainer') {
+        const e = c.expression;
+        if (
+          e.type === 'StringLiteral' ||
+          (e.type === 'TemplateLiteral' && e.expressions.length === 0)
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   return function middleware(req, res, next) {
     if (!req.url.startsWith('/__live-edit/')) return next();
 
     const route = req.url.replace('/__live-edit', '');
 
-    // POST /save — write edit back to source
+    // POST /save — write edit back to source.
+    //
+    // Strategy:
+    //   1. Parse the source as JSX, find the element at `line:col`
+    //      (the same position the babel transform recorded as data-live-line
+    //      / data-live-col). If that element has inline-editable content
+    //      (direct JSXText, formatting tags, <br/>, etc.) we replace the
+    //      byte range between its opening `>` and closing `<`. This is
+    //      whitespace-, entity-, and JSX-construct-agnostic — no matching.
+    //   2. Otherwise (e.g. `<h4>{s.title}</h4>` whose text lives in a
+    //      separate data array), fall back to a whole-file text search
+    //      using `oldText`. Exact match first, then a whitespace-tolerant
+    //      regex for legacy callers.
     if (req.method === 'POST' && route === '/save') {
       parseBody(req)
         .then(async ({ file, line, col, oldText, newText }) => {
           const absPath = validatePath(file);
           const source = await readFile(absPath, 'utf-8');
-          const lines = source.split('\n');
+          const lineNum = Number(line);
+          const colNum = Number(col);
 
-          // Find the oldText in the source
-          const lineIdx = line - 1;
-          if (lineIdx < 0 || lineIdx >= lines.length) {
-            return sendJson(res, { ok: false, error: `Line ${line} out of range` }, 400);
+          // 1) AST-based replacement.
+          const element = findJSXElementAt(source, lineNum, colNum);
+          if (
+            element &&
+            element.openingElement &&
+            element.closingElement &&
+            hasInlineEditableContent(element)
+          ) {
+            const startIdx = element.openingElement.end;
+            const endIdx = element.closingElement.start;
+            const newSource =
+              source.slice(0, startIdx) + newText + source.slice(endIdx);
+            await writeFile(absPath, newSource, 'utf-8');
+            return sendJson(res, { ok: true, file, line, mode: 'ast' });
           }
 
-          // Search from the target line for the old text
-          const searchArea = lines.slice(lineIdx).join('\n');
-          const textIdx = searchArea.indexOf(oldText);
-          if (textIdx === -1) {
+          // 2) Fallback: whole-file search for data-driven content.
+          let matches = findAllIndexes(source, oldText);
+          if (matches.length === 0) {
+            matches = findAllIndexesFlexWhitespace(source, oldText);
+          }
+          if (matches.length === 0) {
             return sendJson(res, {
               ok: false,
-              error: `Text not found at ${file}:${line}. File may have changed.`,
+              error: `Text not found in ${file}. File may have changed.`,
             }, 400);
           }
 
-          // Replace in the full source
-          const beforeSearchArea = lines.slice(0, lineIdx).join('\n');
-          const prefix = beforeSearchArea ? beforeSearchArea + '\n' : '';
+          const targetOffset = lineColToOffset(source, lineNum, colNum);
+          const best = matches.reduce((acc, m) =>
+            Math.abs(m.index - targetOffset) < Math.abs(acc.index - targetOffset) ? m : acc
+          , matches[0]);
+
           const newSource =
-            prefix +
-            searchArea.slice(0, textIdx) +
-            newText +
-            searchArea.slice(textIdx + oldText.length);
+            source.slice(0, best.index) + newText + source.slice(best.index + best.length);
 
           await writeFile(absPath, newSource, 'utf-8');
-          sendJson(res, { ok: true, file, line });
+          sendJson(res, { ok: true, file, line, mode: 'fallback', matches: matches.length });
         })
         .catch((e) => sendJson(res, { ok: false, error: e.message }, 500));
       return;

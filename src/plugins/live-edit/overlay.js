@@ -40,6 +40,28 @@
     return text.trim();
   }
 
+  // innerHTML for round-tripping into the source: strips attributes the
+  // live-edit babel transform injects (data-live-file, data-live-line,
+  // data-live-col, etc.) and any state attributes we set during editing.
+  // Source on disk has clean tags like `<b>foo</b>`; the rendered DOM has
+  // `<b data-live-file="..." data-live-line="...">foo</b>`. Without this
+  // cleanup the save-side text search can never line up the two.
+  function cleanInnerHTML(el) {
+    var clone = el.cloneNode(true);
+    var all = clone.querySelectorAll('*');
+    for (var i = 0; i < all.length; i++) {
+      var node = all[i];
+      var attrs = node.attributes;
+      for (var j = attrs.length - 1; j >= 0; j--) {
+        var name = attrs[j].name;
+        if (name.indexOf('data-live-') === 0 || name === 'contenteditable') {
+          node.removeAttribute(name);
+        }
+      }
+    }
+    return (clone.innerHTML || '').trim();
+  }
+
   // ── Pill ─────────────────────────────────────────────────
 
   function createPill() {
@@ -170,18 +192,26 @@
 
     var textarea = popover.querySelector('.le-edit-textarea');
     textarea.focus();
+    // For elements with a `data-live-text` override (TypewriterReveal &
+    // friends), the text has `\n` characters where the source uses `<br />`.
+    // Convert both directions so the search/replace lines up with the source.
+    var hasLiveText = target.hasAttribute('data-live-text');
+    function toSourceText(s) {
+      return hasLiveText ? s.replace(/\n/g, '<br />') : s;
+    }
+    function commit() {
+      saveEdit(file, line, col, toSourceText(currentText), toSourceText(textarea.value));
+    }
     textarea.addEventListener('keydown', function (e) {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
         e.preventDefault();
-        saveEdit(file, line, col, currentText, textarea.value);
+        commit();
       }
     });
 
     popover.querySelector('[data-action="close"]').addEventListener('click', closePopover);
     popover.querySelector('[data-action="cancel"]').addEventListener('click', closePopover);
-    popover.querySelector('[data-action="save"]').addEventListener('click', function () {
-      saveEdit(file, line, col, currentText, textarea.value);
-    });
+    popover.querySelector('[data-action="save"]').addEventListener('click', commit);
   }
 
   function openAnnotatePopover(target) {
@@ -311,10 +341,19 @@
     var file = target.getAttribute('data-live-file');
     var line = target.getAttribute('data-live-line') || '1';
     var col = target.getAttribute('data-live-col') || '1';
-    var originalText = getDirectText(target);
+    // Capture two snapshots:
+    //   originalText  — sanitized innerHTML used as `oldText` on save. Strips
+    //                   the babel-injected data-live-* attrs so the search
+    //                   matches what's actually on disk.
+    //   originalRawHTML — pristine innerHTML used to restore the DOM if the
+    //                   user cancels, keeps the inner tagged elements intact.
+    var originalText = cleanInnerHTML(target);
+    var originalRawHTML = (target.innerHTML || '');
 
     target.setAttribute('contenteditable', 'true');
     target.setAttribute('data-live-editing', '');
+    // Use tag-based formatting (<b>, <i>, <u>) instead of inline `style=`.
+    try { document.execCommand('styleWithCSS', false, false); } catch (_) {}
     target.focus();
 
     var sourcePill = createSourcePill(file, line, col);
@@ -324,20 +363,23 @@
     target.addEventListener('blur', handleInlineBlur);
     target.addEventListener('paste', handleInlinePaste);
 
+    // Tags introduced via Cmd+B/I/U: see FORMAT_TAGS_NAMES at module scope.
+    // Mutations that only add these are user formatting, not React re-rendering.
     var observer = new MutationObserver(function (mutations) {
       if (!inlineEdit) return;
       for (var i = 0; i < mutations.length; i++) {
         var m = mutations[i];
-        // Ignore character-data mutations from the user typing
         if (m.type === 'characterData') continue;
         if (m.type === 'childList') {
-          // The user typing inserts text nodes; only react if a non-text child appears
-          // OR if our target is removed from the DOM (parent re-render replaced it).
-          var nonText = false;
+          var foreign = false;
           for (var j = 0; j < m.addedNodes.length; j++) {
-            if (m.addedNodes[j].nodeType !== 3) { nonText = true; break; }
+            var n = m.addedNodes[j];
+            if (n.nodeType === 3) continue;
+            if (n.nodeType === 1 && FORMAT_TAGS_NAMES[n.tagName]) continue;
+            foreign = true;
+            break;
           }
-          if (nonText || !document.body.contains(target)) {
+          if (foreign || !document.body.contains(target)) {
             closeInlineEdit({ save: false });
             return;
           }
@@ -346,7 +388,7 @@
     });
     observer.observe(target, { childList: true, characterData: true, subtree: false });
 
-    inlineEdit = { target: target, originalText: originalText, file: file, line: line, col: col, sourcePill: sourcePill, observer: observer };
+    inlineEdit = { target: target, originalText: originalText, originalRawHTML: originalRawHTML, file: file, line: line, col: col, sourcePill: sourcePill, observer: observer };
 
     window.addEventListener('scroll', repositionInlineUI, true);
     window.addEventListener('resize', repositionInlineUI);
@@ -363,12 +405,15 @@
     t.removeEventListener('blur', handleInlineBlur);
     t.removeEventListener('paste', handleInlinePaste);
 
-    var newText = (t.textContent || '').trim();
+    var newText = cleanInnerHTML(t);
     var oldText = ie.originalText;
     var shouldSave = opts && opts.save && newText.length > 0 && newText !== oldText;
 
     if (!shouldSave) {
-      t.textContent = oldText;
+      // Restore from the raw snapshot so inner tagged elements keep their
+      // data-live-* attrs (oldText is the sanitized version, not suitable
+      // for a DOM round-trip).
+      t.innerHTML = ie.originalRawHTML;
       teardownInlineUI(ie);
       return;
     }
@@ -376,6 +421,15 @@
     // Visually freeze: pull contentEditable off so the user can't keep typing during save
     t.removeAttribute('contenteditable');
     setSourcePillState(ie.sourcePill, 'saving');
+
+    // Reset the DOM to the pristine snapshot BEFORE the save fetch fires.
+    // While editing we mutated DOM directly (typed text, inserted <b>/<i>/<u>
+    // via Range API). React's virtual DOM doesn't know about those changes.
+    // When the file write triggers Vite HMR, React reconciles new-virtual
+    // against its stored old-virtual — but applies the diff to the *actual*
+    // DOM, which still has our edits. The result is doubled-up tags. By
+    // restoring before HMR fires, React's diff lines up cleanly.
+    t.innerHTML = ie.originalRawHTML;
 
     fetch('/__live-edit/save', {
       method: 'POST',
@@ -410,9 +464,11 @@
         } else {
           flashOutline(t, '#ef5350');
           setSourcePillState(ie.sourcePill, 'error', data.error || 'Save failed');
-          // Restore editability so the user can retry — but only if a newer edit
-          // hasn't started in the meantime (which would have set inlineEdit !== null).
+          // Save failed — the file wasn't written so HMR won't fire. Put the
+          // user's edits back on screen so they can adjust and retry instead
+          // of typing everything again.
           if (inlineEdit === null) {
+            t.innerHTML = newText;
             t.setAttribute('contenteditable', 'true');
             t.setAttribute('data-live-editing', '');
             inlineEdit = ie;
@@ -426,6 +482,7 @@
         flashOutline(t, '#ef5350');
         setSourcePillState(ie.sourcePill, 'error', (err && err.message) || 'Network error');
         if (inlineEdit === null) {
+          t.innerHTML = newText;
           t.setAttribute('contenteditable', 'true');
           t.setAttribute('data-live-editing', '');
           inlineEdit = ie;
@@ -473,10 +530,79 @@
     if (e.key === 'Escape') {
       e.preventDefault();
       closeInlineEdit({ save: false });
-    } else if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      return;
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       closeInlineEdit({ save: true });
+      return;
     }
+    // Cmd/Ctrl + B/I/U: tag-based formatting that round-trips into the JSX.
+    // We avoid execCommand because it produces inconsistent output (e.g.
+    // <span style="font-weight: normal"> when toggling off bold inside a
+    // CSS-bold heading) which breaks both source round-tripping and our
+    // MutationObserver. The Range-based wrap/unwrap below always emits
+    // clean <b>/<i>/<u> tags.
+    if ((e.metaKey || e.ctrlKey) && !e.shiftKey && !e.altKey && e.key.length === 1) {
+      var k = e.key.toLowerCase();
+      var tag = k === 'b' ? 'b' : k === 'i' ? 'i' : k === 'u' ? 'u' : null;
+      if (tag && inlineEdit) {
+        e.preventDefault();
+        toggleInlineFormat(inlineEdit.target, tag);
+      }
+    }
+  }
+
+  function toggleInlineFormat(host, tag) {
+    var sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    var range = sel.getRangeAt(0);
+    if (range.collapsed) return;
+    if (!host.contains(range.commonAncestorContainer)) return;
+
+    // If the selection sits inside an existing wrapper of the same tag, unwrap it.
+    var existing = findAncestor(range.commonAncestorContainer, tag, host);
+    if (existing) {
+      var parent = existing.parentNode;
+      while (existing.firstChild) parent.insertBefore(existing.firstChild, existing);
+      parent.removeChild(existing);
+      parent.normalize();
+      restoreSelection(parent, sel);
+      return;
+    }
+
+    // Otherwise wrap. extractContents handles partial-element selections.
+    var wrapper = document.createElement(tag);
+    try {
+      wrapper.appendChild(range.extractContents());
+      range.insertNode(wrapper);
+      // Reselect the wrapped contents so successive shortcuts (e.g. Cmd+I after
+      // Cmd+B) keep operating on the same range.
+      var newRange = document.createRange();
+      newRange.selectNodeContents(wrapper);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+      if (wrapper.parentNode) wrapper.parentNode.normalize();
+    } catch (_) {
+      // Selections that cross unrelated parents can't be wrapped atomically;
+      // silently bail rather than producing weird DOM.
+    }
+  }
+
+  function findAncestor(node, tagLower, stopAt) {
+    var t = tagLower.toUpperCase();
+    while (node && node !== stopAt) {
+      if (node.nodeType === 1 && node.tagName === t) return node;
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  function restoreSelection(parent, sel) {
+    var range = document.createRange();
+    range.selectNodeContents(parent);
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   function handleInlineBlur() {
@@ -557,6 +683,58 @@
     return null;
   }
 
+  // True if the target has child elements that themselves carry text
+  // (e.g. <p>plain <strong>bold</strong> plain</p>). Editing such an element
+  // as a single string can't round-trip cleanly: the source has the inline
+  // tags between the text segments, so neither getDirectText (which omits
+  // the formatted middle) nor textContent (which loses the tags) yields a
+  // string the save endpoint can locate in the source file. We refuse the
+  // edit and tell the user to click the inline element directly.
+  // Elements with `data-live-text` (typewriter headlines) handle their own
+  // text extraction and are exempt.
+  // Tags that round-trip cleanly through inline edit's innerHTML capture
+  // (see openInlineEdit). Their presence inside a target does not make the
+  // element "mixed" — the user can keep editing.
+  var FORMAT_TAGS_NAMES = { B: 1, I: 1, U: 1, STRONG: 1, EM: 1 };
+
+  function hasMixedInlineContent(target) {
+    if (target.hasAttribute('data-live-text')) return false;
+    var kids = target.children;
+    for (var i = 0; i < kids.length; i++) {
+      var c = kids[i];
+      if (c.hasAttribute('data-live-edit-skip')) continue;
+      if (c.tagName === 'BR') continue;
+      // <b>/<i>/<u>/<strong>/<em> are part of the editable surface, not blockers.
+      if (FORMAT_TAGS_NAMES[c.tagName]) continue;
+      if ((c.textContent || '').trim().length > 0) return true;
+    }
+    return false;
+  }
+
+  var mixedNotice = null;
+  var mixedNoticeTimer = null;
+  function showMixedNotice(target) {
+    if (mixedNoticeTimer) {
+      clearTimeout(mixedNoticeTimer);
+      mixedNoticeTimer = null;
+    }
+    if (!mixedNotice) {
+      mixedNotice = document.createElement('div');
+      mixedNotice.setAttribute('data-live-edit-overlay', '');
+      mixedNotice.className = 'le-source-pill error';
+      document.body.appendChild(mixedNotice);
+    }
+    mixedNotice.textContent = 'Has inline formatting — click the bold/link/etc directly';
+    var rect = target.getBoundingClientRect();
+    mixedNotice.style.top = (rect.top - 28) + 'px';
+    mixedNotice.style.left = rect.left + 'px';
+    mixedNotice.style.display = '';
+    flashOutline(target, '#ef5350');
+    mixedNoticeTimer = setTimeout(function () {
+      if (mixedNotice) mixedNotice.style.display = 'none';
+    }, 2200);
+  }
+
   function handleClick(e) {
     if (!mode) return;
 
@@ -568,6 +746,11 @@
 
     e.preventDefault();
     e.stopPropagation();
+
+    if (hasMixedInlineContent(target)) {
+      showMixedNotice(target);
+      return;
+    }
 
     if (mode === 'inline') {
       if (target.hasAttribute('data-live-text')) {

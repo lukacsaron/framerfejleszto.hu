@@ -29,7 +29,10 @@ export default function liveEditBabelPlugin(rootDir) {
             (child) =>
               // Direct text: <h2>Hello</h2>
               (child.type === 'JSXText' && child.value.trim().length > 0) ||
-              // Expression text: <h2>{"Hello"}</h2> or <h2>{`Hello`}</h2>
+              // Expression text: <h2>{"Hello"}</h2>, <h2>{`Hello`}</h2>,
+              // or {variable}/{obj.prop} where the literal lives in a data
+              // structure elsewhere. The save endpoint locates the string
+              // by searching the whole file, so cross-line refs work.
               (child.type === 'JSXExpressionContainer' &&
                 (child.expression.type === 'StringLiteral' ||
                   child.expression.type === 'TemplateLiteral' ||

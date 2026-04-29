@@ -136,12 +136,12 @@ export default function HeroA() {
       <FFNav onDark={true} />
       <div className="ff-hero-inner">
         <img src="/assets/flourishes/star-yellow.avif" className="ff-flourish" style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }} alt="" />
-        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 60, left: '3%', width: 72 }} />
-        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 240, right: '3%', width: 64 }} />
-        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 360, left: '5%', width: 80 }} />
-        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 180, left: '14%', width: 56 }} />
-        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 320, right: '8%', width: 60 }} />
-        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 80, right: '14%', width: 68 }} />
+        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
+        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
+        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
+        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
+        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
+        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
 
         <motion.div
           className="ff-hero-stamp-desktop"
@@ -189,8 +189,7 @@ export default function HeroA() {
         </h1>
 
         <p className="ff-hero-sub hero-anim hero-anim-7">
-          A Framer sebessége a 22.design szakértelmével ötvözve. Lenyűgöző,
-          azonnal módosítható, prémium weboldalak, fejlesztők nélkül.
+          A Framer sebessége a 22.design szakértelmével ötvözve. <b>Lenyűgöző</b>, azonnal <b>módosítható</b>, prémium weboldalak, <b>fejlesztők nélkül.</b>
         </p>
 
         <div className="ff-hero-cta hero-anim hero-anim-7">
@@ -245,7 +244,7 @@ export default function HeroA() {
 
               <div className="canvas">
                 <div className="ruler-top"><span>0</span><span>200</span><span>400</span><span>600</span><span>800</span></div>
-                <div className="artboard-label">Desktop — 1440</div>
+                <div className="artboard-label">Desktop 1440</div>
                 <div className="frame">
                   <div className="nav">
                     <div className="logo" />
@@ -352,7 +351,7 @@ export default function HeroA() {
                     <span className="eb-stars">★★★★★ <b>4.9</b></span>
                   </div>
                   <h3>Weboldal napok<br />alatt, <em>nem hetek alatt.</em></h3>
-                  <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség — te magad töltöd fel a tartalmat.</p>
+                  <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség. Te magad töltöd fel a tartalmat.</p>
                   <div className="cta-row">
                     <span className="mini-cta">Pitchelj minket! →</span>
                     <span className="mini-cta ghost">Élő demó</span>

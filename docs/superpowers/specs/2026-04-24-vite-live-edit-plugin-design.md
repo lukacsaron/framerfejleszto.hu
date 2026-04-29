@@ -64,7 +64,7 @@ Runs only in dev mode as part of the Vite build pipeline. Walks the JSX AST look
 ```
 
 **Edge cases:**
-- **Array-defined content** (e.g. `PROCESS_STEPS`, `BENEFITS` arrays): the transform traces the string literal back to where it's defined in the array, not where it's rendered via `.map()`.
+- **Array-defined content** (e.g. `PROCESS_STEPS`, `BENEFITS` arrays): Babel AST nodes carry the source location of their definition, so string literals in arrays naturally point to the array definition line, not the `.map()` call that renders them. No special handling needed.
 - **Template literals / string concatenation**: marks the location of the template; edit replaces the whole template.
 - **Nested components**: attributes propagate to the outermost DOM element containing the text.
 - **Production builds**: the plugin is a no-op — zero attributes, zero overhead.
