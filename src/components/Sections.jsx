@@ -27,7 +27,7 @@ export function ProblemSolution() {
     setDragging(true);
     updateSplit(e.clientX);
     if (e.currentTarget.setPointerCapture && e.pointerId != null) {
-      try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* pointer capture not supported */ }
     }
   }, [updateSplit]);
 
@@ -529,7 +529,7 @@ export function Portfolio() {
           <div className="ff-section-head">
             <div>
               <div className="ff-eyebrow" style={{ color: 'var(--c-orange-600)' }}>KIEMELT MUNKÁINK</div>
-              <TypewriterReveal>MI NEM HIRDETJÜK MAGUNKAT.<br /><span style={{ color: 'var(--c-orange-600)' }}>AZ ÜGYFELEINK VISZONT IGEN.</span></TypewriterReveal>
+              <TypewriterReveal>MI NEM HIRDETJÜK MAGUNKAT.<br /><span style={{ color: 'var(--c-orange-600)' }}>AZ ÜGYFELEINK VISZONT IGEN.</span></TypewriterReveal>
             </div>
             <p className="lead">Néhány projekt, amin szerettünk dolgozni és no-code eszközökkel készült.</p>
           </div>

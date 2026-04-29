@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Arrow, ArrowUpRight } from './Icons';
 import { FFNav, FFButton, FFStamp } from './Primitives';
-import { Reveal } from './animations/Reveal';
 import StickyNav from './StickyNav';
 import FramerExpertBadge from './FramerExpertBadge';
 

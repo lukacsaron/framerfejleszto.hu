@@ -50,11 +50,12 @@ function DemoLanding() {
   const [tick, setTick] = useState(0);
   useEffect(() => {
     if (!inView) return;
-    const id = setInterval(() => setTick(t => (t + 1) % 4), 1400);
+    const interval = hover ? 350 : 1400;
+    const id = setInterval(() => setTick(t => (t + 1) % 4), interval);
     return () => clearInterval(id);
-  }, [inView]);
+  }, [inView, hover]);
 
-  const active = hover ? Math.floor(Date.now() / 350) % 4 : tick;
+  const active = tick;
   return (
     <div ref={ref} {...hoverHandlers} className="bdemo bdemo-landing">
       <div className="bdemo-bezel">
@@ -105,14 +106,16 @@ function DemoEdit() {
       timer = setTimeout(() => setPhase('deleting'), 2200);
     } else if (phase === 'deleting') {
       if (text.length === 0) {
-        setIdx((i) => (i + 1) % EDIT_TARGETS.length);
-        setPhase('typing');
+        timer = setTimeout(() => {
+          setIdx((i) => (i + 1) % EDIT_TARGETS.length);
+          setPhase('typing');
+        }, 0);
       } else {
         timer = setTimeout(() => setText((t) => t.slice(0, -1)), 55);
       }
     } else if (phase === 'typing') {
       if (text === target) {
-        setPhase('idle');
+        timer = setTimeout(() => setPhase('idle'), 0);
       } else {
         timer = setTimeout(() => setText(target.slice(0, text.length + 1)), 90);
       }
@@ -420,4 +423,5 @@ export default function BenefitsRich() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { useInView, useHover, Gauge };
