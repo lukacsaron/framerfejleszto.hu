@@ -449,43 +449,31 @@ export function Portfolio() {
   const gridRef = useRef(null)
 
   useEffect(() => {
+    // Use the section element directly — RevealGroup doesn't forward refs.
+    const root = gridRef.current || document.getElementById('works')
+    if (!root) return
+
     const mq = window.matchMedia('(max-width: 768px)')
     const isMobile = mq.matches
+    const cards = Array.from(root.querySelectorAll('.pitem'))
 
-    // Force iOS-friendly attributes and kick off playback as cards enter view.
-    // iOS Safari only autoplays muted+playsinline videos; the lowercase
-    // `playsinline` attribute matters on older iOS versions.
-    const videos = gridRef.current?.querySelectorAll('.thumb video') || []
-    videos.forEach((v) => {
-      v.muted = true
-      v.setAttribute('muted', '')
-      v.setAttribute('playsinline', '')
-      v.setAttribute('webkit-playsinline', '')
-      v.setAttribute('autoplay', '')
-      // Best-effort kick — ignore promise rejections (e.g. low-power mode).
-      const tryPlay = () => v.play().catch(() => {})
-      tryPlay()
-      v.addEventListener('loadedmetadata', tryPlay, { once: true })
-      v.addEventListener('canplay', tryPlay, { once: true })
-    })
-
+    // Pause off-screen videos on mobile to save data; resume when they re-enter
+    // view. Global autoplay handling lives in App.useGlobalVideoAutoplay.
     const playObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const v = entry.target.querySelector('.thumb video')
           if (!v) return
           if (entry.isIntersecting) {
-            v.play().catch(() => {})
+            const p = v.play()
+            if (p && typeof p.catch === 'function') p.catch(() => {})
           } else if (isMobile) {
-            // Pause off-screen videos on mobile to save battery / data.
             v.pause()
           }
         })
       },
       { threshold: 0.15 }
     )
-
-    const cards = gridRef.current?.querySelectorAll('.pitem') || []
     cards.forEach((card) => playObserver.observe(card))
 
     let kenBurnsObserver
@@ -512,7 +500,7 @@ export function Portfolio() {
   }, [])
 
   return (
-    <section className="ff-section paper" id="works">
+    <section className="ff-section paper" id="works" ref={gridRef}>
       <div className="ff-container">
         <Reveal>
           <div className="ff-section-head">
@@ -523,7 +511,7 @@ export function Portfolio() {
             <p className="lead">Néhány projekt, amin szerettünk dolgozni és no-code eszközökkel készült.</p>
           </div>
         </Reveal>
-        <RevealGroup ref={gridRef} className="ff-portfolio" stagger={0.1}>
+        <RevealGroup className="ff-portfolio" stagger={0.1}>
           {PROJECTS.map((p, i) => {
             const hasPrefix = p.stat.startsWith('+');
             const numericValue = parseInt(p.stat, 10);
