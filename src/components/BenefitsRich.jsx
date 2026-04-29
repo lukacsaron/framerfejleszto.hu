@@ -292,7 +292,84 @@ function DemoLighthouse() {
     </div>
   );
 }
-function DemoCDN()        { return <div className="bdemo bdemo-cdn" />; }
+function DemoCDN() {
+  const [ref, inView] = useInView();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const id = setInterval(() => setTick(t => t + 1), 1300);
+    return () => clearInterval(id);
+  }, [inView]);
+
+  const nodes = [
+    { x: 40,  y: 60,  label: 'SF'  },
+    { x: 90,  y: 50,  label: 'NYC' },
+    { x: 145, y: 56,  label: 'LON' },
+    { x: 165, y: 60,  label: 'BUD' },
+    { x: 230, y: 78,  label: 'SGP' },
+    { x: 260, y: 110, label: 'SYD' },
+  ];
+  return (
+    <div ref={ref} className="bdemo bdemo-cdn">
+      <div className="bdemo-cdn-head">
+        <span className="bdemo-cdn-status"><i className="dot-pulse" /> 99.99% uptime · ma</span>
+        <span className="bdemo-cdn-meta">automatikus SSL · global CDN · 0 üzemeltetés</span>
+      </div>
+      <div className="bdemo-cdn-map">
+        <svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet">
+          <g fill="rgba(255,255,255,0.08)">
+            {Array.from({ length: 80 }).map((_, i) => {
+              const x = (i % 20) * 16 + 8;
+              const y = Math.floor(i / 20) * 28 + 14;
+              const isLand = (
+                (x < 80 && y > 28 && y < 100) ||
+                (x > 80 && x < 175 && y > 24 && y < 90) ||
+                (x > 175 && x < 280 && y > 28 && y < 95) ||
+                (x > 200 && x < 270 && y > 95)
+              );
+              return isLand ? <circle key={i} cx={x} cy={y} r="1.6" /> : null;
+            })}
+          </g>
+          {nodes.slice(0, -1).map((n, i) => {
+            const m = nodes[i + 1];
+            const mx = (n.x + m.x) / 2;
+            const my = (n.y + m.y) / 2 - 12;
+            const active = (tick % nodes.length) === i;
+            return (
+              <path
+                key={i}
+                d={`M ${n.x} ${n.y} Q ${mx} ${my} ${m.x} ${m.y}`}
+                stroke={active ? 'var(--c-orange-600)' : 'rgba(255,255,255,0.18)'}
+                strokeWidth={active ? '1.5' : '1'} fill="none"
+                strokeDasharray={active ? '4 3' : '0'}
+              />
+            );
+          })}
+          {nodes.map((n, i) => {
+            const active = (tick % nodes.length) === i;
+            return (
+              <g key={i}>
+                <circle
+                  cx={n.x} cy={n.y} r={active ? 7 : 4}
+                  fill={active ? 'var(--c-orange-600)' : '#fff'}
+                  opacity={active ? 0.25 : 0.5}
+                  style={{ transition: 'all .4s' }}
+                />
+                <circle cx={n.x} cy={n.y} r="2.5" fill={active ? 'var(--c-orange-600)' : '#fff'} />
+                <text x={n.x} y={n.y - 8} fontSize="6" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontWeight="700" letterSpacing="0.5">{n.label}</text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+      <div className="bdemo-cdn-foot">
+        <span><b>{nodes.length * 47}+</b> edge node</span>
+        <span><b>~28ms</b> EU latency</span>
+        <span><b>auto</b> SSL</span>
+      </div>
+    </div>
+  );
+}
 
 const BENEFIT_CARDS = [
   { icon: <Rocket />,  title: 'Tökéletes kampány-landing oldalakhoz',           body: 'Villámgyors, reszponzív, látványos. Minden, amire egy értékesítési felületnek szüksége van.',                                       Demo: DemoLanding,    span: 1 },
