@@ -17,17 +17,21 @@ export default function App() {
   return (
     <div style={{ background: 'var(--bg-page)' }}>
       <CustomCursor />
-      <HeroA />
       <StickyNav />
+      <main>
+        <HeroA />
+        <Suspense fallback={null}>
+          <ProblemSolution />
+          <ProcessSection />
+          <BenefitsRich />
+          <VibeCodingSection />
+          <TrustSection />
+          <Portfolio />
+          <FAQSection />
+          <FinalCTA />
+        </Suspense>
+      </main>
       <Suspense fallback={null}>
-        <ProblemSolution />
-        <ProcessSection />
-        <BenefitsRich />
-        <VibeCodingSection />
-        <TrustSection />
-        <Portfolio />
-        <FAQSection />
-        <FinalCTA />
         <Footer />
       </Suspense>
     </div>

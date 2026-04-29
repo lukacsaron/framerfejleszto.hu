@@ -434,7 +434,7 @@ img { max-width: 100%; display: block; }
 .ffA-live .topbar .logo { font-family: var(--ff-display); font-size: 16px; letter-spacing: -0.02em; }
 .ffA-live .topbar .logo sup { font-size: 7px; letter-spacing: 0.16em; margin-left: 3px; color: var(--c-orange-600); }
 .ffA-live .topbar .links { margin-left: auto; display: flex; gap: 12px; font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.1em; }
-.ffA-live .topbar .btn { background: var(--c-orange-600); padding: 6px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; }
+.ffA-live .topbar .btn { background: var(--c-orange-700); padding: 6px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; }
 .ffA-live .announce { background: linear-gradient(90deg, var(--c-violet-500), var(--c-orange-500)); color: #fff; display: flex; align-items: center; gap: 8px; padding: 0 16px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
 .ffA-live .announce b { font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 9px; }
 .ffA-live .announce .dot-live { width: 7px; height: 7px; background: #fff; border-radius: 50%; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
@@ -449,7 +449,7 @@ img { max-width: 100%; display: block; }
   font-size: clamp(18px, 2.4vw, 30px); line-height: 0.95; color: var(--c-midnight-950);
   letter-spacing: -0.02em;
 }
-.ffA-live .content .ffA-live-heading em { font-style: normal; color: var(--c-orange-600); }
+.ffA-live .content .ffA-live-heading em { font-style: normal; color: var(--c-orange-700); }
 .ffA-live .content p { font-size: 11px; line-height: 1.5; color: var(--fg-2); margin: 8px 0 12px; }
 .ffA-live .content .cta-row { display: flex; gap: 8px; margin-bottom: 14px; }
 .ffA-live .content .mini-cta {
@@ -488,7 +488,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.08em; text-transform: uppercase;
   transition: all .2s var(--ease-out);
 }
-.ffA-toggle button.active { background: var(--c-orange-600); color: #fff; }
+.ffA-toggle button.active { background: var(--c-orange-700); color: #fff; }
 
 /* Clean swap between design and live */
 .ffA-stage[data-mode="design"] .ffA-editor { transform: translateX(-50%) rotate(0) scale(1); z-index: 3; opacity: 1; }
