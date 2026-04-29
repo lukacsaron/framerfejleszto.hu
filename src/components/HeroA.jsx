@@ -2,12 +2,22 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Arrow, ArrowUpRight } from './Icons';
 import { FFNav, FFButton, FFStamp } from './Primitives';
-import { Reveal } from './animations/Reveal';
 import StickyNav from './StickyNav';
-import FramerExpertBadge from '../../framer/framer-expert-badge';
-import '../../framer/styles.css';
+import FramerExpertBadge from './FramerExpertBadge';
 
-function FloatingIcon({ src, style, className, alt = '' }) {
+// Flourish images (single intrinsic size, srcset variants for DPR)
+import starYellow from '../assets/images/flourishes/star-yellow.avif?w=60;120&format=avif&as=srcset';
+import plusPurple from '../assets/images/flourishes/plus-purple.avif?w=72;144&format=avif&as=srcset';
+import arrowOrangeDrawn from '../assets/images/flourishes/arrow-orange-drawn.avif?w=64;128&format=avif&as=srcset';
+import flowerBlueDrawn from '../assets/images/flourishes/flower-blue-drawn.avif?w=80;160&format=avif&as=srcset';
+import asteriskGreen from '../assets/images/flourishes/asterisk-green.avif?w=56;112&format=avif&as=srcset';
+import starWhite from '../assets/images/flourishes/star-white.avif?w=60;120&format=avif&as=srcset';
+import starburstYellow from '../assets/images/flourishes/starburst-yellow.avif?w=68;136&format=avif&as=srcset';
+
+// Hero illustration (rendered ~240px in live card)
+import thumbsUpResponsive from '../assets/images/illustrations/thumbs-up-responsive.avif?w=240;480&format=avif&as=srcset';
+
+function FloatingIcon({ src, srcSet, sizes, width, height, style, className, alt = '' }) {
   const wrapRef = useRef(null);
   const state = useRef({
     dragging: false, startX: 0, startY: 0, dx: 0, dy: 0,
@@ -87,6 +97,11 @@ function FloatingIcon({ src, style, className, alt = '' }) {
     >
       <img
         src={src}
+        srcSet={srcSet}
+        sizes={sizes}
+        width={width}
+        height={height}
+        loading="lazy"
         alt={alt}
         className={`ff-float ${className}`}
         draggable={false}
@@ -135,13 +150,22 @@ export default function HeroA() {
       <StickyNav />
       <FFNav onDark={true} />
       <div className="ff-hero-inner">
-        <img src="/assets/flourishes/star-yellow.avif" className="ff-flourish" style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }} alt="" />
-        <FloatingIcon src="/assets/flourishes/plus-purple.avif" className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
-        <FloatingIcon src="/assets/flourishes/arrow-orange-drawn.avif" className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
-        <FloatingIcon src="/assets/flourishes/flower-blue-drawn.avif" className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
-        <FloatingIcon src="/assets/flourishes/asterisk-green.avif" className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
-        <FloatingIcon src="/assets/flourishes/star-white.avif" className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
-        <FloatingIcon src="/assets/flourishes/starburst-yellow.avif" className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
+        <img
+          srcSet={starYellow}
+          sizes="60px"
+          width={60}
+          height={60}
+          loading="lazy"
+          className="ff-flourish"
+          style={{ top: 140, right: '8%', width: 60, transform: 'rotate(12deg)' }}
+          alt=""
+        />
+        <FloatingIcon srcSet={plusPurple} sizes="72px" width={72} height={72} className="ff-float-1" style={{ top: 389, left: '51%', width: 72 }} />
+        <FloatingIcon srcSet={arrowOrangeDrawn} sizes="64px" width={64} height={64} className="ff-float-2" style={{ top: 570, left: '23%', width: 64 }} />
+        <FloatingIcon srcSet={flowerBlueDrawn} sizes="80px" width={80} height={80} className="ff-float-3" style={{ top: 395, left: '6%', width: 80 }} />
+        <FloatingIcon srcSet={asteriskGreen} sizes="56px" width={56} height={56} className="ff-float-4" style={{ top: 83, left: '53%', width: 56 }} />
+        <FloatingIcon srcSet={starWhite} sizes="60px" width={60} height={60} className="ff-float-5" style={{ top: 308, right: '9%', width: 60 }} />
+        <FloatingIcon srcSet={starburstYellow} sizes="68px" width={68} height={68} className="ff-float-6" style={{ top: 88, left: '23%', width: 68 }} />
 
         <motion.div
           className="ff-hero-stamp-desktop"
@@ -166,7 +190,13 @@ export default function HeroA() {
               <p className="ff-award-sub">Digital Design Award</p>
             </div>
             <img
-              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=512&width=1063&height=685"
+              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=720"
+              srcSet="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=360 360w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=720 720w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024 1024w"
+              sizes="(max-width: 480px) 360px, (max-width: 768px) 480px, 720px"
+              width={1063}
+              height={685}
+              loading="eager"
+              fetchpriority="high"
               alt="RGB Kreatív Design Award"
               className="ff-award-img"
             />
@@ -284,19 +314,19 @@ export default function HeroA() {
                   <span>Prototype</span>
                   <span>CMS</span>
                 </div>
-                <h6>Layer</h6>
+                <div className="panel-label">Layer</div>
                 <div className="prop"><span>Hero</span><span className="v">Frame</span></div>
                 <div className="prop"><span>W × H</span><span className="v">1440 × 720</span></div>
 
-                <h6>Fill</h6>
+                <div className="panel-label">Fill</div>
                 <div className="prop with-chip"><span className="chip" style={{ background: '#FF6600' }} /><span>#FF6600</span><span className="v">100%</span></div>
                 <div className="prop with-chip"><span className="chip grad" /><span>Linear</span><span className="v">2 stops</span></div>
 
-                <h6>Typography</h6>
+                <div className="panel-label">Typography</div>
                 <div className="prop"><span>Big Shoulders</span><span className="v">900</span></div>
                 <div className="prop"><span>Size · Lead</span><span className="v">72 / 0.95</span></div>
 
-                <h6>Palette</h6>
+                <div className="panel-label">Palette</div>
                 <div className="swatches">
                   <span style={{ background: '#FF6600' }} />
                   <span style={{ background: '#9747FF' }} />
@@ -306,12 +336,12 @@ export default function HeroA() {
                   <span style={{ background: '#FAFAF7', border: '1px solid rgba(255,255,255,0.2)' }} />
                 </div>
 
-                <h6>Effects</h6>
+                <div className="panel-label">Effects</div>
                 <div className="prop"><span>Shadow</span><span className="v">0 30 80</span></div>
                 <div className="prop"><span>Radius</span><span className="v">20</span></div>
 
                 <div className="panel-spacer" />
-                <h6>Publish</h6>
+                <div className="panel-label">Publish</div>
                 <div className="publish">
                   <span className="publish-live">● LIVE</span>
                   <span>framerfejlesztő.hu</span>
@@ -350,7 +380,7 @@ export default function HeroA() {
                     <span className="eb-chip">&#9670; Framer Expert</span>
                     <span className="eb-stars">★★★★★ <b>4.9</b></span>
                   </div>
-                  <h3>Weboldal napok<br />alatt, <em>nem hetek alatt.</em></h3>
+                  <div className="ffA-live-heading">Weboldal napok<br />alatt, <em>nem hetek alatt.</em></div>
                   <p>Framer + senior 22.design csapat. Nincs átadás, nincs dupla költség. Te magad töltöd fel a tartalmat.</p>
                   <div className="cta-row">
                     <span className="mini-cta">Pitchelj minket! →</span>
@@ -363,7 +393,14 @@ export default function HeroA() {
                   </div>
                 </div>
                 <div className="pic">
-                  <img src="/assets/illustrations/thumbs-up-responsive.avif" alt="" />
+                  <img
+                    srcSet={thumbsUpResponsive}
+                    sizes="240px"
+                    width={240}
+                    height={240}
+                    loading="lazy"
+                    alt=""
+                  />
                   <span className="pic-badge">LIVE</span>
                 </div>
               </div>

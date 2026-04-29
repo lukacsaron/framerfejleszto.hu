@@ -50,13 +50,13 @@ export default function StickyNav() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
             <div className="ff-sticky-inner">
-              <a href="#" className="ff-sticky-logo">
-                <FFLogoMark size={22} />
+              <a href="#" className="ff-sticky-logo" aria-label="22.design – Főoldal">
+                <FFLogoMark size={22} aria-hidden="true" />
               </a>
               <button
                 className="ff-hamburger"
                 onClick={() => setOpen(true)}
-                aria-label="Open menu"
+                aria-label="Menü megnyitása"
               >
                 <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
                   <rect y="0" width="20" height="2" rx="1" fill="#fff" />
@@ -77,13 +77,13 @@ export default function StickyNav() {
       {/* Sidebar panel */}
       <div className={`ff-sidebar ${open ? 'open' : ''}`}>
         <div className="ff-sidebar-header">
-          <a href="#" className="ff-sticky-logo" onClick={() => setOpen(false)}>
-            <FFLogoMark size={22} />
+          <a href="#" className="ff-sticky-logo" aria-label="22.design – Főoldal" onClick={() => setOpen(false)}>
+            <FFLogoMark size={22} aria-hidden="true" />
           </a>
           <button
             className="ff-sidebar-close"
             onClick={() => setOpen(false)}
-            aria-label="Close menu"
+            aria-label="Bezárás"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M2 2l14 14M16 2L2 16" />
