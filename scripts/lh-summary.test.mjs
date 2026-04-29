@@ -133,3 +133,25 @@ test('buildSummary concatenates all sections in order with H1 header', () => {
   assert.ok(idxScores > -1 && idxOpps > idxScores && idxDiag > idxOpps && idxMetrics > idxDiag,
     'sections out of order or missing');
 });
+
+test('buildDiagnosticsSection skips canonical metric audits', () => {
+  const lhr = {
+    audits: {
+      'first-contentful-paint': { id: 'first-contentful-paint', title: 'First Contentful Paint', score: 0.5, displayValue: '4 s' },
+      'largest-contentful-paint': { id: 'largest-contentful-paint', title: 'Largest Contentful Paint', score: 0.5, displayValue: '4.5 s' },
+      'total-blocking-time': { id: 'total-blocking-time', title: 'Total Blocking Time', score: 0.5, displayValue: '300 ms' },
+      'cumulative-layout-shift': { id: 'cumulative-layout-shift', title: 'Cumulative Layout Shift', score: 0.5, displayValue: '0.1' },
+      'speed-index': { id: 'speed-index', title: 'Speed Index', score: 0.5, displayValue: '5 s' },
+      'interactive': { id: 'interactive', title: 'Time to Interactive', score: 0.5, displayValue: '4 s' },
+      'real-diagnostic': { id: 'real-diagnostic', title: 'Real diagnostic finding', score: 0.4 },
+    },
+  };
+  const md = buildDiagnosticsSection(lhr);
+  assert.doesNotMatch(md, /First Contentful Paint/);
+  assert.doesNotMatch(md, /Largest Contentful Paint/);
+  assert.doesNotMatch(md, /Total Blocking Time/);
+  assert.doesNotMatch(md, /Cumulative Layout Shift/);
+  assert.doesNotMatch(md, /Speed Index/);
+  assert.doesNotMatch(md, /Time to Interactive/);
+  assert.match(md, /Real diagnostic finding/);
+});

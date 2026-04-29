@@ -24,12 +24,8 @@
 
 ## Diagnostics
 
-- **First Contentful Paint** — 4.4 s
-- **Largest Contentful Paint** — 4.5 s
-- **Speed Index** — 5.7 s
 - **Max Potential First Input Delay** — 140 ms
 - **Browser errors were logged to the console**
-- **Time to Interactive** — 4.6 s
 - **Minimize main-thread work** — 2.3 s
 - **Ensure text remains visible during webfont load**
 - **Largest Contentful Paint element** — 4,510 ms

@@ -10,6 +10,15 @@ const CATEGORY_ORDER = [
   ['seo', 'SEO'],
 ];
 
+const METRIC_IDS = new Set([
+  'first-contentful-paint',
+  'largest-contentful-paint',
+  'total-blocking-time',
+  'cumulative-layout-shift',
+  'speed-index',
+  'interactive',
+]);
+
 export function parseArgs(argv) {
   const out = { in: null };
   for (const a of argv.slice(2)) {
@@ -94,7 +103,8 @@ export function buildDiagnosticsSection(lhr) {
   const audits = Object.values(lhr.audits || {});
   const diags = audits
     .filter((a) => typeof a.score === 'number' && a.score < 1)
-    .filter((a) => !isOpportunity(a));
+    .filter((a) => !isOpportunity(a))
+    .filter((a) => !METRIC_IDS.has(a.id));
 
   const lines = ['## Diagnostics', ''];
   if (diags.length === 0) {
