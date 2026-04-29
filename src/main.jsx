@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/main.css'
 import './styles/animations.css'
+import './styles/benefit-demos.css'
 import LenisProvider from './providers/LenisProvider'
 import App from './App.jsx'
 
