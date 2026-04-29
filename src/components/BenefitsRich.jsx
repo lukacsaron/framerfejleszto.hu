@@ -44,7 +44,47 @@ function Gauge({ value, label, color, delay = 0 }) {
 }
 
 // Demo placeholders — filled in by later tasks
-function DemoLanding()    { return <div className="bdemo bdemo-landing" />; }
+function DemoLanding() {
+  const [ref, inView] = useInView();
+  const [hover, hoverHandlers] = useHover();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const id = setInterval(() => setTick(t => (t + 1) % 4), 1400);
+    return () => clearInterval(id);
+  }, [inView]);
+
+  const active = hover ? Math.floor(Date.now() / 350) % 4 : tick;
+  return (
+    <div ref={ref} {...hoverHandlers} className="bdemo bdemo-landing">
+      <div className="bdemo-bezel">
+        <div className="bdemo-chrome">
+          <span /><span /><span />
+          <div className="bdemo-url">framerfejlesztő.hu</div>
+        </div>
+        <div className="bdemo-page">
+          <div className={`bd-row hero ${active >= 0 ? 'on' : ''}`}>
+            <div className="h1" />
+            <div className="h2" />
+            <div className="cta" />
+          </div>
+          <div className={`bd-row stats ${active >= 1 ? 'on' : ''}`}>
+            <div><b>120+</b><span>projekt</span></div>
+            <div><b>5–10</b><span>nap</span></div>
+            <div><b>99</b><span>Lighthouse</span></div>
+          </div>
+          <div className={`bd-row cards ${active >= 2 ? 'on' : ''}`}>
+            <div /><div /><div />
+          </div>
+          <div className={`bd-row footer ${active >= 3 ? 'on' : ''}`}>
+            <div className="ftr-cta" />
+          </div>
+        </div>
+      </div>
+      <div className="bdemo-caption">Hős → Stat → Kártya → CTA — minden a helyén.</div>
+    </div>
+  );
+}
 function DemoEdit()       { return <div className="bdemo bdemo-edit" />; }
 function DemoAnimations() { return <div className="bdemo bdemo-anim" />; }
 function DemoPricing()    { return <div className="bdemo bdemo-price" />; }
