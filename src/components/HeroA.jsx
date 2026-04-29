@@ -247,8 +247,8 @@ export default function HeroA() {
               <span className="dot" style={{ background: '#28C840' }} />
               <span className="url">framer.com/projects/framerfejleszto</span>
               <span className="chrome-users">
-                <span className="u" style={{ background: '#FF6600' }}>22</span>
-                <span className="u" style={{ background: '#9747FF' }}>K</span>
+                <span className="u" style={{ background: '#CC4A00' }}>22</span>
+                <span className="u" style={{ background: '#6D17BE' }}>K</span>
               </span>
             </div>
             <div className="body">
