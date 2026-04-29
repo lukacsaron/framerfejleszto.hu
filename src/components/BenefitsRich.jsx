@@ -222,7 +222,46 @@ function DemoAnimations() {
     </div>
   );
 }
-function DemoPricing()    { return <div className="bdemo bdemo-price" />; }
+function DemoPricing() {
+  const [ref, inView] = useInView();
+  const items = [
+    { label: 'Hagyományos ügynökség', amount: 8500000, fill: 1,    color: 'var(--c-slate-400)' },
+    { label: 'In-house dev + designer', amount: 4200000, fill: 0.49, color: 'var(--c-slate-500)' },
+    { label: 'framerfejlesztő.hu',     amount: 950000,  fill: 0.11, color: 'var(--c-orange-600)', highlight: true },
+  ];
+  const fmt = (n) => n.toLocaleString('hu-HU') + ' Ft';
+  return (
+    <div ref={ref} className="bdemo bdemo-price">
+      <div className="bdemo-price-head">
+        <span>Egy landing page költsége</span>
+        <span className="bdemo-price-tag">éves ÁTLAG</span>
+      </div>
+      <div className="bdemo-price-bars">
+        {items.map((it, i) => (
+          <div key={i} className={`bdp-row ${it.highlight ? 'highlight' : ''}`}>
+            <div className="bdp-label">{it.label}</div>
+            <div className="bdp-track">
+              <div
+                className="bdp-fill"
+                style={{
+                  width: inView ? (it.fill * 100) + '%' : 0,
+                  background: it.color,
+                  transitionDelay: (i * 0.18) + 's',
+                }}
+              >
+                <span className="bdp-amount">{fmt(it.amount)}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="bdemo-price-foot">
+        <span className="bdp-save">−89%</span>
+        <span>versus ügynökség, ugyanaz a minőség</span>
+      </div>
+    </div>
+  );
+}
 function DemoLighthouse() { return <div className="bdemo bdemo-lh" />; }
 function DemoCDN()        { return <div className="bdemo bdemo-cdn" />; }
 
