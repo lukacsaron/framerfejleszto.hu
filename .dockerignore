@@ -12,5 +12,3 @@ pnpm-debug.log*
 coverage
 .cursor
 .obsidian
-videos
-public/assets/videos
