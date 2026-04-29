@@ -85,7 +85,74 @@ function DemoLanding() {
     </div>
   );
 }
-function DemoEdit()       { return <div className="bdemo bdemo-edit" />; }
+function DemoEdit() {
+  const [ref, inView] = useInView();
+  const [text, setText] = useState('Új kampány indul kedden');
+  const [editing, setEditing] = useState(false);
+  const [phase, setPhase] = useState(0); // 0=idle, 1=delete, 2=type
+  const targets = [
+    'Új kampány indul kedden',
+    'Black Friday — most 50% kedvezmény',
+    'Új termékkollekció: Tavasz 2026',
+  ];
+  const idx = useRef(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let timer;
+    const tick = () => {
+      const target = targets[idx.current];
+      setText(prev => {
+        if (prev === target) {
+          timer = setTimeout(() => {
+            idx.current = (idx.current + 1) % targets.length;
+            setEditing(true); setPhase(1);
+            tick();
+          }, 1700);
+          return prev;
+        }
+        if (phase === 1) {
+          if (prev.length === 0) { setPhase(2); return prev; }
+          timer = setTimeout(tick, 35);
+          return prev.slice(0, -1);
+        }
+        if (prev.length < target.length) {
+          timer = setTimeout(tick, 60);
+          return target.slice(0, prev.length + 1);
+        }
+        timer = setTimeout(() => { setEditing(false); }, 800);
+        return prev;
+      });
+    };
+    timer = setTimeout(tick, 600);
+    return () => { clearTimeout(timer); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, phase]);
+
+  return (
+    <div ref={ref} className="bdemo bdemo-edit">
+      <div className="bdemo-cms">
+        <div className="bdemo-cms-head">
+          <span className="dot" /><span className="dot" /><span className="dot" />
+          <span className="bdemo-cms-tab">CMS / Hero / headline</span>
+          <span className="bdemo-cms-save">{editing ? 'Mentés…' : 'Mentve ✓'}</span>
+        </div>
+        <div className="bdemo-cms-body">
+          <div className="bdemo-cms-label">HEADLINE</div>
+          <div className="bdemo-cms-input">
+            <span className="txt">{text}</span>
+            {editing && <span className="caret" />}
+          </div>
+          <div className="bdemo-cms-row">
+            <div className="bdemo-cms-chip"><span className="dot-g" /> Élő</div>
+            <div className="bdemo-cms-meta">v 2.14 · 4 mp után publikál</div>
+          </div>
+        </div>
+      </div>
+      <div className="bdemo-caption">Marketinges szerkeszti. Te csak nézed.</div>
+    </div>
+  );
+}
 function DemoAnimations() { return <div className="bdemo bdemo-anim" />; }
 function DemoPricing()    { return <div className="bdemo bdemo-price" />; }
 function DemoLighthouse() { return <div className="bdemo bdemo-lh" />; }
