@@ -127,3 +127,52 @@ export function buildMetricsSection(lhr) {
   }
   return lines.join('\n');
 }
+
+export function buildSummary(lhr, meta = {}) {
+  const url = meta.url ?? lhr.finalDisplayedUrl ?? lhr.requestedUrl ?? '';
+  const preset = meta.preset ?? lhr.configSettings?.formFactor ?? '';
+  const fetchedAt = lhr.fetchTime ?? '';
+  const header = [
+    '# Lighthouse Summary',
+    '',
+    `- url: ${url}`,
+    `- preset: ${preset}`,
+    `- fetched: ${fetchedAt}`,
+    '',
+  ].join('\n');
+  return [
+    header,
+    buildScoresSection(lhr),
+    '',
+    buildOpportunitiesSection(lhr),
+    '',
+    buildDiagnosticsSection(lhr),
+    '',
+    buildMetricsSection(lhr),
+    '',
+  ].join('\n');
+}
+
+function detectPresetFromFolder(folder) {
+  if (folder.endsWith('-desktop')) return 'desktop';
+  if (folder.endsWith('-mobile')) return 'mobile';
+  return '';
+}
+
+async function main() {
+  const args = parseArgs(process.argv);
+  const reportPath = join(args.in, 'report.json');
+  const lhr = JSON.parse(readFileSync(reportPath, 'utf8'));
+  const md = buildSummary(lhr, { preset: detectPresetFromFolder(args.in) });
+  const outPath = join(args.in, 'summary.md');
+  writeFileSync(outPath, md);
+  console.log(`[lh-summary] wrote ${outPath}`);
+}
+
+const isMain = import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('lh-summary.mjs');
+if (isMain) {
+  main().catch((err) => {
+    console.error('[lh-summary] failed:', err);
+    process.exit(1);
+  });
+}

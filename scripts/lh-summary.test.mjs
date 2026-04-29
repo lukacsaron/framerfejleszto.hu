@@ -116,3 +116,20 @@ test('buildMetricsSection handles missing audits gracefully', () => {
   // missing values rendered as —
   assert.match(md, /—/);
 });
+
+import { buildSummary } from './lh-summary.mjs';
+
+test('buildSummary concatenates all sections in order with H1 header', () => {
+  const md = buildSummary(fixture, { url: 'https://example.com', preset: 'mobile' });
+  // header
+  assert.match(md, /^# Lighthouse Summary/m);
+  assert.match(md, /https:\/\/example\.com/);
+  assert.match(md, /preset: mobile/);
+  // sections in order
+  const idxScores = md.indexOf('## Scores');
+  const idxOpps = md.indexOf('## Top opportunities');
+  const idxDiag = md.indexOf('## Diagnostics');
+  const idxMetrics = md.indexOf('## Metrics');
+  assert.ok(idxScores > -1 && idxOpps > idxScores && idxDiag > idxOpps && idxMetrics > idxDiag,
+    'sections out of order or missing');
+});
