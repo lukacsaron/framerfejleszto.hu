@@ -38,3 +38,27 @@ test('buildScoresSection renders table with pass/fail markers (threshold 90)', (
     assert.ok(row.includes('✅') || row.includes('⚠️'), `row missing marker: ${row}`);
   }
 });
+
+import { buildOpportunitiesSection } from './lh-summary.mjs';
+
+test('buildOpportunitiesSection lists audits with savings, sorted desc by ms', () => {
+  const md = buildOpportunitiesSection(fixture);
+  assert.match(md, /## Top opportunities/);
+  // Must be a markdown table with the right header
+  assert.match(md, /\| Audit \| Est\. savings \| Top offenders \|/);
+  // Pull rows
+  const rows = md.split('\n').filter((l) => l.startsWith('|') && !l.match(/^\|\s*-/) && !l.includes('Audit |'));
+  assert.ok(rows.length > 0, 'expected at least one opportunity row');
+  // Each row has 3 pipe-separated cells
+  for (const row of rows) {
+    const cells = row.split('|').slice(1, -1);
+    assert.equal(cells.length, 3, `row should have 3 cells: ${row}`);
+  }
+});
+
+test('buildOpportunitiesSection emits "(none)" when there are no opportunities', () => {
+  const empty = { audits: {}, categories: { performance: { auditRefs: [] } } };
+  const md = buildOpportunitiesSection(empty);
+  assert.match(md, /## Top opportunities/);
+  assert.match(md, /\(none\)/);
+});

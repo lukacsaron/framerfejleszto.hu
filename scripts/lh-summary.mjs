@@ -30,3 +30,56 @@ export function buildScoresSection(lhr) {
   }
   return lines.join('\n');
 }
+
+function truncate(s, n) {
+  if (!s) return '';
+  return s.length > n ? s.slice(0, n - 1) + '…' : s;
+}
+
+function formatSavings(audit) {
+  const ms = audit.details?.overallSavingsMs;
+  const bytes = audit.details?.overallSavingsBytes;
+  if (ms && ms > 0) return `${Math.round(ms)} ms`;
+  if (bytes && bytes > 0) return `${(bytes / 1024).toFixed(0)} KiB`;
+  return '—';
+}
+
+function topOffenders(audit) {
+  const items = audit.details?.items;
+  if (!Array.isArray(items) || items.length === 0) return '—';
+  const labels = items.slice(0, 3).map((it) => {
+    const raw = it.url || it.node?.selector || it.source?.url || it.label || '';
+    return truncate(String(raw), 80);
+  });
+  return labels.filter(Boolean).map((l) => `\`${l}\``).join('<br>') || '—';
+}
+
+export function buildOpportunitiesSection(lhr) {
+  const audits = lhr.audits || {};
+  const opps = Object.values(audits)
+    .filter((a) => {
+      const ms = a.details?.overallSavingsMs;
+      const bytes = a.details?.overallSavingsBytes;
+      return (ms && ms > 0) || (bytes && bytes > 0);
+    })
+    .sort((a, b) => {
+      const am = a.details?.overallSavingsMs ?? 0;
+      const bm = b.details?.overallSavingsMs ?? 0;
+      if (am !== bm) return bm - am;
+      const ab = a.details?.overallSavingsBytes ?? 0;
+      const bb = b.details?.overallSavingsBytes ?? 0;
+      return bb - ab;
+    });
+
+  const lines = ['## Top opportunities', ''];
+  if (opps.length === 0) {
+    lines.push('(none)');
+    return lines.join('\n');
+  }
+  lines.push('| Audit | Est. savings | Top offenders |');
+  lines.push('| --- | ---: | --- |');
+  for (const a of opps) {
+    lines.push(`| ${a.title} | ${formatSavings(a)} | ${topOffenders(a)} |`);
+  }
+  return lines.join('\n');
+}
