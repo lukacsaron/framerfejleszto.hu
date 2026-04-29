@@ -81,7 +81,7 @@ function DemoLanding() {
           </div>
         </div>
       </div>
-      <div className="bdemo-caption">Herp → USPk → Értékajánlat → CTA — minden a helyén.</div>
+      <div className="bdemo-caption">Hero → USPk → Értékajánlat → CTA — minden a helyén.</div>
     </div>
   );
 }
@@ -169,6 +169,15 @@ function DemoAnimations() {
   };
   const onMagnetLeave = () => setMagnet({ x: 0, y: 0 });
 
+  // Only apply 3D transforms when there's actual movement, to avoid iOS Safari
+  // rendering quirks with perspective + overflow:hidden ancestors.
+  const tiltStyle = (tilt.x === 0 && tilt.y === 0)
+    ? undefined
+    : { transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` };
+  const magnetStyle = (magnet.x === 0 && magnet.y === 0)
+    ? undefined
+    : { transform: `translate(${magnet.x}px, ${magnet.y}px)` };
+
   return (
     <div ref={ref} className="bdemo bdemo-anim">
       <div className="bdemo-anim-grid">
@@ -178,7 +187,7 @@ function DemoAnimations() {
             className="bdemo-tilt-card"
             onMouseMove={onTiltMove}
             onMouseLeave={onTiltLeave}
-            style={{ transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+            style={tiltStyle}
           >
             <div className="bdt-shine" />
             <div className="bdt-stamp">22<sup>!</sup></div>
@@ -195,7 +204,7 @@ function DemoAnimations() {
           >
             <button
               className="bdemo-magnet-btn"
-              style={{ transform: `translate(${magnet.x}px, ${magnet.y}px)` }}
+              style={magnetStyle}
             >Beszéljük meg →</button>
           </div>
           <span className="bdemo-anim-tag">Mágneses</span>
@@ -352,7 +361,7 @@ function DemoCDN() {
                   style={{ transition: 'all .4s' }}
                 />
                 <circle cx={n.x} cy={n.y} r="2.5" fill={active ? 'var(--c-orange-600)' : '#fff'} />
-                <text x={n.x} y={n.y - 8} fontSize="6" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontWeight="700" letterSpacing="0.5">{n.label}</text>
+                <text x={n.x} y={n.y - 8} fontSize="8" textAnchor="middle" fill="rgba(255,255,255,0.85)" fontWeight="700" letterSpacing="0.5">{n.label}</text>
               </g>
             );
           })}
