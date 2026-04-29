@@ -262,7 +262,36 @@ function DemoPricing() {
     </div>
   );
 }
-function DemoLighthouse() { return <div className="bdemo bdemo-lh" />; }
+function DemoLighthouse() {
+  const [ref, inView] = useInView();
+  const scores = [
+    { label: 'Performance',   value: 99,  color: '#4BC292' },
+    { label: 'Accessibility', value: 96,  color: '#4BC292' },
+    { label: 'Best practices', value: 100, color: '#4BC292' },
+    { label: 'SEO',           value: 98,  color: '#4BC292' },
+  ];
+  return (
+    <div ref={ref} className="bdemo bdemo-lh">
+      <div className="bdemo-lh-head">
+        <span className="bdemo-lh-pill">LIGHTHOUSE</span>
+        <span>framerfejlesztő.hu — átlagos pontszámok</span>
+      </div>
+      <div className="bdemo-lh-grid">
+        {scores.map((s, i) => (
+          <Gauge key={i} value={inView ? s.value : 0} label={s.label} color={s.color} delay={i * 0.18} />
+        ))}
+      </div>
+      <div className="bdemo-lh-foot">
+        <div className="lf-bar"><span className="lf-bar-fill" style={{ width: inView ? '12%' : 0 }} /></div>
+        <div className="lf-meta">
+          <span><b>0.8s</b> First Contentful Paint</span>
+          <span><b>1.2s</b> Largest Contentful Paint</span>
+          <span><b>0</b> Cumulative Layout Shift</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 function DemoCDN()        { return <div className="bdemo bdemo-cdn" />; }
 
 const BENEFIT_CARDS = [
