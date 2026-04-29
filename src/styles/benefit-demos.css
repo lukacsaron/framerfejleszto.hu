@@ -155,7 +155,7 @@
 
 /* ─── Demo 3: Animations ─── */
 .bdemo-anim { display: flex; flex-direction: column; gap: 14px; }
-.bdemo-anim-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.bdemo-anim-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .bdemo-anim-cell {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px;
