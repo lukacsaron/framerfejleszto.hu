@@ -83,3 +83,27 @@ export function buildOpportunitiesSection(lhr) {
   }
   return lines.join('\n');
 }
+
+function isOpportunity(a) {
+  const ms = a.details?.overallSavingsMs;
+  const bytes = a.details?.overallSavingsBytes;
+  return (ms && ms > 0) || (bytes && bytes > 0);
+}
+
+export function buildDiagnosticsSection(lhr) {
+  const audits = Object.values(lhr.audits || {});
+  const diags = audits
+    .filter((a) => typeof a.score === 'number' && a.score < 1)
+    .filter((a) => !isOpportunity(a));
+
+  const lines = ['## Diagnostics', ''];
+  if (diags.length === 0) {
+    lines.push('(none)');
+    return lines.join('\n');
+  }
+  for (const a of diags) {
+    const dv = a.displayValue ? ` — ${a.displayValue}` : '';
+    lines.push(`- **${a.title}**${dv}`);
+  }
+  return lines.join('\n');
+}

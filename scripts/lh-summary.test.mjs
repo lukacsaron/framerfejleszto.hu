@@ -62,3 +62,39 @@ test('buildOpportunitiesSection emits "(none)" when there are no opportunities',
   assert.match(md, /## Top opportunities/);
   assert.match(md, /\(none\)/);
 });
+
+import { buildDiagnosticsSection } from './lh-summary.mjs';
+
+test('buildDiagnosticsSection lists failing non-opportunity audits', () => {
+  const md = buildDiagnosticsSection(fixture);
+  assert.match(md, /## Diagnostics/);
+  // bullet list, not a table
+  const bullets = md.split('\n').filter((l) => l.startsWith('- '));
+  // Real fixture has at least some failing audits
+  assert.ok(bullets.length > 0, 'expected at least one diagnostic bullet');
+});
+
+test('buildDiagnosticsSection skips audits with score === 1', () => {
+  const lhr = {
+    audits: {
+      passing: { id: 'passing', title: 'All good', score: 1 },
+      failing: { id: 'failing', title: 'Bad thing', score: 0.4, displayValue: '5 issues' },
+    },
+  };
+  const md = buildDiagnosticsSection(lhr);
+  assert.doesNotMatch(md, /All good/);
+  assert.match(md, /Bad thing/);
+  assert.match(md, /5 issues/);
+});
+
+test('buildDiagnosticsSection skips audits already counted as opportunities', () => {
+  const lhr = {
+    audits: {
+      opp:   { id: 'opp',   title: 'Defer JS', score: 0.5, details: { overallSavingsMs: 200 } },
+      diag:  { id: 'diag',  title: 'Bad thing', score: 0.4 },
+    },
+  };
+  const md = buildDiagnosticsSection(lhr);
+  assert.doesNotMatch(md, /Defer JS/);
+  assert.match(md, /Bad thing/);
+});
