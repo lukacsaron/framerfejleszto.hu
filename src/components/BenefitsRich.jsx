@@ -153,7 +153,75 @@ function DemoEdit() {
     </div>
   );
 }
-function DemoAnimations() { return <div className="bdemo bdemo-anim" />; }
+function DemoAnimations() {
+  const [ref, inView] = useInView();
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const cardRef = useRef(null);
+  const [magnet, setMagnet] = useState({ x: 0, y: 0 });
+  const btnAreaRef = useRef(null);
+
+  const onTiltMove = (e) => {
+    if (!cardRef.current) return;
+    const r = cardRef.current.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ x: -py * 14, y: px * 18 });
+  };
+  const onTiltLeave = () => setTilt({ x: 0, y: 0 });
+  const onMagnet = (e) => {
+    if (!btnAreaRef.current) return;
+    const r = btnAreaRef.current.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    setMagnet({ x: (e.clientX - cx) * 0.35, y: (e.clientY - cy) * 0.35 });
+  };
+  const onMagnetLeave = () => setMagnet({ x: 0, y: 0 });
+
+  return (
+    <div ref={ref} className="bdemo bdemo-anim">
+      <div className="bdemo-anim-grid">
+        <div className="bdemo-anim-cell">
+          <div
+            ref={cardRef}
+            className="bdemo-tilt-card"
+            onMouseMove={onTiltMove}
+            onMouseLeave={onTiltLeave}
+            style={{ transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+          >
+            <div className="bdt-shine" />
+            <div className="bdt-stamp">22<sup>!</sup></div>
+            <div className="bdt-label">3D TILT</div>
+          </div>
+          <span className="bdemo-anim-tag">Mozgasd</span>
+        </div>
+        <div className="bdemo-anim-cell">
+          <div
+            ref={btnAreaRef}
+            className="bdemo-magnet-area"
+            onMouseMove={onMagnet}
+            onMouseLeave={onMagnetLeave}
+          >
+            <button
+              className="bdemo-magnet-btn"
+              style={{ transform: `translate(${magnet.x}px, ${magnet.y}px)` }}
+            >Beszéljük meg →</button>
+          </div>
+          <span className="bdemo-anim-tag">Mágneses</span>
+        </div>
+        <div className="bdemo-anim-cell">
+          <div className={`bdemo-marquee ${inView ? 'on' : ''}`}>
+            <div className="bdm-track">
+              <span>FRAMER</span><span>★</span><span>22!</span><span>HUNGARY</span>
+              <span>FRAMER</span><span>★</span><span>22!</span><span>HUNGARY</span>
+            </div>
+          </div>
+          <span className="bdemo-anim-tag">Marquee</span>
+        </div>
+      </div>
+      <div className="bdemo-caption">Pár kattintás. Nem több órányi munka.</div>
+    </div>
+  );
+}
 function DemoPricing()    { return <div className="bdemo bdemo-price" />; }
 function DemoLighthouse() { return <div className="bdemo bdemo-lh" />; }
 function DemoCDN()        { return <div className="bdemo bdemo-cdn" />; }
