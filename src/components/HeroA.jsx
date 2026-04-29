@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Arrow, ArrowUpRight } from './Icons';
 import { FFNav, FFButton, FFStamp } from './Primitives';
 import { Reveal } from './animations/Reveal';
 import StickyNav from './StickyNav';
-const FramerExpertBadge = lazy(() => import('../../framer/framer-expert-badge'));
-import '../../framer/styles.css';
+import FramerExpertBadge from './FramerExpertBadge';
 
 // Flourish images (single intrinsic size, srcset variants for DPR)
 import starYellow from '../assets/images/flourishes/star-yellow.avif?w=60;120&format=avif&as=srcset';
@@ -185,9 +184,7 @@ export default function HeroA() {
           animate={heroRevealed ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Suspense fallback={null}>
-            <FramerExpertBadge link="https://www.framer.com/experts/" />
-          </Suspense>
+          <FramerExpertBadge link="https://www.framer.com/experts/" />
           <div className="ff-award-badge">
             <div className="ff-award-text">
               <p className="ff-award-title">RGB PRO - 2025</p>

@@ -1,0 +1,56 @@
+/* Standalone replacement for the unframer-generated Framer Expert badge.
+   Mirrors the original layout: black pill with subtle white border, white
+   logo + "Framer Expert" label. Sized to match the original 110x26 layout
+   so it doesn't shift adjacent flex items. */
+
+.ff-framer-expert-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  box-sizing: border-box;
+  padding: 7px 9px;
+  height: 26px;
+  width: max-content;
+  color: #fff;
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
+  text-decoration: none;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.ff-framer-expert-badge:hover {
+  background-color: #111;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.ff-framer-expert-badge:active {
+  transform: scale(0.97);
+}
+
+.ff-framer-expert-badge:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.ff-framer-expert-badge__logo {
+  flex: none;
+  width: 8px;
+  height: 12px;
+  display: block;
+}
+
+.ff-framer-expert-badge__label {
+  font-family: "Inter Variable", "Inter", "Inter Placeholder", sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+  white-space: nowrap;
+  font-feature-settings: "cv11" on, "cv05" on;
+}

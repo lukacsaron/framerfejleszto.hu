@@ -10,12 +10,6 @@ export default defineConfig(({ mode }) => ({
     imagetools(),
     ...(mode === 'development' ? [liveEdit()] : []),
   ],
-  server: {
-    watch: {
-      // Include framer/ directory (outside src/) in HMR watching
-      ignored: ['!**/framer/**'],
-    },
-  },
   build: {
     sourcemap: 'hidden',
     rollupOptions: {
@@ -30,7 +24,6 @@ export default defineConfig(({ mode }) => ({
             return 'motion'
           }
           if (id.includes('/lenis/')) return 'lenis'
-          // unframer: no manual chunk — rolldown will split it with the lazy badge import
           return undefined
         },
       },
