@@ -192,9 +192,13 @@ export default function HeroA() {
               <p className="ff-award-sub">Digital Design Award</p>
             </div>
             <img
-              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=512&width=1063&height=685"
+              src="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024"
+              srcSet="https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=512 512w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1024 1024w, https://framerusercontent.com/images/3OnQEmmXWGgyAjtgmLzHmifDzYc.png?scale-down-to=1600 1600w"
+              sizes="(max-width: 768px) 100vw, 1024px"
               width={1063}
               height={685}
+              loading="eager"
+              fetchpriority="high"
               alt="RGB Kreatív Design Award"
               className="ff-award-img"
             />
