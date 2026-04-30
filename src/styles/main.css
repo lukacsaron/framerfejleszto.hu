@@ -344,20 +344,20 @@ img { max-width: 100%; display: block; }
 .ffA-editor .rail-sep { width: 20px; height: 1px; background: rgba(255,255,255,0.1); margin: 4px 0; }
 
 .ffA-editor .layers { background: #0F1125; border-right: 1px solid rgba(255,255,255,0.06); padding: 10px 0; font-size: 10px; color: rgba(255,255,255,0.82); overflow: hidden; }
-.ffA-editor .layers-head { font-size: 8px; letter-spacing: 0.18em; color: rgba(255,255,255,0.4); padding: 4px 12px 8px; }
+.ffA-editor .layers-head { font-size: 8px; letter-spacing: 0.18em; color: rgba(255,255,255,0.72); padding: 4px 12px 8px; }
 .ffA-editor .layer-row { display: flex; align-items: center; gap: 6px; padding: 4px 12px; font-size: 10px; line-height: 1; }
 .ffA-editor .layer-row.selected { background: rgba(151,71,255,0.22); color: #fff; border-left: 2px solid var(--c-violet-500); padding-left: 10px; }
 .ffA-editor .layer-row.nested { padding-left: 22px; }
 .ffA-editor .layer-row.nested.selected { padding-left: 20px; }
-.ffA-editor .layer-row.nested2 { padding-left: 34px; color: rgba(255,255,255,0.55); }
-.ffA-editor .layer-row .chev { font-size: 8px; width: 8px; color: rgba(255,255,255,0.5); }
+.ffA-editor .layer-row.nested2 { padding-left: 34px; color: rgba(255,255,255,0.75); }
+.ffA-editor .layer-row .chev { font-size: 8px; width: 8px; color: rgba(255,255,255,0.72); }
 .ffA-editor .layer-row .dot-v { width: 8px; height: 8px; background: var(--c-violet-500); border-radius: 2px; }
 .ffA-editor .layer-row .dot-f { width: 8px; height: 8px; background: var(--c-orange-600); border-radius: 2px; }
 .ffA-editor .layer-row .dot-i { width: 8px; height: 8px; background: var(--c-mint-500); border-radius: 2px; }
 .ffA-editor .layer-row .dot-t { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; margin-left:1px; }
 
 .ffA-editor .canvas { position: relative; padding: 22px 16px 16px; overflow: hidden; background: #1C1F3A; }
-.ffA-editor .canvas .ruler-top { position: absolute; top: 0; left: 0; right: 0; height: 14px; background: #0F1125; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; padding: 0 16px; font-size: 7px; color: rgba(255,255,255,0.35); align-items: center; letter-spacing: 0.1em; }
+.ffA-editor .canvas .ruler-top { position: absolute; top: 0; left: 0; right: 0; height: 14px; background: #0F1125; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; padding: 0 16px; font-size: 7px; color: rgba(255,255,255,0.72); align-items: center; letter-spacing: 0.1em; }
 .ffA-editor .canvas .artboard-label { position: absolute; top: 18px; left: 28px; font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; letter-spacing: 0.1em; }
 .ffA-editor .canvas .frame {
   position: absolute; inset: 36px 24px 24px; background: #F5EEFF; border-radius: 10px;
@@ -400,9 +400,9 @@ img { max-width: 100%; display: block; }
 
 .ffA-editor .panel { background: #0C0E22; border-left: 1px solid rgba(255,255,255,0.06); padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 10px; overflow: hidden; }
 .ffA-editor .panel-tabs { display: flex; gap: 0; background: #15182B; border-radius: 6px; padding: 2px; margin-bottom: 4px; }
-.ffA-editor .panel-tabs span { flex: 1; padding: 5px 4px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); border-radius: 4px; }
+.ffA-editor .panel-tabs span { flex: 1; padding: 5px 4px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: rgba(255,255,255,0.72); border-radius: 4px; }
 .ffA-editor .panel-tabs span.active { background: rgba(151,71,255,0.22); color: #fff; }
-.ffA-editor .panel .panel-label { font-family: var(--ff-body); font-size: 8px; letter-spacing: 0.16em; color: rgba(255,255,255,0.4); margin: 4px 0 2px; text-transform: uppercase; }
+.ffA-editor .panel .panel-label { font-family: var(--ff-body); font-size: 8px; letter-spacing: 0.16em; color: rgba(255,255,255,0.72); margin: 4px 0 2px; text-transform: uppercase; }
 .ffA-editor .panel .prop { display: flex; justify-content: space-between; align-items: center; padding: 5px 7px; background: rgba(255,255,255,0.04); border-radius: 4px; color: rgba(255,255,255,0.95); font-size: 10px; gap: 6px; }
 .ffA-editor .panel .prop .v { color: var(--c-violet-200); font-variant-numeric: tabular-nums; }
 .ffA-editor .panel .prop.with-chip .chip { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
@@ -412,7 +412,7 @@ img { max-width: 100%; display: block; }
 .ffA-editor .panel-spacer { flex: 1; min-height: 6px; }
 .ffA-editor .panel .publish { display: flex; align-items: center; gap: 8px; background: rgba(75,194,146,0.18); color: var(--c-mint-200); padding: 7px 8px; border-radius: 5px; font-weight: 800; font-size: 10px; border: 1px solid rgba(75,194,146,0.36); }
 .ffA-editor .panel .publish-live { font-family: var(--ff-display); letter-spacing: 0.1em; font-size: 9px; }
-.ffA-editor .panel .publish-meta { display: flex; gap: 5px; font-size: 8px; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; margin-top: 2px; }
+.ffA-editor .panel .publish-meta { display: flex; gap: 5px; font-size: 8px; color: rgba(255,255,255,0.72); letter-spacing: 0.06em; margin-top: 2px; }
 
 /* cursor */
 .ffA-cursor { position: absolute; width: 18px; height: 18px; z-index: 10; pointer-events: none; }
