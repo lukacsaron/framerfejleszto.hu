@@ -57,10 +57,6 @@ React 19, Vite, framer-motion, [Lenis](https://lenis.darkroom.engineering/) for 
 
 Imagery is AVIF throughout. The illustration set is 22.design's collage style.
 
-## Housekeeping
-
-`.obsidian/`, `.superpowers/` and `FF.hu _ 22 Design System-handoff.zip` are working leftovers that ended up committed. They are not part of the build.
-
 ## License
 
 Code is MIT. The 22.design brand, the illustrations and the client logos are not.

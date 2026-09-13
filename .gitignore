@@ -30,3 +30,10 @@ dist-ssr
 
 # Live edit plugin
 .annotations.json
+
+# Editor / tooling scratch
+.obsidian/
+.superpowers/
+
+# Design handoff archives
+*.zip
